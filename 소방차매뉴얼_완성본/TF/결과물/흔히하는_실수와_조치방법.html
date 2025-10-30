@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>흔히 하는 실수와 조치(Troubleshooting)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        thead {
+            background-color: #0066cc;
+            color: white;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #ddd;
+        }
+        
+        td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+        
+        tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+        
+        tbody tr:hover {
+            background-color: #f0f0f0;
+            transition: background-color 0.3s ease;
+        }
+        
+        .symptom-col {
+            font-weight: 600;
+            color: #0066cc;
+            width: 20%;
+        }
+        
+        .cause-col {
+            width: 35%;
+        }
+        
+        .solution-col {
+            width: 45%;
+        }
+        
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+            
+            .symptom-col {
+                width: 25%;
+            }
+            
+            .cause-col {
+                width: 30%;
+            }
+            
+            .solution-col {
+                width: 45%;
+            }
+        }
+        
+        .note {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #fffbea;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+        }
+        
+        .note strong {
+            color: #d39e00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>5. 흔히 하는 실수와 조치 (Troubleshooting)</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th class="symptom-col">증상</th>
+                    <th class="cause-col">가능 원인</th>
+                    <th class="solution-col">즉시 조치</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="symptom-col">흡입 불릴<br>(수도 형성 안됨)</td>
+                    <td class="cause-col">에어 줄임, 스트레이너 막힘, 수원 수두 부족</td>
+                    <td class="solution-col">연결부 누기 점검·제절, 스트레이너 청소, 수심·수두 확보, 프라이밍 재시도</td>
+                </tr>
+                
+                <tr>
+                    <td class="symptom-col">토출양 불안정/맥동</td>
+                    <td class="cause-col">공기 줄임, 릴리프 세팅 부정정</td>
+                    <td class="solution-col">공기 배출, 릴리프 재설정, RPM 안정화</td>
+                </tr>
+                
+                <tr>
+                    <td class="symptom-col">캐비테이션<br>(소음·진동·압력저하)</td>
+                    <td class="cause-col">과도한 흡입 손실, 수온 상승</td>
+                    <td class="solution-col">흡입헤드 증거, 포스 길이 단축, RPM 감소, 대제 수원</td>
+                </tr>
+                
+                <tr>
+                    <td class="symptom-col">동결/결빙</td>
+                    <td class="cause-col">베수 미음, 혹한</td>
+                    <td class="solution-col">베수 별브 개방, 부동액/에어 불음, 동결 방지 커버</td>
+                </tr>
+                
+                <tr>
+                    <td class="symptom-col">과열/오버히트</td>
+                    <td class="cause-col">냉각 불릴, 고장진 지속</td>
+                    <td class="solution-col">RPM 감소, 라디에이터 점검, 공정진 냉각</td>
+                </tr>
+                
+                <tr>
+                    <td class="symptom-col">펌프 능도 불일치</td>
+                    <td class="cause-col">믹시 세팅 오류, 인덕터 역압</td>
+                    <td class="solution-col">믹시비 재설정, 리야면 확인, 바이패스 조정</td>
+                </tr>
+                
+                <tr>
+                    <td class="symptom-col">PTO 제정/해제 불능</td>
+                    <td class="cause-col">회전수 과다, 기계식 결속 불릉</td>
+                    <td class="solution-col">공정진 안정 후 재시도, 킬프 조정, 정밀 요청</td>
+                </tr>
+                
+                <tr>
+                    <td class="symptom-col">발전기/조명 불량</td>
+                    <td class="cause-col">퓨즈·배선 문제</td>
+                    <td class="solution-col">퓨즈 교체, 커넥터 재결속, 에러 사용</td>
+                </tr>
+                
+                <tr>
+                    <td class="symptom-col">경광등·사이렌 미작동</td>
+                    <td class="cause-col">스위치/퓨즈/릴레이</td>
+                    <td class="solution-col">스위치 확인, 퓨즈 교체, 에러 회로 전환</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="note">
+            <strong>⚠️ 주의사항:</strong> 위의 조치 방법은 일반적인 트러블슈팅 가이드입니다. 
+            심각한 고장이나 반복되는 문제의 경우 전문가의 도움을 받으시기 바랍니다.
+        </div>
+    </div>
+</body>
+</html>

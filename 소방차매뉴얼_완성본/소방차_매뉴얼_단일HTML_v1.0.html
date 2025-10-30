@@ -1,0 +1,1564 @@
+<!doctype html>
+<html lang="ko" data-app-version="1.0">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>소방차 매뉴얼 | 단일 HTML</title>
+  <meta name="description" content="펌프차 중심 소방차 매뉴얼 — 오프라인에서도 작동함" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; img-src 'self' data:; media-src 'self' data:; style-src 'self' 'unsafe-inline';" />
+  <style>
+    /* ===== CSS 리셋 & 토큰 ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin:0; padding:0; height:100%; }
+    :root{
+      --bg: #0b0f14;
+      --panel: #0f151d;
+      --muted: #96a0aa;
+      --text: #e8eef5;
+      --brand: #1aa3ff;
+      --accent: #1bd19e;
+      --danger: #ff3b4f;
+      --warn: #ffb020;
+      --ok: #2dd36f;
+      --border: #1e2630;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --focus: 0 0 0 3px rgba(26,163,255,.35);
+      --font: ui-sans-serif, -apple-system, system-ui, Segoe UI, Roboto, "Noto Sans KR", Apple SD Gothic Neo, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f7fbff; --panel:#ffffff; --text:#0a1623; --muted:#5e6a76; --border:#e6edf5; --shadow: 0 10px 30px rgba(2,12,24,.08);
+      }
+    }
+
+    body{ font-family: var(--font); background: linear-gradient(180deg, #1a1d35 0%, #0d0f1f 50%, #1a1d35 100%); color: var(--text); }
+    a{ color: var(--brand); text-decoration: none; }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 10px; }
+    .visually-hidden{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+    /* ===== 공통 구성 ===== */
+    .container{ max-width:1200px; margin:0 auto; padding:24px; }
+    .card{ background: rgba(15,21,29,0.7); border:1px solid rgba(26,163,255,0.2); border-radius: var(--radius); box-shadow: 0 8px 32px rgba(0,0,0,0.4); backdrop-filter: blur(10px); }
+    .p-24{ padding:24px; } .p-16{ padding:16px; }
+    .mt-8{ margin-top:8px; } .mt-12{ margin-top:12px; } .mt-16{ margin-top:16px; } .mt-24{ margin-top:24px; }
+    .mb-8{ margin-bottom:8px;} .mb-16{ margin-bottom:16px;} .mb-24{ margin-bottom:24px;}
+    .grid{ display:grid; gap:16px; }
+    .grid-2{ grid-template-columns: 280px 1fr; }
+    .row{ display:flex; gap:12px; align-items:center; }
+    .tag{ display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(26,163,255,0.3); background:linear-gradient(180deg, rgba(26,163,255,.1), rgba(26,163,255,.05)); padding:10px 14px; border-radius:999px; font-weight:600; cursor:pointer; color: #ffffff; transition: all 0.3s ease; }
+    .tag:hover{ background:linear-gradient(180deg, rgba(26,163,255,.2), rgba(26,163,255,.1)); box-shadow: 0 4px 12px rgba(26,163,255,0.3); }
+    .chip{ display:inline-flex; align-items:center; gap:6px; border:1px dashed rgba(26,163,255,0.3); padding:6px 10px; border-radius:999px; font-size:12px; color: rgba(255,255,255,0.7); }
+    .muted{ color: rgba(255,255,255,0.6); }
+    .btn{ display:inline-flex; align-items:center; gap:10px; background: linear-gradient(180deg, rgba(26,163,255,.25), rgba(26,163,255,.15)); border:1px solid rgba(26,163,255,0.4); padding:12px 16px; border-radius: 12px; cursor:pointer; font-weight:700; color: #ffffff; transition: all 0.3s ease; }
+    .btn:hover{ background: linear-gradient(180deg, rgba(26,163,255,.35), rgba(26,163,255,.25)); box-shadow: 0 4px 15px rgba(26,163,255,0.4); }
+    .btn.secondary{ background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)); border-color: rgba(255,255,255,0.2); }
+    .btn.secondary:hover{ background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.1)); }
+    .btn.danger{ background: linear-gradient(180deg, rgba(255,59,79,.25), rgba(255,59,79,.15)); border-color: rgba(255,59,79,0.4); }
+    .btn.danger:hover{ background: linear-gradient(180deg, rgba(255,59,79,.35), rgba(255,59,79,.25)); }
+    .kbd{ font-family: var(--mono); font-size:12px; border:1px solid rgba(26,163,255,0.3); padding:2px 6px; border-radius:8px; background: rgba(26,163,255,0.1); color: #ffffff; }
+    .progress{ height:10px; background:rgba(255,255,255,.1); border-radius:999px; overflow:hidden; border:1px solid rgba(26,163,255,0.3); }
+    .progress > span{ display:block; height:100%; background: linear-gradient(90deg, #1aa3ff, #0d8ae6); }
+
+    /* ===== 홈(검색) ===== */
+    #home{ min-height:100dvh; display:grid; place-items:center; padding:24px; background: linear-gradient(180deg, rgba(26,29,53,0.95) 0%, rgba(13,15,31,1) 50%, rgba(26,29,53,0.95) 100%); }
+    .hero{ text-align:center; max-width:900px; }
+    .logo{ font-weight:900; font-size:clamp(48px, 6vw, 72px); letter-spacing:1px; background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 50%, #ff3838 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px; }
+    .logo-prefix{ font-size: clamp(48px, 6vw, 72px); color: #ff4757; font-weight: 900; margin-right: 8px; }
+    .sub{ color: #ffffff; margin-top:16px; font-size: clamp(16px, 2vw, 20px); font-weight: 500; }
+    .search{ display:flex; gap:12px; margin:40px auto 20px; max-width:800px; background: rgba(30,35,50,0.8); padding: 8px; border-radius: 50px; border: 2px solid rgba(26,163,255,0.3); box-shadow: 0 0 40px rgba(26,163,255,0.2); }
+    .search input{ flex:1; padding:18px 28px; border-radius: 50px; border:none; background: transparent; color:#ffffff; font-size:17px; outline: none; }
+    .search input::placeholder{ color: rgba(255,255,255,0.5); }
+    .search button{ background: linear-gradient(135deg, #1aa3ff 0%, #0d8ae6 100%); border: none; border-radius: 50px; padding: 14px 32px; color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(26,163,255,0.4); }
+    .search button:hover{ transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,163,255,0.6); }
+
+    /* ===== 앱 레이아웃 ===== */
+    #app{ display:none; min-height:100dvh; background: linear-gradient(180deg, #1a1d35 0%, #0d0f1f 50%, #1a1d35 100%); }
+    header.appbar{ position:sticky; top:0; z-index:10; backdrop-filter: blur(12px); background: rgba(26,29,53,0.85); border-bottom:1px solid rgba(26,163,255,0.2);
+      display:flex; align-items:center; gap:16px; padding:12px 18px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .app-logo{ font-weight:900; letter-spacing:.3px; color: #ff4757; font-size: 18px; }
+    .leftnav{ position:sticky; top:80px; align-self:start; max-height: calc(100dvh - 100px); overflow-y:auto; overflow-x:hidden; border:1px solid rgba(26,163,255,0.3); border-radius: var(--radius); background: rgba(15,21,29,0.95); backdrop-filter: blur(10px); z-index: 5; }
+    .leftnav a{ display:flex; align-items:center; gap:10px; padding:12px 14px; color:#ffffff; border-bottom:1px solid rgba(26,163,255,0.1); transition: all 0.3s ease; border-left: 3px solid transparent; }
+    .leftnav a:hover{ background: linear-gradient(90deg, rgba(26,163,255,.15), transparent 80%); }
+    .leftnav a[aria-current="true"]{ background: linear-gradient(90deg, rgba(26,163,255,.25), transparent 80%); border-left-color: #1aa3ff; font-weight: 700; box-shadow: 0 0 15px rgba(26,163,255,0.2); }
+    .leftnav .sub-items{ display:none; background: rgba(10,15,22,0.5); }
+    .leftnav .sub-items.show{ display:block; }
+    .leftnav .sub-items a{ padding: 8px 14px 8px 35px; font-size: 13px; border-left: none; }
+    .leftnav .sub-items a:before{ content: '└ '; color: rgba(26,163,255,0.5); }
+    .content{ min-height:60dvh; padding-bottom: 40vh; }
+    .section{ scroll-margin-top: 90px; }
+    .section:last-child{ margin-bottom: 0; }
+
+    /* ===== 표 ===== */
+    table{ width:100%; border-collapse:separate; border-spacing:0; border:1px solid rgba(26,163,255,0.3); border-radius:14px; overflow:hidden; background: rgba(15,21,29,0.5); }
+    thead th{ text-align:left; background: linear-gradient(180deg, rgba(26,163,255,.2), rgba(26,163,255,.1)); padding:12px 12px; position:sticky; top:0; color: #ffffff; font-weight: 700; }
+    tbody td{ border-top:1px solid rgba(26,163,255,0.2); padding:12px 12px; vertical-align:top; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    tbody tr:hover{ background: rgba(26,163,255,0.05); }
+    code{ font-family: var(--mono); background: rgba(26,163,255,.15); border:1px solid rgba(26,163,255,0.3); padding:2px 6px; border-radius:8px; color: #1aa3ff; }
+    details{ background: rgba(15,21,29,0.5); border: 1px solid rgba(26,163,255,0.2); border-radius: 12px; padding: 16px; }
+    details summary{ cursor: pointer; font-weight: 700; color: #ffffff; transition: all 0.3s ease; }
+    details summary:hover{ color: #1aa3ff; }
+    details[open] summary{ margin-bottom: 12px; color: #1aa3ff; }
+    h2, h3, h4{ color: #ffffff; }
+    strong{ color: #1aa3ff; }
+    ul, ol{ color: rgba(255,255,255,0.9); }
+    p{ color: rgba(255,255,255,0.85); }
+
+    /* ===== 모달 (팝업) ===== */
+    .modal-overlay{ display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:1000; backdrop-filter:blur(5px); }
+    .modal-overlay.show{ display:flex; align-items:center; justify-content:center; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+    .modal-container{ background: linear-gradient(180deg, #1a1d35 0%, #0d0f1f 100%); border:2px solid rgba(26,163,255,0.5); border-radius:20px; max-width:90vw; max-height:90vh; width:1000px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.5); animation: slideUp 0.3s ease; }
+    @keyframes slideUp{ from{ transform:translateY(30px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+    .modal-header{ background: linear-gradient(135deg, rgba(26,163,255,0.3), rgba(26,163,255,0.1)); padding:20px 24px; border-bottom:1px solid rgba(26,163,255,0.3); display:flex; align-items:center; justify-content:space-between; }
+    .modal-header h2{ margin:0; font-size:24px; color:#1aa3ff; }
+    .modal-close{ background:rgba(255,59,79,0.2); border:1px solid rgba(255,59,79,0.5); color:#ff3b4f; width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:20px; font-weight:bold; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; }
+    .modal-close:hover{ background:rgba(255,59,79,0.4); transform:rotate(90deg); }
+    .modal-body{ padding:24px; overflow-y:auto; max-height:calc(90vh - 100px); }
+    .modal-body::-webkit-scrollbar{ width:10px; }
+    .modal-body::-webkit-scrollbar-track{ background:rgba(26,163,255,0.1); border-radius:10px; }
+    .modal-body::-webkit-scrollbar-thumb{ background:rgba(26,163,255,0.4); border-radius:10px; }
+    .modal-body::-webkit-scrollbar-thumb:hover{ background:rgba(26,163,255,0.6); }
+
+    /* ===== 프린트 ===== */
+    @media print{
+      header.appbar, .leftnav, #home{ display:none !important; }
+      #app{ display:block !important; }
+      .container{ max-width:100%; padding:0; }
+      .card{ box-shadow:none; border-color:#ccc; }
+      a[href]:after{ content:" (" attr(href) ")"; font-size:12px; color:#555; }
+    }
+    /* ===== 좌측 목차를 화면 왼쪽에 완전히 붙이기 ===== */
+    #app .container{ max-width:100%; margin:0; padding:24px 24px 24px 0; }
+    #app .leftnav{ border-top-left-radius:0; border-bottom-left-radius:0; }
+  </style>
+</head>
+<body>
+  <!-- ===== 홈(검색) ===== -->
+  <main id="home" aria-labelledby="home-title">
+    <div class="hero">
+      <div class="chip" style="background: rgba(255,71,87,0.15); border-color: rgba(255,71,87,0.3); color: #ff4757; font-size: 20px; padding: 14px 24px; font-weight: 700;">인천소방본부 119소방위키</div>
+      <h1 id="home-title" class="logo"><span class="logo-prefix">119</span>소방차 매뉴얼</h1>
+      <form class="search" id="searchForm" autocomplete="off">
+        <label for="q" class="visually-hidden">검색어</label>
+        <input id="q" name="q" inputmode="search" placeholder="키워드를 입력할 것" aria-describedby="hint" />
+        <button type="submit" aria-label="검색 실행">검색</button>
+      </form>
+      <div class="row" role="list" aria-label="빠른 시작" style="justify-content: center; margin-top: 24px; flex-wrap: wrap;">
+        <button class="tag" role="listitem" data-open="pump" style="background: rgba(26,163,255,0.15); border-color: rgba(26,163,255,0.4); color: #1aa3ff; font-size: 15px; padding: 12px 20px;">🚒 펌프차 매뉴얼 열기</button>
+        <button class="tag" role="listitem" data-open="water" style="background: rgba(27,209,158,0.15); border-color: rgba(27,209,158,0.4); color: #1bd19e; font-size: 15px; padding: 12px 20px;">🚚 물탱크차 매뉴얼 열기</button>
+        <button class="tag" role="listitem" data-open="ladder" style="background: rgba(255,176,32,0.15); border-color: rgba(255,176,32,0.4); color: #ffb020; font-size: 15px; padding: 12px 20px;">🪜 고가차 매뉴얼 열기</button>
+      </div>
+      <p id="hint" class="muted mt-16" style="color: rgba(255,255,255,0.4); font-size: 13px;">오프라인 단일 HTML · 접근성 최적화 · 프린트 지원</p>
+    </div>
+  </main>
+
+  <!-- ===== 앱(매뉴얼) ===== -->
+  <div id="app" role="application" aria-label="매뉴얼 앱">
+    <header class="appbar">
+      <strong class="app-logo">🚒 소방차 매뉴얼</strong>
+      <nav class="row" aria-label="바로가기">
+        <button class="btn secondary" id="backHome" title="홈으로">〈 홈</button>
+        <button class="btn" id="printBtn" title="인쇄">🖨️ 인쇄</button>
+        <button class="btn" id="collapseAll" title="전체 접기/펼치기">▾ 아코디언</button>
+      </nav>
+    </header>
+
+    <div class="container grid grid-2">
+      <!-- 좌측 내비 -->
+      <nav class="leftnav card" id="toc" aria-label="목차"></nav>
+
+      <!-- 우측 콘텐츠 -->
+      <section class="content grid" id="manualContent"></section>
+    </div>
+  </div>
+
+  <!-- ===== 템플릿 ===== -->
+  <template id="tpl-section">
+    <article class="section card p-24" data-section>
+      <h2 class="row" data-title><span data-emoji>📑</span><span data-text>제목</span></h2>
+      <div class="muted" data-meta></div>
+      <div class="mt-16" data-body></div>
+    </article>
+  </template>
+
+  <!-- ===== 인라인 아이콘(SVG) ===== -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="ic-mainvalve" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ic-pto" viewBox="0 0 24 24">
+      <rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M9 6v-2h6v2M12 9v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ic-air" viewBox="0 0 24 24">
+      <path d="M3 12c3-4 6-4 9 0s6 4 9 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    </symbol>
+    <symbol id="ic-water" viewBox="0 0 24 24">
+      <path d="M12 3c4 6 7 8.5 7 12a7 7 0 1 1-14 0c0-3.5 3-6 7-12z" fill="none" stroke="currentColor" stroke-width="2"/>
+    </symbol>
+  </svg>
+
+  <script>
+  ;(() => {
+    const $ = (sel, el=document) => el.querySelector(sel);
+    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+
+    // ===== 표준 방수 절차 소분류 콘텐츠 =====
+    const PROCEDURE_CONTENT = {
+      'ops-pump-procedure': {
+        title: '소방펌프차 방수 절차',
+        content: `
+          <iframe src="./방수%20절차.html" style="width: 100%; height: 1200px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+        `
+      },
+      'ops-foam': {
+        title: '소방차 폼방수 종류와 단계별 절차',
+        content: `
+          <table aria-label="폼 종류">
+            <thead><tr><th style="width:25%">폼 종류</th><th>적용 화재</th><th>혼합비율</th></tr></thead>
+            <tbody>
+              <tr><td><strong>단백포 (Protein)</strong></td><td>유류 화재 (B급)</td><td>3% 또는 6%</td></tr>
+              <tr><td><strong>합성계면활성제포 (Synthetic)</strong></td><td>일반 화재 (A급), 유류 (B급)</td><td>3% 또는 6%</td></tr>
+              <tr><td><strong>수성막포 (AFFF)</strong></td><td>유류 화재, 신속 진화</td><td>1%, 3%, 6%</td></tr>
+              <tr><td><strong>알코올형 포 (AR-AFFF)</strong></td><td>알코올 및 극성용제 화재</td><td>3% 또는 6%</td></tr>
+            </tbody>
+          </table>
+
+          <table aria-label="폼방수 절차" class="mt-16">
+            <thead><tr><th style="width:15%">단계</th><th>절차</th></tr></thead>
+            <tbody>
+              <tr><td><strong>1단계</strong></td><td><strong>폼탱크 확인:</strong> 폼액 잔량 확인 (일반 200L 탑재)</td></tr>
+              <tr><td><strong>2단계</strong></td><td><strong>혼합비 설정:</strong> 프로포셔너 밸브로 3% 또는 6% 선택</td></tr>
+              <tr><td><strong>3단계</strong></td><td><strong>일반 방수 개시:</strong> 메인밸브 개방 → PTO 연결 → 압력 0.7~1.0 MPa</td></tr>
+              <tr><td><strong>4단계</strong></td><td><strong>폼 혼합 활성화:</strong> 폼 밸브 개방 (자동 또는 수동)</td></tr>
+              <tr><td><strong>5단계</strong></td><td><strong>방출 확인:</strong> 포수용 관창으로 포말 발생 확인</td></tr>
+              <tr><td><strong>6단계</strong></td><td><strong>종료 후 세척:</strong> 폼라인 물로 충분히 세척 (부식 방지함)</td></tr>
+            </tbody>
+          </table>
+
+          <table aria-label="폼방수 주의사항" class="mt-16">
+            <thead><tr><th>⚠️ 주의사항</th></tr></thead>
+            <tbody>
+              <tr><td style="color: #ffb020;"><strong>• 폼 사용 후 반드시 라인 세척</strong> (부식 및 노즐 막힘 방지함)</td></tr>
+              <tr><td style="color: #ffb020;"><strong>• 혼합비 과다 설정 시 폼액 조기 소진</strong></td></tr>
+              <tr><td style="color: #ffb020;"><strong>• 포 전용 관창 사용</strong> (일반 관창은 포 발생 불량함)</td></tr>
+            </tbody>
+          </table>
+        `
+      },
+      'ops-relay': {
+        title: '중계방수 절차',
+        content: `
+          <iframe src="./중계방수.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+        `
+      },
+      'ops-suction': {
+        title: '수원 흡수 절차',
+        content: `
+          <table aria-label="수원 종류">
+            <thead><tr><th style="width:25%">수원 종류</th><th>특징</th><th>적용</th></tr></thead>
+            <tbody>
+              <tr><td><strong>소화전</strong></td><td>가압수원, 즉시 사용</td><td>도심지 주 수원</td></tr>
+              <tr><td><strong>하천/저수지</strong></td><td>자연 수원, 무한 공급</td><td>산불, 대규모 화재</td></tr>
+              <tr><td><strong>방화수조</strong></td><td>비상 저장수, 유한</td><td>소화전 부재 지역</td></tr>
+              <tr><td><strong>수영장/연못</strong></td><td>임시 수원</td><td>긴급 상황</td></tr>
+            </tbody>
+          </table>
+
+          <table aria-label="흡수 절차" class="mt-16">
+            <thead><tr><th style="width:15%">단계</th><th>절차</th></tr></thead>
+            <tbody>
+              <tr><td><strong>1단계</strong></td><td><strong>수원 평가:</strong> 수심 확인 (최소 30cm 이상), 이물질 여부</td></tr>
+              <tr><td><strong>2단계</strong></td><td><strong>흡수관 연결:</strong> 흡수관 펌프 흡입구에 체결 (기밀 확인)</td></tr>
+              <tr><td><strong>3단계</strong></td><td><strong>스트레이너 투입:</strong> 흡수관 끝의 여과망을 수면 아래 투입 (바닥 10cm 이상 유지)</td></tr>
+              <tr><td><strong>4단계</strong></td><td><strong>프라이밍 (공기 배출):</strong> 진공펌프 또는 수동 프라이머로 흡수관 내 공기 제거함</td></tr>
+              <tr><td><strong>5단계</strong></td><td><strong>흡수 압력 확인:</strong> 진공게이지 -0.03~-0.05 MPa 확인</td></tr>
+              <tr><td><strong>6단계</strong></td><td><strong>PTO 연결 및 방수:</strong> 펌프 가동 → 압력 상승 확인 → 방수 개시</td></tr>
+            </tbody>
+          </table>
+
+          <table aria-label="흡수 장애 대응" class="mt-16">
+            <thead><tr><th style="width:30%">증상</th><th>원인 및 대응</th></tr></thead>
+            <tbody>
+              <tr><td>진공 형성 안됨</td><td>• 연결부 공기 누설 → 개스킷 점검<br>• 프라이머 고장 → 수동 주수</td></tr>
+              <tr><td>흡수 중 압력 저하</td><td>• 수심 부족 → 스트레이너 위치 조정<br>• 스트레이너 막힘 → 청소</td></tr>
+              <tr><td>이물질 흡입</td><td>• 수원 오염 → 스트레이너 교체<br>• 펌프 역세척 필요함</td></tr>
+            </tbody>
+          </table>
+
+          <table aria-label="흡수 주의사항" class="mt-16">
+            <thead><tr><th>⚠️ 주의사항</th></tr></thead>
+            <tbody>
+              <tr><td style="color: #ff3b4f;"><strong>• 흡수 높이 제한:</strong> 일반 펌프 최대 흡상 높이 7~8m (이론 10m, 실제 손실 고려)</td></tr>
+              <tr><td style="color: #ffb020;"><strong>• 겨울철 결빙 주의:</strong> 작업 후 흡수관 물 완전 배수</td></tr>
+              <tr><td style="color: #ffb020;"><strong>• 급류 주의:</strong> 하천 흡수 시 스트레이너 떠내려감 방지함 (고정 필요함)</td></tr>
+            </tbody>
+          </table>
+        `
+      },
+      'ops-battery': {
+        title: '24V 배터리 점프 방법',
+        content: `
+          <iframe src="./배터리%20점프%20방법.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+        `
+      },
+      'ops-chain': {
+        title: '겨울철 스노우체인 체결 방법',
+        content: `
+          <iframe src="./겨울철%20스노우%20체인%20체결%20절차.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+        `
+      },
+      'ops-simulation': {
+        title: '물 공급 시스템 시뮬레이션',
+        content: `
+          <div class="card p-16">
+            <h3>소방차 물 공급 시스템 시뮬레이션</h3>
+            <p class="mt-8">3D 인터랙티브 시뮬레이션으로 소방차의 물 공급 시스템을 직접 조작할 것</p>
+            <iframe src="카카오톡 받은 파일/firefighter_water_system_fixed_7.html" style="width: 100%; height: 600px; border: none; border-radius: 12px; margin-top: 16px;"></iframe>
+          </div>
+        `
+      },
+      'ops-pipe-comparison': {
+        title: '보수구vs흡수구vs중계구',
+        content: `
+          <iframe src="./배관%20비교.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+        `
+      }
+    };
+
+    // ===== 데이터(시범: 펌프차) =====
+    const DATA = {
+      vehicle: {
+        key: 'pump',
+        name: '펌프차',
+        model: '예) 2024 XYZ-1500',
+        specs: { 크기:'L 7.2m × W 2.3m × H 3.1m', 물탱크:'1500 L', 펌프정격:'1500 L/min @ 1.0 MPa', 연료:'디젤' },
+      },
+      sections: [
+        {
+          id:'intro', emoji:'🚒', title:'차량소개 및 제원',
+          meta:'사진·다이어그램 권장 — 시범 데이터',
+          body: ({specs}) => /*html*/`
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+              <div class="card p-16">
+                <h3>소방차 제원(요약)</h3>
+                <table aria-label="소방차 제원">
+                  <thead>
+                    <tr><th style="width:40%;">항목</th><th>내용</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>차종</td><td>펌프차</td></tr>
+                    <tr><td>전장 × 전폭 × 전고 (mm)</td><td>〈입력〉</td></tr>
+                    <tr><td>총중량 (kg)</td><td>〈입력〉</td></tr>
+                    <tr><td>물탱크 용량 (L)</td><td>〈입력〉</td></tr>
+                    <tr><td>폼탱크 용량 (L)</td><td>〈입력〉</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card p-16">
+                <h3>차량소개 영상</h3>
+                <video id="vehicleIntroVideo" controls ${state.openManual === 'ladder' ? 'muted' : ''} style="width:100%; margin-top:12px; border-radius:12px;">
+                  <source src="${state.openManual === 'ladder' ? '카카오톡 받은 파일/고가차소개.mp4' : '카카오톡 받은 파일/차량소개.mp4'}" type="video/mp4">
+                  귀하의 브라우저는 비디오 태그를 지원하지 않음
+                </video>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+              <div class="card p-16">
+                <h3>차량 제원</h3>
+                <table aria-label="차량 제원">
+                  <thead>
+                    <tr><th style="width:40%;">항목</th><th>내용</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>전장</td><td>7200 mm</td></tr>
+                    <tr><td>전폭</td><td>2300 mm</td></tr>
+                    <tr><td>전고</td><td>3100 mm</td></tr>
+                    <tr><td>휠베이스</td><td>〈입력〉 mm</td></tr>
+                    <tr><td>공차중량</td><td>〈입력〉 kg</td></tr>
+                    <tr><td>총중량</td><td>〈입력〉 kg</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="card p-16">
+                <h3>물 공급 시스템</h3>
+                <table aria-label="물 공급 시스템">
+                  <thead>
+                    <tr><th style="width:40%;">항목</th><th>내용</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>물탱크 용량</td><td>1500 L</td></tr>
+                    <tr><td>물탱크 재질</td><td>SUS304</td></tr>
+                    <tr><td>폼탱크 용량</td><td>200 L</td></tr>
+                    <tr><td>펌프 종류</td><td>원심펌프</td></tr>
+                    <tr><td>펌프 정격</td><td>1500 L/min @ 1.0 MPa</td></tr>
+                    <tr><td>최대 압력</td><td>1.5 MPa</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+              <div class="card p-16">
+                <h3>엔진 사양</h3>
+                <table aria-label="엔진 사양">
+                  <thead>
+                    <tr><th style="width:40%;">항목</th><th>내용</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>연료</td><td>Diesel</td></tr>
+                    <tr><td>배기량</td><td>〈입력〉 cc</td></tr>
+                    <tr><td>출력</td><td>〈입력〉 PS @ 〈입력〉 rpm</td></tr>
+                    <tr><td>토크</td><td>〈입력〉 Nm @ 〈입력〉 rpm</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="card p-16">
+                <h3>탑재 장비</h3>
+                <table aria-label="탑재 장비">
+                  <thead>
+                    <tr><th style="width:40%;">항목</th><th>내용</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>사다리</td><td>사다리 × 2</td></tr>
+                    <tr><td>호스</td><td>호스 × 〈입력〉m</td></tr>
+                    <tr><td>관창</td><td>관창 × 3</td></tr>
+                    <tr><td>폼액</td><td>AFFF 폼액</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            </div>`
+        },
+        {
+          id:'history', emoji:'⏳',
+          title: (manual) => manual === 'water' ? '물탱크차 타임라인' : manual === 'ladder' ? '고가차 타임라인' : '소방펌프차 타임라인',
+          meta:'시대별 차량 기술 발전 타임라인',
+          body: () => /*html*/`
+            <div class="grid">
+              <iframe src="TF/결과물/펌프차 운용 변천사.html" style="width: 100%; height: 1200px; border: none; border-radius: 12px;"></iframe>
+            </div>`
+        },
+        {
+          id:'ops', emoji:'🧭',
+          title: (manual) => manual === 'water' ? '표준운영절차' : '방수 매뉴얼',
+          meta:'표준 운영 절차 매뉴얼',
+          subItems: [
+            {
+              id: 'ops-pump-procedure',
+              emoji: '💧',
+              title: '소방펌프차 방수 절차',
+              meta: '소방펌프차의 4가지 방수 방법과 절차',
+              body: () => /*html*/`
+                <div class="grid">
+                  ${PROCEDURE_CONTENT['ops-pump-procedure'].content}
+                </div>`
+            },
+            {
+              id: 'ops-foam',
+              emoji: '🧯',
+              title: '폼방수 절차',
+              meta: '포말소화 시스템 운용 가이드',
+              body: () => /*html*/`
+                <div class="grid">
+                  <iframe src="./폼방수%20운용%20방법.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+                </div>`
+            },
+            {
+              id: 'ops-relay',
+              emoji: '🔄',
+              title: '중계방수 절차',
+              meta: '장거리 급수를 위한 중계방수 운용',
+              body: () => /*html*/`
+                <div class="grid">
+                  ${PROCEDURE_CONTENT['ops-relay'].content}
+                </div>`
+            },
+            {
+              id: 'ops-suction',
+              emoji: '🌊',
+              title: '수원 흡수 절차',
+              meta: '자연수원 및 외부수원 흡수 가이드',
+              body: () => /*html*/`
+                <div class="grid">
+                  <iframe src="./수원%20흡수%20절차.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+                </div>`
+            },
+            {
+              id: 'ops-pipe-comparison',
+              emoji: '🔀',
+              title: '보수구vs흡수구vs중계구',
+              meta: '보수구, 흡수구, 중계구 비교 가이드',
+              body: () => /*html*/`
+                <div class="grid">
+                  ${PROCEDURE_CONTENT['ops-pipe-comparison'].content}
+                </div>`
+            },
+            {
+              id: 'ops-battery',
+              emoji: '🔋',
+              title: '24V 배터리 점프 방법',
+              meta: '24V 시스템 배터리 충전 및 점프 절차',
+              body: () => /*html*/`
+                <div class="grid">
+                  ${PROCEDURE_CONTENT['ops-battery'].content}
+                </div>`
+            },
+            {
+              id: 'ops-chain',
+              emoji: '⛓️',
+              title: '겨울철 스노우체인 체결 방법',
+              meta: '설상 주행을 위한 체인 장착 가이드',
+              body: () => /*html*/`
+                <div class="grid">
+                  ${PROCEDURE_CONTENT['ops-chain'].content}
+                </div>`
+            },
+            {
+              id: 'ops-simulation',
+              emoji: '🎮',
+              title: '물 공급 시스템 시뮬레이션',
+              meta: '인터랙티브 시뮬레이션 학습',
+              body: () => /*html*/`
+                <div class="grid">
+                  ${PROCEDURE_CONTENT['ops-simulation'].content}
+                </div>`
+            }
+          ]
+        },
+        {
+          id:'special', emoji:'🎵', title:'오디오 매뉴얼',
+          meta:'',
+          body: () => /*html*/`
+            <style>
+                .audio-body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 0;
+                    background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 50%, #FF6B6B 100%);
+                    position: relative;
+                    overflow: hidden;
+                    padding: 40px 0;
+                }
+
+                .fire-truck-bg {
+                    position: fixed;
+                    font-size: 60px;
+                    opacity: 0.1;
+                    animation: moveTruck 20s linear infinite;
+                }
+
+                @keyframes moveTruck {
+                    0% { transform: translateX(-100px) rotate(0deg); }
+                    50% { transform: translateX(100vw) rotate(5deg); }
+                    100% { transform: translateX(-100px) rotate(0deg); }
+                }
+
+                .fire-truck-bg:nth-child(1) { top: 10%; animation-delay: 0s; }
+                .fire-truck-bg:nth-child(2) { top: 40%; animation-delay: 7s; }
+                .fire-truck-bg:nth-child(3) { top: 70%; animation-delay: 14s; }
+
+                .audio-container {
+                    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+                    padding: 40px;
+                    border-radius: 25px;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    max-width: 900px;
+                    margin: 0 auto;
+                    position: relative;
+                    z-index: 1;
+                    border: 3px solid #FF4444;
+                }
+
+                .audio-header {
+                    text-align: center;
+                    margin-bottom: 30px;
+                    position: relative;
+                }
+
+                .fire-truck-icon {
+                    font-size: 80px;
+                    animation: bounce 2s ease-in-out infinite;
+                    display: inline-block;
+                    filter: drop-shadow(0 4px 8px rgba(255, 68, 68, 0.3));
+                }
+
+                @keyframes bounce {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-20px); }
+                }
+
+                .audio-container h1 {
+                    text-align: center;
+                    color: #FF4444;
+                    margin: 15px 0 10px 0;
+                    font-size: 2em;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+                }
+
+                .audio-subtitle {
+                    text-align: center;
+                    color: #666;
+                    font-size: 1.1em;
+                    margin-bottom: 10px;
+                }
+
+                .fire-line {
+                    height: 3px;
+                    background: linear-gradient(90deg, #FF4444, #FFD700, #FF4444);
+                    border-radius: 2px;
+                    margin: 15px 0;
+                }
+
+                .video-wrapper {
+                    position: relative;
+                    border-radius: 15px;
+                    overflow: hidden;
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+                    border: 3px solid #FFD700;
+                }
+
+                .video-wrapper video {
+                    width: 100%;
+                    display: block;
+                    background: #000;
+                }
+
+                .decorative-icons {
+                    display: flex;
+                    justify-content: space-around;
+                    margin: 20px 0;
+                    font-size: 35px;
+                }
+
+                .decorative-icons span {
+                    animation: float 3s ease-in-out infinite;
+                    display: inline-block;
+                }
+
+                @keyframes float {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-10px); }
+                }
+
+                .decorative-icons span:nth-child(1) { animation-delay: 0s; }
+                .decorative-icons span:nth-child(2) { animation-delay: 0.2s; }
+                .decorative-icons span:nth-child(3) { animation-delay: 0.4s; }
+                .decorative-icons span:nth-child(4) { animation-delay: 0.6s; }
+                .decorative-icons span:nth-child(5) { animation-delay: 0.8s; }
+
+                .siren-light {
+                    position: absolute;
+                    top: -10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 20px;
+                    height: 20px;
+                    background: #FF4444;
+                    border-radius: 50%;
+                    animation: siren 1s ease-in-out infinite;
+                    box-shadow: 0 0 20px #FF4444;
+                }
+
+                @keyframes siren {
+                    0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+                    50% { opacity: 0.3; transform: translateX(-50%) scale(1.2); }
+                }
+            </style>
+
+            <div class="audio-body">
+                <div class="fire-truck-bg">🚒</div>
+                <div class="fire-truck-bg">🚒</div>
+                <div class="fire-truck-bg">🚒</div>
+                <div class="audio-container">
+                    <div class="siren-light"></div>
+                    <div class="audio-header">
+                        <div class="fire-truck-icon">🚒</div>
+                        <h1>소방차 팟캐스트</h1>
+                        <p class="audio-subtitle">소방펌프차 방수절차 안내</p>
+                    </div>
+                    <div class="fire-line"></div>
+                    <div class="decorative-icons">
+                        <span>🔥</span>
+                        <span>🚨</span>
+                        <span>🧯</span>
+                        <span>👨‍🚒</span>
+                        <span>🚑</span>
+                    </div>
+                    <div class="video-wrapper">
+                        <video controls preload="metadata">
+                            <source src="카카오톡 받은 파일/오디오.mp4" type="video/mp4">
+                            브라우저가 비디오 태그를 지원하지 않음
+                        </video>
+                    </div>
+                </div>
+
+                <div style="max-width: 900px; margin: 40px auto 0;">
+                    <div class="audio-container">
+                        <div class="siren-light"></div>
+                        <div class="audio-header">
+                            <div class="fire-truck-icon">🎬</div>
+                            <h1>소방차 동영상 매뉴얼</h1>
+                            <p class="audio-subtitle">소방차 작동 방법 영상 가이드</p>
+                        </div>
+                        <div class="fire-line"></div>
+                        <div class="decorative-icons">
+                            <span>🔥</span>
+                            <span>🚨</span>
+                            <span>🧯</span>
+                            <span>👨‍🚒</span>
+                            <span>🚑</span>
+                        </div>
+                        <div class="video-wrapper">
+                            <video controls preload="metadata">
+                                <source src="카카오톡 받은 파일/영상.mp4" type="video/mp4">
+                                브라우저가 비디오 태그를 지원하지 않음
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          `
+        },
+        {
+          id:'faults', emoji:'🧯', title:'고장 및 응급조치',
+          meta:'장치별 고장–원인–응급조치 매핑',
+          body: () => /*html*/`
+            <style>
+                .problems-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                    gap: 30px;
+                    margin-bottom: 40px;
+                }
+
+                .problem-card {
+                    background: white;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    cursor: pointer;
+                }
+
+                .problem-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+                }
+
+                .card-header {
+                    padding: 25px;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 18px;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                }
+
+                .card-icon {
+                    font-size: 36px;
+                }
+
+                .problem-1 .card-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+                .problem-2 .card-header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+                .problem-3 .card-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+                .problem-4 .card-header { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+                .problem-5 .card-header { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+                .problem-6 .card-header { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+                .problem-7 .card-header { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+                .problem-8 .card-header { background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); }
+                .problem-9 .card-header { background: linear-gradient(135deg, #2e2e78 0%, #662d91 100%); }
+
+                .card-content {
+                    padding: 25px;
+                }
+
+                .section {
+                    margin-bottom: 20px;
+                }
+
+                .section-title {
+                    font-weight: 700;
+                    color: #333;
+                    margin-bottom: 10px;
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    color: #0066cc;
+                }
+
+                .section-content {
+                    background: #f9f9f9;
+                    padding: 12px;
+                    border-radius: 6px;
+                    font-size: 14px;
+                    line-height: 1.6;
+                    color: #555;
+                    border-left: 4px solid #0066cc;
+                }
+
+                .arrow-flow {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    margin: 12px 0;
+                    font-size: 13px;
+                }
+
+                .arrow-flow span {
+                    color: #0066cc;
+                    font-weight: bold;
+                }
+
+                .flow-diagram {
+                    background: white;
+                    padding: 30px;
+                    border-radius: 12px;
+                    margin-top: 40px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                }
+
+                .flow-diagram h2 {
+                    color: #333;
+                    margin-bottom: 25px;
+                    text-align: center;
+                    font-size: 24px;
+                }
+
+                .flow-steps {
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                }
+
+                .flow-step {
+                    flex: 1;
+                    min-width: 150px;
+                    text-align: center;
+                }
+
+                .flow-step p {
+                    color: #555;
+                    font-size: 14px;
+                    line-height: 1.6;
+                    margin-top: 10px;
+                }
+
+                .step-circle {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 14px;
+                    font-weight: bold;
+                    margin: 0 auto 10px;
+                    text-align: center;
+                }
+
+                .step-1 .step-circle { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+                .step-2 .step-circle { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+                .step-3 .step-circle { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+                .step-4 .step-circle { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+                .arrow-between {
+                    font-size: 28px;
+                    color: #0066cc;
+                }
+
+                .quick-ref {
+                    background: white;
+                    padding: 30px;
+                    border-radius: 12px;
+                    margin-top: 40px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                }
+
+                .quick-ref h2 {
+                    color: #333;
+                    margin-bottom: 20px;
+                    font-size: 24px;
+                }
+
+                .ref-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                }
+
+                .ref-card {
+                    background: #f9f9f9;
+                    padding: 15px;
+                    border-radius: 8px;
+                    border-left: 4px solid #0066cc;
+                    min-width: 0;
+                }
+
+                .ref-card strong {
+                    color: #0066cc;
+                    display: block;
+                    margin-bottom: 8px;
+                }
+
+                @media (max-width: 768px) {
+                    .problems-grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .flow-steps {
+                        flex-direction: column;
+                    }
+
+                    .arrow-between {
+                        transform: rotate(90deg);
+                    }
+                }
+            </style>
+
+            <div class="problems-grid">
+                <!-- 문제 1 -->
+                <div class="problem-card problem-1">
+                    <div class="card-header">
+                        <span class="card-icon">💧</span>
+                        <span>문제 1: 흡입 불량</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">수두 형성 안됨</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 에어 침입<br>
+                                • 스트레이너 막힘<br>
+                                • 수원 수두 부족
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • 연결부 누기 점검·체결<br>
+                                • 스트레이너 청소<br>
+                                • 수심·수두 확보<br>
+                                • 프라이밍 재시도
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 문제 2 -->
+                <div class="problem-card problem-2">
+                    <div class="card-header">
+                        <span class="card-icon">〰️</span>
+                        <span>문제 2: 토출 불안정</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">토출양 불안정/맥동</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 공기 침입<br>
+                                • 릴리프 세팅 부적정함
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • 공기 배출<br>
+                                • 릴리프 재설정<br>
+                                • RPM 안정화
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 문제 3 -->
+                <div class="problem-card problem-3">
+                    <div class="card-header">
+                        <span class="card-icon">🫧</span>
+                        <span>문제 3: 캐비테이션</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">소음·진동·압력저하</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 과도한 흡입 손실<br>
+                                • 수온 상승
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • 흡입헤드 저감<br>
+                                • 호스 길이 단축<br>
+                                • RPM 감소<br>
+                                • 대체 수원
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 문제 4 -->
+                <div class="problem-card problem-4">
+                    <div class="card-header">
+                        <span class="card-icon">❄️</span>
+                        <span>문제 4: 동결/결빙</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">펌프 작동 불능</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 배수 미실시<br>
+                                • 혹한 저온
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • 배수 밸브 개방<br>
+                                • 부동액 처리<br>
+                                • 동결 방지 커버
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 문제 5 -->
+                <div class="problem-card problem-5">
+                    <div class="card-header">
+                        <span class="card-icon">🌡️</span>
+                        <span>문제 5: 과열/오버히트</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">높은 온도 감지</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 냉각 불량<br>
+                                • 고회전 지속
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • RPM 감소<br>
+                                • 라디에이터 점검<br>
+                                • 공회전 냉각
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 문제 6 -->
+                <div class="problem-card problem-6">
+                    <div class="card-header">
+                        <span class="card-icon">📊</span>
+                        <span>문제 6: 성능 불일치</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">예상과 다른 성능</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 혼합비 세팅 오류<br>
+                                • 인젝터 역압
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • 혼합비 재설정<br>
+                                • 릴리프 확인<br>
+                                • 바이패스 조정
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 문제 7 -->
+                <div class="problem-card problem-7">
+                    <div class="card-header">
+                        <span class="card-icon">⚙️</span>
+                        <span>문제 7: PTO 체결 불능</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">PTO 작동 불가</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 회전수 과다<br>
+                                • 기계식 결합 불량
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • 공회전 안정<br>
+                                • 클러치 조정<br>
+                                • 전문가 상담
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 문제 8 -->
+                <div class="problem-card problem-8">
+                    <div class="card-header">
+                        <span class="card-icon">💡</span>
+                        <span>문제 8: 발전기/조명</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">불량/작동 안됨</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 퓨즈 단락<br>
+                                • 배선 문제
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • 퓨즈 교체<br>
+                                • 커넥터 재결합<br>
+                                • 에러 확인
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 문제 9 -->
+                <div class="problem-card problem-9">
+                    <div class="card-header">
+                        <span class="card-icon">🔔</span>
+                        <span>문제 9: 경광등·사이렌</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="section">
+                            <div class="section-title">증상</div>
+                            <div class="section-content">미작동</div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">원인</div>
+                            <div class="section-content">
+                                • 스위치 고장<br>
+                                • 퓨즈/릴레이 문제
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="section-title">즉시 조치</div>
+                            <div class="section-content">
+                                • 스위치 확인<br>
+                                • 퓨즈 교체<br>
+                                • 회로 전환
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 문제해결 플로우 다이어그램 -->
+            <div class="flow-diagram">
+                <h2>📋 문제 해결 프로세스</h2>
+                <div class="flow-steps">
+                    <div class="flow-step step-1">
+                        <div class="step-circle">① 증상 인식</div>
+                        <p>비정상 소리<br>성능 저하 감지</p>
+                    </div>
+                    <div class="arrow-between">→</div>
+                    <div class="flow-step step-2">
+                        <div class="step-circle">② 원인 파악</div>
+                        <p>가능한 원인 확인<br>체계적 진단</p>
+                    </div>
+                    <div class="arrow-between">→</div>
+                    <div class="flow-step step-3">
+                        <div class="step-circle">③ 즉시 조치</div>
+                        <p>해결방법 적용<br>상황 개선</p>
+                    </div>
+                    <div class="arrow-between">→</div>
+                    <div class="flow-step step-4">
+                        <div class="step-circle">④ 전문가 상담</div>
+                        <p>문제 지속 시<br>전문가 호출</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 빠른 참고 -->
+            <div class="quick-ref">
+                <h2>🎯 빠른 참고 (Quick Reference)</h2>
+                <div class="ref-grid">
+                    <div class="ref-card">
+                        <strong>긴급 상황</strong>
+                        비정상 소음, 높은 온도, 연기 발생 시 즉시 중지하고 전문가 호출
+                    </div>
+                    <div class="ref-card">
+                        <strong>정기 점검 주기</strong>
+                        월 1회: 스트레이너, 냉각액<br>
+                        분기 1회: 전체 시스템 점검
+                    </div>
+                    <div class="ref-card">
+                        <strong>수명 연장 팁</strong>
+                        정기 유지보수, 신속한 조치, 과부하 방지가 핵심임
+                    </div>
+                    <div class="ref-card">
+                        <strong>전문가 필요 시점</strong>
+                        기계음 지속, 누수 발생, 성능 미흡 시
+                    </div>
+                </div>
+            </div>`
+        },
+        {
+          id:'maintenance', emoji:'🔧', title:'정기 점검',
+          meta:'일일점검 및 주간점검 사항',
+          subItems: [
+            {
+              id: 'maintenance-daily',
+              emoji: '📅',
+              title: '일일점검',
+              meta: '매일 실시하는 소방차 점검 항목',
+              body: () => /*html*/`
+                <div class="grid">
+                  <iframe src="./일일점검.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+                </div>`
+            },
+            {
+              id: 'maintenance-weekly',
+              emoji: '🗓️',
+              title: '주간점검',
+              meta: '주 1회 실시하는 소방차 점검 항목',
+              body: () => /*html*/`
+                <div class="grid">
+                  <iframe src="./주간점검.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+                </div>`
+            }
+          ]
+        },
+        {
+          id:'law', emoji:'📜', title:'관련법령',
+          meta:'소방차 운전자를 위한 교통법규 핵심 요약 및 조문 정리',
+          body: () => /*html*/`
+            <div class="grid">
+              <iframe src="./관련법규.html" style="width: 100%; height: 1400px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
+            </div>`
+        },
+        {
+          id:'contacts', emoji:'📞', title:'관련 업체 연락처',
+          meta:'정비/부품/장비 점검 등 협력업체 목록',
+          body: () => /*html*/`
+            <div class="grid">
+              <table aria-label="업체 연락처">
+                <thead><tr><th style="width:28%;">업체명</th><th style="width:28%;">서비스</th><th style="width:22%;">전화</th><th>비고</th></tr></thead>
+                <tbody>
+                  <tr style="background: linear-gradient(90deg, rgba(26,163,255,.08), transparent);"><td><strong>인천소방본부</strong></td><td>종합 문의</td><td><strong>010-0000-0000</strong></td><td>24시간 상담 가능</td></tr>
+                  <tr><td>예) 인천소방 정비센터</td><td>펌프/밸브 정비</td><td>032-000-0000</td><td>평일 09:00–18:00</td></tr>
+                  <tr><td>예) XYZ 호스</td><td>호스/커플링</td><td>02-000-0000</td><td>긴급 출동 가능</td></tr>
+                  <tr><td>예) PTO 전문</td><td>PTO/동력전달</td><td>031-000-0000</td><td>부품 당일 배송</td></tr>
+                </tbody>
+              </table>
+              <p class="muted mt-8">실제 연락처는 내부 엑셀에서 불러와 자동 반영 예정임(CSV 연동)</p>
+            </div>`
+        },
+      ]
+    };
+
+    // ===== 상태 =====
+    const state = {
+      openManual: null,
+      doneSteps: new Set(JSON.parse(localStorage.getItem('doneSteps')||'[]')),
+      checklist: JSON.parse(localStorage.getItem('checklist')||'{}'),
+      currentSection: localStorage.getItem('currentSection')||'intro',
+    };
+
+    // ===== 홈 인터랙션 =====
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'g') window.__g=1; else if(window.__g && e.key==='s'){ e.preventDefault(); openManual('pump'); window.__g=0; } });
+    document.addEventListener('keyup', (e)=>{ if(e.key==='g') window.__g=0; });
+    document.getElementById('searchForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const q = (document.getElementById('q').value||'').trim();
+      if(/펌프차|pump|펌프/.test(q)) openManual('pump');
+      else alert('시범에서는 \"펌프차\" 매뉴얼을 제공함');
+    });
+    document.addEventListener('click', (e)=>{
+      const btn = e.target.closest('[data-open]');
+      if(btn) {
+        const type = btn.dataset.open;
+        openManual(type);
+      }
+    });
+
+    // ===== 매뉴얼 렌더링 =====
+    function openManual(key){
+      state.openManual = key;
+      document.getElementById('home').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      renderManual();
+      const first = document.querySelector('#manualContent [data-section] h2');
+      if(first) first.tabIndex = -1, first.focus();
+    }
+
+    function renderManual(){
+      const toc = document.getElementById('toc'); toc.innerHTML = '';
+      DATA.sections.forEach(s=>{
+        const a = document.createElement('a');
+        const titleText = typeof s.title === 'function' ? s.title(state.openManual) : s.title;
+        a.href = `#${s.id}`; a.dataset.id = s.id; a.innerHTML = `<span aria-hidden=\"true\">${s.emoji}</span> ${titleText}`;
+        a.setAttribute('aria-current', s.id===state.currentSection);
+        a.addEventListener('click', (e)=>{
+          e.preventDefault();
+
+          // 모든 섹션 숨기고 선택된 섹션만 표시
+          document.querySelectorAll('[data-section]').forEach(section => {
+            section.style.display = section.id === s.id ? '' : 'none';
+          });
+
+          const targetEl = document.getElementById(s.id);
+          if(targetEl) {
+            targetEl.scrollIntoView({behavior:'smooth', block:'start'});
+            history.pushState(null, null, `#${s.id}`);
+
+            // 차량소개 및 제원 섹션이면 비디오 자동 재생
+            if(s.id === 'vehicle') {
+              setTimeout(() => {
+                const video = document.getElementById('vehicleIntroVideo');
+                if(video) {
+                  video.play().catch(err => console.log('Auto-play prevented:', err));
+                }
+              }, 300);
+            }
+          }
+
+          state.currentSection = s.id;
+          localStorage.setItem('currentSection', s.id);
+          updateCurrentTOC();
+
+          // 하위 항목 토글
+          if(s.subItems) {
+            const subItemsDiv = a.nextElementSibling;
+            if(subItemsDiv && subItemsDiv.classList.contains('sub-items')) {
+              subItemsDiv.classList.toggle('show');
+            }
+          }
+        });
+        toc.appendChild(a);
+
+        // 하위 항목 추가
+        if(s.subItems && (state.openManual === 'pump' || state.openManual === 'maintenance')) {
+          const subItemsDiv = document.createElement('div');
+          subItemsDiv.className = 'sub-items';
+          s.subItems.forEach(sub => {
+            const subA = document.createElement('a');
+            subA.href = `#${sub.id}`;
+            subA.innerHTML = sub.title;
+            subA.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              // 모든 섹션 숨기기
+              Array.from(document.querySelectorAll('#manualContent [data-section]')).forEach(el => {
+                el.style.display = 'none';
+              });
+
+              // 클릭한 소분류의 섹션을 찾아서 표시
+              const targetSection = document.getElementById(sub.id);
+              if(targetSection) {
+                targetSection.style.display = '';
+                targetSection.scrollIntoView({behavior:'smooth', block:'start'});
+                history.pushState(null, null, `#${sub.id}`);
+              }
+
+              // TOC에서 활성화 표시
+              document.querySelectorAll('.leftnav a').forEach(link => link.classList.remove('active'));
+              subA.classList.add('active');
+            });
+            subItemsDiv.appendChild(subA);
+          });
+          toc.appendChild(subItemsDiv);
+        }
+      });
+
+      const root = document.getElementById('manualContent'); root.innerHTML = '';
+      let totalIndex = 0;
+      DATA.sections.forEach((sec) => {
+        // 소분류가 있는 경우, 각 소분류를 개별 섹션으로 렌더링
+        if(sec.subItems && sec.subItems.length > 0) {
+          sec.subItems.forEach((subItem, subIndex) => {
+            const sectionEl = buildSection(subItem);
+            // 첫 번째 섹션만 표시, 나머지는 숨김
+            if(totalIndex !== 0) {
+              sectionEl.querySelector('[data-section]').style.display = 'none';
+            }
+            root.appendChild(sectionEl);
+            totalIndex++;
+          });
+        } else {
+          // 일반 섹션
+          const sectionEl = buildSection(sec);
+          // 첫 번째 섹션만 표시, 나머지는 숨김
+          if(totalIndex !== 0) {
+            sectionEl.querySelector('[data-section]').style.display = 'none';
+          }
+          root.appendChild(sectionEl);
+          totalIndex++;
+        }
+      });
+
+      const filter = document.createElement('input');
+      filter.id = 'sectionSearch'; filter.placeholder = '섹션/키워드 필터';
+      filter.style.cssText = 'padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);margin:12px 0;';
+      document.querySelector('.appbar').appendChild(filter);
+      filter.addEventListener('input', (e)=>{
+        const v = e.target.value.trim().toLowerCase();
+        Array.from(document.querySelectorAll('#manualContent [data-section]')).forEach(el=>{
+          const text = (el.textContent||'').toLowerCase();
+          el.style.display = v && !text.includes(v) ? 'none' : '';
+        });
+      });
+
+      refreshStepProgress();
+      refreshChecklistProgress();
+    }
+
+    function buildSection(sec){
+      const t = document.importNode(document.getElementById('tpl-section').content, true);
+      const $sec = t.querySelector('[data-section]');
+      $sec.id = sec.id;
+      t.querySelector('[data-emoji]').textContent = sec.emoji || '📄';
+      const titleText = typeof sec.title === 'function' ? sec.title(state.openManual) : sec.title;
+      t.querySelector('[data-text]').textContent = titleText;
+      t.querySelector('[data-meta]').textContent = sec.meta||'';
+      t.querySelector('[data-body]').innerHTML = typeof sec.body==='function' ? sec.body({specs: DATA.vehicle.specs}) : (sec.body||'');
+
+      observer.observe($sec);
+
+      Array.from(t.querySelectorAll('#stdSteps [data-done]')).forEach((btn)=>{
+        btn.addEventListener('click', ()=>{
+          const host = btn.closest('[data-step]'); const id = Number(host.dataset.step);
+          if(state.doneSteps.has(id)) state.doneSteps.delete(id); else state.doneSteps.add(id);
+          localStorage.setItem('doneSteps', JSON.stringify([...state.doneSteps]));
+          host.style.outline = state.doneSteps.has(id) ? '2px solid var(--ok)' : '';
+          btn.textContent = state.doneSteps.has(id) ? '취소' : '완료';
+          refreshStepProgress();
+        });
+      });
+
+      return t;
+    }
+
+    function refreshStepProgress(){
+      const total = 4; const done = state.doneSteps.size; const pct = Math.round(done/total*100);
+      const bar = document.getElementById('stepProgress'); if(bar) bar.style.width = pct+'%';
+    }
+    function refreshChecklistProgress(){
+      const all = document.querySelectorAll('#manualContent [data-checklist] input[type=\"checkbox\"]').length;
+      const done = Object.values(state.checklist).filter(Boolean).length;
+      const pct = all===0 ? 0 : Math.round(done/all*100);
+      const bar = document.getElementById('checkProgress'); if(bar) bar.style.width = pct+'%';
+    }
+
+    function updateCurrentTOC(){
+      Array.from(document.querySelectorAll('#toc a')).forEach(a=> a.setAttribute('aria-current', a.dataset.id===state.currentSection));
+    }
+
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ state.currentSection = e.target.id; localStorage.setItem('currentSection', state.currentSection); updateCurrentTOC(); }
+      });
+    }, { rootMargin: '0px 0px -70% 0px', threshold: 0.1 });
+
+    document.addEventListener('click', (e)=>{
+      if(e.target.id==='backHome'){ document.getElementById('app').style.display='none'; document.getElementById('home').style.display='grid'; }
+      if(e.target.id==='printBtn'){ window.print(); }
+      if(e.target.id==='collapseAll'){ const open = document.querySelectorAll('details[open]').length>0; document.querySelectorAll('details').forEach(d=> open ? d.removeAttribute('open') : d.setAttribute('open','')); }
+    });
+
+    window.addEventListener('hashchange', ()=>{
+      const id = location.hash.replace('#','');
+      const el = document.getElementById(id);
+      if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); state.currentSection=id; updateCurrentTOC(); }
+    });
+  })();
+  </script>
+
+  <!-- ===== 모달 (팝업) ===== -->
+  <div id="procedureModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 id="modalTitle"></h2>
+        <button class="modal-close" id="modalClose" aria-label="닫기">×</button>
+      </div>
+      <div class="modal-body" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    // 모달 관리
+    const modal = {
+      overlay: document.getElementById('procedureModal'),
+      title: document.getElementById('modalTitle'),
+      content: document.getElementById('modalContent'),
+      closeBtn: document.getElementById('modalClose'),
+
+      open: function(title, htmlContent) {
+        this.title.textContent = title;
+        this.content.innerHTML = htmlContent;
+        this.overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      },
+
+      close: function() {
+        this.overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    };
+
+    // 모달 닫기 이벤트
+    modal.closeBtn.addEventListener('click', () => modal.close());
+    modal.overlay.addEventListener('click', (e) => {
+      if (e.target === modal.overlay) modal.close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.overlay.classList.contains('show')) {
+        modal.close();
+      }
+    });
+  </script>
+
+<!-- build: v1.0 | 개선사항: TypeError 수정, smooth 스크롤, TOC 시각적 개선, 경고 메시지 추가 -->
+</body>
+</html>
