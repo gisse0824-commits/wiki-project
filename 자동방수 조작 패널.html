@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>소방차 펌프 제어 패널</title>
+    <title>자동방수 조작 패널</title>
     <style>
         * {
             margin: 0;
@@ -508,7 +508,7 @@
 <body>
     <div class="panel-outer">
         <div class="panel-container">
-            <div class="panel-header">소방차 펌프실 조작 패널</div>
+            <div class="panel-header">자동방수 조작 패널</div>
 
             <div class="main-grid" style="align-items: stretch;">
                 <!-- 좌측 섹션 -->
@@ -605,7 +605,10 @@
                             </div>
                         </div>
 
-                        <div id="waterComplete" class="control-btn btn-red full-width-btn">물 공급<br>완료</div>
+                        <div class="btn-with-led" style="display: block; margin: 8px 0;">
+                            <div id="waterCompleteLed" class="led-indicator"></div>
+                            <div id="waterComplete" class="control-btn btn-red" style="width: 100%;">물 공급<br>완료</div>
+                        </div>
                     </div>
 
                     <!-- PTO 제어 -->
@@ -685,34 +688,34 @@
     <script>
         // 자동방수작동 버튼 클릭 이벤트
         document.getElementById('autoWater').addEventListener('click', function() {
-            // 모든 버튼의 active 상태 제거
+            // 모든 LED의 active 상태 제거
             clearAllActive();
 
-            // 자동방수작동 버튼 즉시 활성화
-            this.classList.add('active');
+            // 자동방수작동 LED 즉시 활성화
+            document.getElementById('autoWaterLed').classList.add('active');
 
-            // 순차적으로 버튼 활성화
+            // 순차적으로 LED 활성화
             setTimeout(function() {
-                document.getElementById('mainValveOpen').classList.add('active');
+                document.getElementById('mainValveLed').classList.add('active');
             }, 1000);
 
             setTimeout(function() {
-                document.getElementById('ptoConnect').classList.add('active');
+                document.getElementById('ptoConnectLed').classList.add('active');
             }, 2000);
 
             setTimeout(function() {
-                document.getElementById('vacuumValveOpen').classList.add('active');
+                document.getElementById('vacuumValveLed').classList.add('active');
             }, 3000);
 
             setTimeout(function() {
-                document.getElementById('waterComplete').classList.add('active');
+                document.getElementById('waterCompleteLed').classList.add('active');
             }, 4000);
         });
 
-        // 모든 버튼의 active 상태 제거 함수
+        // 모든 LED의 active 상태 제거 함수
         function clearAllActive() {
-            const buttons = ['autoWater', 'mainValveOpen', 'ptoConnect', 'vacuumValveOpen', 'waterComplete'];
-            buttons.forEach(function(id) {
+            const leds = ['autoWaterLed', 'mainValveLed', 'ptoConnectLed', 'vacuumValveLed', 'waterCompleteLed'];
+            leds.forEach(function(id) {
                 const element = document.getElementById(id);
                 if (element) {
                     element.classList.remove('active');
@@ -720,13 +723,19 @@
             });
         }
 
-        // 각 버튼을 클릭하면 개별적으로 불이 켜지도록
-        const buttonIds = ['mainValveOpen', 'vacuumValveOpen', 'ptoConnect', 'waterComplete'];
-        buttonIds.forEach(function(id) {
-            const button = document.getElementById(id);
-            if (button) {
+        // 각 버튼을 클릭하면 개별적으로 LED가 켜지도록
+        const buttons = [
+            {btn: 'mainValveOpen', led: 'mainValveLed'},
+            {btn: 'vacuumValveOpen', led: 'vacuumValveLed'},
+            {btn: 'ptoConnect', led: 'ptoConnectLed'},
+            {btn: 'waterComplete', led: 'waterCompleteLed'}
+        ];
+        buttons.forEach(function(item) {
+            const button = document.getElementById(item.btn);
+            const led = document.getElementById(item.led);
+            if (button && led) {
                 button.addEventListener('click', function() {
-                    this.classList.toggle('active');
+                    led.classList.toggle('active');
                 });
             }
         });

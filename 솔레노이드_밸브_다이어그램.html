@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>솔레노이드 밸브 다이어그램</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .diagram-container {
+            background: linear-gradient(135deg, #d4a857 0%, #c99a3b 100%);
+            border: 8px solid #8b6f47;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            width: 900px;
+        }
+
+        .title-banner {
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .components-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 30px;
+        }
+
+        .solenoid-section {
+            display: flex;
+            gap: 25px;
+        }
+
+        .solenoid-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .position-indicators {
+            display: flex;
+            gap: 35px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .solenoid-body {
+            width: 110px;
+            height: 180px;
+            background: linear-gradient(180deg, #6b5a45 0%, #4a3d2f 100%);
+            border: 4px solid #2a1f15;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .solenoid-screw {
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle at 35% 35%, #ffd700, #d4a857, #b8860b);
+            border-radius: 50%;
+            border: 2px solid #8b6914;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .solenoid-screw::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 3px;
+            height: 20px;
+            background: #8b6914;
+        }
+
+        .solenoid-screw::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            width: 3px;
+            height: 20px;
+            background: #8b6914;
+        }
+
+        .red-label {
+            background: linear-gradient(145deg, #dc143c, #b22222);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 3px solid #8b0000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            min-width: 110px;
+        }
+
+        /* 수동조작밸브 */
+        .manual-valve-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .valve-labels {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .valve-label-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .valve-arrow {
+            font-size: 18px;
+            color: #000;
+        }
+
+        .cross-valve {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .valve-horizontal {
+            width: 120px;
+            height: 35px;
+            background: linear-gradient(90deg, #8b4789 0%, #6a2c68 50%, #8b4789 100%);
+            border: 3px solid #4a1a48;
+            border-radius: 6px;
+            position: absolute;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .valve-vertical {
+            width: 35px;
+            height: 120px;
+            background: linear-gradient(180deg, #8b4789 0%, #6a2c68 50%, #8b4789 100%);
+            border: 3px solid #4a1a48;
+            border-radius: 6px;
+            position: absolute;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .valve-center {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 35% 35%, #a85da8, #6a2c68);
+            border-radius: 50%;
+            border: 3px solid #4a1a48;
+            position: absolute;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        .manual-valve-label {
+            background: linear-gradient(145deg, #dc143c, #b22222);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            border: 3px solid #8b0000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            margin-top: 15px;
+        }
+
+        .direction-labels {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+        }
+
+        .auto-label {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .manual-label-dir {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .auto-arrow {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: #000;
+        }
+
+        .manual-arrow {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: #000;
+        }
+
+        /* 인터랙티브 효과 */
+        .solenoid-body:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s;
+        }
+
+        .cross-valve:hover {
+            transform: scale(1.05);
+            transition: all 0.3s;
+        }
+
+        .solenoid-body {
+            cursor: pointer;
+        }
+
+        .cross-valve {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagram-container">
+        <div class="title-banner">솔레노이드 밸브</div>
+
+        <div class="components-row">
+            <!-- 솔레노이드 밸브 3개 -->
+            <div class="solenoid-section">
+                <!-- 메인밸브 -->
+                <div class="solenoid-unit">
+                    <div class="position-indicators">
+                        <span>0</span>
+                        <span>1</span>
+                    </div>
+                    <div class="solenoid-body">
+                        <div class="solenoid-screw"></div>
+                    </div>
+                    <div class="red-label">메인밸브</div>
+                </div>
+
+                <!-- 펌프드레인 -->
+                <div class="solenoid-unit">
+                    <div class="position-indicators">
+                        <span>0</span>
+                        <span>1</span>
+                    </div>
+                    <div class="solenoid-body">
+                        <div class="solenoid-screw"></div>
+                    </div>
+                    <div class="red-label">펌프드레인</div>
+                </div>
+
+                <!-- 자동보수구 -->
+                <div class="solenoid-unit">
+                    <div class="position-indicators">
+                        <span>0</span>
+                        <span>1</span>
+                    </div>
+                    <div class="solenoid-body">
+                        <div class="solenoid-screw"></div>
+                    </div>
+                    <div class="red-label">자동보수구</div>
+                </div>
+            </div>
+
+            <!-- 수동조작밸브 -->
+            <div class="manual-valve-section">
+                <div class="cross-valve" id="crossValve">
+                    <div class="direction-labels">
+                        <div class="auto-label">자동</div>
+                        <div class="auto-arrow">↑</div>
+                        <div class="manual-label-dir">수동</div>
+                        <div class="manual-arrow">↓</div>
+                    </div>
+                    <div class="valve-horizontal"></div>
+                    <div class="valve-vertical"></div>
+                    <div class="valve-center"></div>
+                </div>
+                <div class="manual-valve-label">수동조작밸브</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 솔레노이드 밸브 클릭 효과
+        const solenoidBodies = document.querySelectorAll('.solenoid-body');
+        solenoidBodies.forEach(body => {
+            body.addEventListener('click', function() {
+                if (this.style.background.includes('rgb(76, 175, 80)')) {
+                    this.style.background = 'linear-gradient(180deg, #6b5a45 0%, #4a3d2f 100%)';
+                } else {
+                    this.style.background = 'linear-gradient(180deg, #4CAF50 0%, #388E3C 100%)';
+                }
+            });
+        });
+
+        // 수동조작밸브 회전 효과
+        const crossValve = document.getElementById('crossValve');
+        let rotation = 0;
+
+        crossValve.addEventListener('click', function() {
+            rotation += 90;
+            const horizontal = this.querySelector('.valve-horizontal');
+            const vertical = this.querySelector('.valve-vertical');
+
+            horizontal.style.transform = `rotate(${rotation}deg)`;
+            vertical.style.transform = `rotate(${rotation}deg)`;
+            horizontal.style.transition = 'transform 0.3s';
+            vertical.style.transition = 'transform 0.3s';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비상(이머전시) 조작 판넬</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .panel-outer {
+            background: linear-gradient(180deg, #8b9a9d 0%, #6d7a7d 100%);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-container {
+            background: linear-gradient(180deg, #5a6d7d 0%, #475867 100%);
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 900px;
+            border: 4px solid #34495e;
+        }
+
+        .panel-header {
+            color: #c0d0e0;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .delay-note {
+            color: #fff;
+            font-size: 13px;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+
+        .panel-grid {
+            background: linear-gradient(180deg, #6a7d8d 0%, #556677 100%);
+            border: 5px solid #2c3e50;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .three-row-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: auto auto;
+            gap: 15px;
+        }
+
+        .btn-with-led {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .led-indicator {
+            width: 14px;
+            height: 14px;
+            background: #333;
+            border-radius: 50%;
+            border: 2px solid #555;
+            box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.6);
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .led-indicator.active {
+            background: radial-gradient(circle at 30% 30%, #ffff00, #ffaa00);
+            border-color: #ff0;
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.9), 0 0 25px rgba(255, 255, 0, 0.7), inset 0 0 8px rgba(255, 255, 255, 0.8);
+            animation: ledGlow 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes ledGlow {
+            from {
+                box-shadow: 0 0 15px rgba(255, 255, 0, 0.9), 0 0 25px rgba(255, 255, 0, 0.7), inset 0 0 8px rgba(255, 255, 255, 0.8);
+            }
+            to {
+                box-shadow: 0 0 25px rgba(255, 255, 0, 1), 0 0 35px rgba(255, 255, 0, 0.9), inset 0 0 12px rgba(255, 255, 255, 1);
+            }
+        }
+
+        .em-button {
+            width: 100%;
+            height: 100px;
+            border-radius: 12px;
+            border: 4px solid #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 24px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .em-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .em-button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-red {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            border-color: #8b0000;
+        }
+
+        .btn-orange {
+            background: linear-gradient(145deg, #ff8c42, #e67e22);
+            border-color: #d35400;
+        }
+
+        .btn-black {
+            background: linear-gradient(145deg, #34495e, #2c3e50);
+            border-color: #1a252f;
+        }
+
+        .btn-blue {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            border-color: #1a5490;
+        }
+
+        .btn-green {
+            background: linear-gradient(145deg, #27ae60, #229954);
+            border-color: #1e8449;
+        }
+
+        .btn-label {
+            font-size: 13px;
+            margin-top: 5px;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        .side-label {
+            position: absolute;
+            right: -180px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #c0d0e0;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: left;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+
+        .button-row {
+            position: relative;
+        }
+
+        .empty-space {
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel-outer">
+        <div class="panel-container">
+            <div class="panel-header">비상(이머전시) 조작 판넬</div>
+            <div class="delay-note">지연3초 작동</div>
+
+            <div class="panel-grid">
+                <div class="three-row-grid">
+                    <!-- Row 1: 상단 버튼들 -->
+                    <div class="btn-with-led">
+                        <div id="mainPowerLed" class="led-indicator"></div>
+                        <button id="mainPowerOn" class="em-button btn-red">
+                            ON
+                            <span class="btn-label">판넬전원</span>
+                        </button>
+                    </div>
+
+                    <div class="btn-with-led">
+                        <div id="ptoStartLed" class="led-indicator"></div>
+                        <button id="ptoStart" class="em-button btn-orange">
+                            작동
+                            <span class="btn-label">P.T.O</span>
+                        </button>
+                    </div>
+
+                    <div class="btn-with-led">
+                        <div id="valveOpenLed" class="led-indicator"></div>
+                        <button id="valveOpen" class="em-button btn-orange">
+                            열림
+                            <span class="btn-label">메인밸브</span>
+                        </button>
+                    </div>
+
+                    <div class="btn-with-led">
+                        <div id="rpmUpLed" class="led-indicator"></div>
+                        <button id="rpmUp" class="em-button btn-red">
+                            올림
+                            <span class="btn-label">RPM</span>
+                        </button>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; grid-row: 1 / 3; align-self: center;">
+                        <div style="color: #c0d0e0; font-size: 11px; font-weight: bold; text-align: center;">VACUUM PUMP</div>
+                        <div class="btn-with-led">
+                            <div id="vacuumPumpLed" class="led-indicator"></div>
+                            <button id="vacuumPump" class="em-button btn-red" style="height: 80px;">
+                                비상<br>작동
+                            </button>
+                        </div>
+                        <div style="color: #c0d0e0; font-size: 11px; font-weight: bold; text-align: center; line-height: 1.3;">AUTO PRIMING<br>EMERGENCY SYSTEM</div>
+                    </div>
+
+                    <!-- Row 2: 하단 버튼들 -->
+                    <div class="btn-with-led">
+                        <div class="led-indicator"></div>
+                        <button class="em-button btn-black">
+                            OFF
+                            <span class="btn-label">판넬전원</span>
+                        </button>
+                    </div>
+
+                    <div class="btn-with-led">
+                        <div class="led-indicator"></div>
+                        <button class="em-button btn-blue">
+                            정지
+                            <span class="btn-label">P.T.O</span>
+                        </button>
+                    </div>
+
+                    <div class="btn-with-led">
+                        <div class="led-indicator"></div>
+                        <button class="em-button btn-blue">
+                            닫림
+                            <span class="btn-label">메인밸브</span>
+                        </button>
+                    </div>
+
+                    <div class="btn-with-led">
+                        <div class="led-indicator"></div>
+                        <button class="em-button btn-green">
+                            내림
+                            <span class="btn-label">RPM</span>
+                        </button>
+                    </div>
+
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 판넬전원(ON) 버튼 클릭 시 LED 토글
+        document.getElementById('mainPowerOn').addEventListener('click', function() {
+            const led = document.getElementById('mainPowerLed');
+            led.classList.toggle('active');
+        });
+
+        // PTO 작동 버튼 클릭 시 LED 토글
+        document.getElementById('ptoStart').addEventListener('click', function() {
+            const led = document.getElementById('ptoStartLed');
+            led.classList.toggle('active');
+        });
+
+        // 메인밸브 열림 버튼 클릭 시 LED 토글
+        document.getElementById('valveOpen').addEventListener('click', function() {
+            const led = document.getElementById('valveOpenLed');
+            led.classList.toggle('active');
+        });
+
+        // RPM 올림 버튼 - 누르는 동안만 LED 켜짐
+        const rpmUpBtn = document.getElementById('rpmUp');
+        const rpmUpLed = document.getElementById('rpmUpLed');
+
+        rpmUpBtn.addEventListener('mousedown', function() {
+            rpmUpLed.classList.add('active');
+        });
+
+        rpmUpBtn.addEventListener('mouseup', function() {
+            rpmUpLed.classList.remove('active');
+        });
+
+        rpmUpBtn.addEventListener('mouseleave', function() {
+            rpmUpLed.classList.remove('active');
+        });
+
+        // 터치 이벤트 지원 (모바일)
+        rpmUpBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            rpmUpLed.classList.add('active');
+        });
+
+        rpmUpBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            rpmUpLed.classList.remove('active');
+        });
+
+        // 비상작동 버튼 - 누르는 동안만 LED 켜짐
+        const vacuumPumpBtn = document.getElementById('vacuumPump');
+        const vacuumPumpLed = document.getElementById('vacuumPumpLed');
+
+        vacuumPumpBtn.addEventListener('mousedown', function() {
+            vacuumPumpLed.classList.add('active');
+        });
+
+        vacuumPumpBtn.addEventListener('mouseup', function() {
+            vacuumPumpLed.classList.remove('active');
+        });
+
+        vacuumPumpBtn.addEventListener('mouseleave', function() {
+            vacuumPumpLed.classList.remove('active');
+        });
+
+        // 터치 이벤트 지원 (모바일)
+        vacuumPumpBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            vacuumPumpLed.classList.add('active');
+        });
+
+        vacuumPumpBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            vacuumPumpLed.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
