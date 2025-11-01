@@ -13,12 +13,14 @@
 
         body {
             font-family: 'Malgun Gothic', 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            min-height: 100vh;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            height: auto;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            overflow: visible;
         }
 
         .diagram-container {
@@ -28,8 +30,9 @@
             padding: 40px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
             width: 1050px;
-            transform: scale(0.75);
-            transform-origin: center center;
+            transform: scale(0.7728);
+            transform-origin: top center;
+            margin: 0 auto;
         }
 
         .title-banner {
@@ -293,7 +296,7 @@
                 <!-- 비상PTO 버튼 -->
                 <div class="emergency-pto-unit">
                     <div class="emergency-pto-button" id="emergencyPTO">
-                        <span class="pto-text">소방차마다<br>위치 상이</span>
+                        <span class="pto-text" id="ptoText"></span>
                     </div>
                     <div class="red-label">비상PTO</div>
                 </div>
@@ -355,6 +358,7 @@
     <script>
         // 비상PTO 버튼 클릭 효과
         const emergencyPTO = document.getElementById('emergencyPTO');
+        const ptoText = document.getElementById('ptoText');
         let isPTOActive = false;
 
         emergencyPTO.addEventListener('click', function() {
@@ -362,11 +366,13 @@
                 // 활성화 → 비활성화
                 this.style.background = 'linear-gradient(145deg, #e74c3c, #c0392b)';
                 this.style.borderColor = '#8b0000';
+                ptoText.textContent = '';
                 isPTOActive = false;
             } else {
                 // 비활성화 → 활성화
                 this.style.background = 'linear-gradient(145deg, #4CAF50, #388E3C)';
                 this.style.borderColor = '#1b5e20';
+                ptoText.textContent = 'ON';
                 isPTOActive = true;
             }
         });

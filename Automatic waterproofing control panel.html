@@ -13,12 +13,14 @@
 
         body {
             font-family: 'Malgun Gothic', 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            min-height: 100vh;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            height: auto;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            overflow: visible;
         }
 
         .panel-outer {
@@ -26,8 +28,11 @@
             border-radius: 20px;
             padding: 15px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            transform: scale(0.75);
-            transform-origin: center center;
+            transform: scale(0.7728);
+            transform-origin: top center;
+            margin: 0 auto;
+            width: fit-content;
+            height: auto;
         }
 
         .panel-container {
@@ -510,8 +515,6 @@
 <body>
     <div class="panel-outer">
         <div class="panel-container">
-            <div class="panel-header">자동방수 조작 패널</div>
-
             <div class="main-grid">
                 <!-- 좌측 섹션 -->
                 <div style="display: flex; flex-direction: column;">

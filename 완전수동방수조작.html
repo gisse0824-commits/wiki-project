@@ -13,12 +13,14 @@
 
         body {
             font-family: 'Malgun Gothic', 'Arial', sans-serif;
-            background: linear-gradient(135deg, #8a8a8a 0%, #a8a8a8 100%);
-            padding: 20px;
-            min-height: 100vh;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            height: auto;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            overflow: visible;
         }
 
         .container {
@@ -27,8 +29,9 @@
             border-radius: 12px;
             padding: 60px;
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
-            transform: scale(0.75);
-            transform-origin: center center;
+            transform: scale(0.5625);
+            transform-origin: top center;
+            margin: 0 auto;
             position: relative;
         }
 
@@ -244,38 +247,6 @@
             margin-left: 8px;
         }
 
-        /* 상태 표시 */
-        .status-display {
-            margin-top: 50px;
-            text-align: center;
-            background: linear-gradient(135deg, #34495e, #2c3e50);
-            padding: 20px 40px;
-            border-radius: 25px;
-            border: 4px solid #1a252f;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .status-text {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .status-angle {
-            font-size: 22px;
-            font-weight: bold;
-            color: #f39c12;
-        }
-
-        .status-state {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-
-        .state-closed { color: #e74c3c; }
-        .state-open { color: #2ecc71; }
 
         /* 가이드 */
         .guide {
@@ -461,18 +432,10 @@
             </div>
         </div>
 
-        <!-- 상태 표시 -->
-        <div class="status-display">
-            <div class="status-text">밸브 상태</div>
-            <div class="status-angle" id="angleDisplay">열림 → (각도: 135°)</div>
-            <div class="status-state state-open" id="stateDisplay">개방 (OPEN)</div>
-        </div>
     </div>
 
     <script>
         const leverHandle = document.getElementById('leverHandle');
-        const angleDisplay = document.getElementById('angleDisplay');
-        const stateDisplay = document.getElementById('stateDisplay');
 
         let currentAngle = 135; // 초기 각도 (닫힘 상태 - 135도 오른쪽 아래)
         let isDragging = false;
@@ -500,26 +463,6 @@
             return angle;
         }
 
-        // 상태 업데이트
-        function updateStatus(angle) {
-            // 135~225도 범위: 원래 작동 범위
-            // 135~180도 범위면 열림, 180~225도 범위면 닫힘
-            if (angle >= 135 && angle <= 180) {
-                angleDisplay.textContent = `열림 → (각도: ${Math.round(angle)}°)`;
-                stateDisplay.textContent = '개방 (OPEN)';
-                stateDisplay.className = 'status-state state-open';
-            } else if (angle > 180 && angle <= 225) {
-                angleDisplay.textContent = `← 닫힘 (각도: ${Math.round(angle)}°)`;
-                stateDisplay.textContent = '폐쇄 (CLOSED)';
-                stateDisplay.className = 'status-state state-closed';
-            } else {
-                // 범위 밖: 각도만 표시
-                angleDisplay.textContent = `각도: ${Math.round(angle)}°`;
-                stateDisplay.textContent = '범위 외';
-                stateDisplay.className = 'status-state';
-                stateDisplay.style.color = '#f39c12';
-            }
-        }
 
         // 드래그 시작
         function startDrag(e) {
@@ -539,7 +482,6 @@
 
             currentAngle = angle;
             leverHandle.style.transform = `translate(0, -40px) rotate(${angle}deg)`;
-            updateStatus(angle);
         }
 
         // 드래그 종료
@@ -558,9 +500,6 @@
         leverHandle.addEventListener('touchstart', startDrag);
         document.addEventListener('touchmove', drag);
         document.addEventListener('touchend', stopDrag);
-
-        // 초기 상태 설정
-        updateStatus(currentAngle);
 
         // 레버에 호버 효과
         leverHandle.addEventListener('mouseenter', function() {
