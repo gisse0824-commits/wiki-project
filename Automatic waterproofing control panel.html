@@ -26,6 +26,8 @@
             border-radius: 20px;
             padding: 15px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.75);
+            transform-origin: center center;
         }
 
         .panel-container {
@@ -56,7 +58,7 @@
             border: 5px solid #4a6fa5;
             border-radius: 12px;
             padding: 12px;
-            max-height: calc(100vh - 150px);
+            overflow: hidden;
         }
 
         .section {
@@ -510,9 +512,9 @@
         <div class="panel-container">
             <div class="panel-header">자동방수 조작 패널</div>
 
-            <div class="main-grid" style="align-items: stretch;">
+            <div class="main-grid">
                 <!-- 좌측 섹션 -->
-                <div style="display: flex; flex-direction: column; height: 100%;">
+                <div style="display: flex; flex-direction: column;">
                     <!-- 배터리 전압계 -->
                     <div class="section-light" style="margin-bottom: 8px;">
                         <div class="label-text">배터리 전압계</div>
@@ -577,7 +579,7 @@
                 </div>
 
                 <!-- 중앙 섹션 -->
-                <div style="display: flex; flex-direction: column; height: 100%;">
+                <div style="display: flex; flex-direction: column;">
                     <!-- 수압계 -->
                     <div class="section-light" style="flex: 1; display: flex; flex-direction: column; margin-bottom: 8px;">
                         <div class="rpm-section-title">전자식 수압계</div>
@@ -629,7 +631,7 @@
                 </div>
 
                 <!-- 우측 섹션 -->
-                <div style="display: flex; flex-direction: column; height: 100%;">
+                <div style="display: flex; flex-direction: column;">
                     <!-- 제조사 정보 -->
                     <div class="info-box" style="margin-bottom: 8px;">
                         <div class="info-title">운전석 조작반</div>
@@ -655,7 +657,7 @@
                             </div>
                         </div>
 
-                        <div class="control-btn btn-green full-width-btn" style="padding: 12px 4px; margin: 12px 0;">메인밸브<br>닫힘</div>
+                        <div id="mainValveClose" class="control-btn btn-green full-width-btn" style="padding: 12px 4px; margin: 12px 0;">메인밸브<br>닫힘</div>
 
                         <div class="btn-grid-3" style="margin: 12px 0;">
                             <div class="control-btn btn-empty" style="padding: 12px 4px;"></div>
@@ -739,6 +741,15 @@
                 });
             }
         });
+
+        // 메인밸브 닫힘 버튼 클릭 시 자동방수작동 LED 끄기
+        const mainValveCloseBtn = document.getElementById('mainValveClose');
+        if (mainValveCloseBtn) {
+            mainValveCloseBtn.addEventListener('click', function() {
+                // 모든 LED 끄기 (자동방수작동 포함)
+                clearAllActive();
+            });
+        }
     </script>
 </body>
 </html>
