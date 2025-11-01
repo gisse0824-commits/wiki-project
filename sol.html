@@ -28,6 +28,8 @@
             padding: 40px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
             width: 1050px;
+            transform: scale(0.75);
+            transform-origin: center center;
         }
 
         .title-banner {
@@ -145,18 +147,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-            width: 3px;
-            height: 20px;
-            background: #8b6914;
-        }
-
-        .solenoid-screw::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
+            transform: translate(-50%, -50%);
             width: 3px;
             height: 20px;
             background: #8b6914;
@@ -409,8 +400,11 @@
         const mainValve = document.getElementById('mainValve');
         const mainValveScrew = document.getElementById('mainValveScrew');
         const mainValvePosition1 = document.getElementById('mainValvePosition1');
-        let mainScrewRotation = 0;
+        let mainScrewRotation = -90; // 초기값 -90도로 설정 (빗금이 왼쪽, 0을 향함)
         let mainIsPosition1Red = false;
+
+        // 페이지 로드 시 초기 회전 적용
+        mainValveScrew.style.transform = `rotate(${mainScrewRotation}deg)`;
 
         mainValve.addEventListener('click', function() {
             // 나사 180도 시계방향 회전
@@ -435,8 +429,11 @@
         const pumpDrain = document.getElementById('pumpDrain');
         const pumpDrainScrew = document.getElementById('pumpDrainScrew');
         const pumpDrainPosition1 = document.getElementById('pumpDrainPosition1');
-        let pumpScrewRotation = 0;
+        let pumpScrewRotation = -90; // 초기값 -90도로 설정 (빗금이 왼쪽, 0을 향함)
         let pumpIsPosition1Red = false;
+
+        // 페이지 로드 시 초기 회전 적용
+        pumpDrainScrew.style.transform = `rotate(${pumpScrewRotation}deg)`;
 
         pumpDrain.addEventListener('click', function() {
             // 나사 180도 시계방향 회전
@@ -461,8 +458,11 @@
         const autoWaterSupply = document.getElementById('autoWaterSupply');
         const autoWaterSupplyScrew = document.getElementById('autoWaterSupplyScrew');
         const autoWaterSupplyPosition1 = document.getElementById('autoWaterSupplyPosition1');
-        let autoScrewRotation = 0;
+        let autoScrewRotation = -90; // 초기값 -90도로 설정 (빗금이 왼쪽, 0을 향함)
         let autoIsPosition1Red = false;
+
+        // 페이지 로드 시 초기 회전 적용
+        autoWaterSupplyScrew.style.transform = `rotate(${autoScrewRotation}deg)`;
 
         autoWaterSupply.addEventListener('click', function() {
             // 나사 180도 시계방향 회전
