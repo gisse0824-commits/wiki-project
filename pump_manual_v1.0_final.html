@@ -444,7 +444,7 @@
           meta:'시대별 차량 기술 발전 타임라인',
           body: () => /*html*/`
             <div class="grid">
-              <iframe src="TF/결과물/펌프차 운용 변천사.html" style="width: 100%; height: 1200px; border: none; border-radius: 12px;"></iframe>
+              <iframe src="./timeline.html" style="width: 100%; height: 1200px; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts"></iframe>
             </div>`
         },
         {
@@ -1342,43 +1342,61 @@
         a.addEventListener('click', (e)=>{
           e.preventDefault();
 
-          // 모든 섹션 숨기고 선택된 섹션만 표시
-          document.querySelectorAll('[data-section]').forEach(section => {
-            section.style.display = section.id === s.id ? '' : 'none';
-          });
-
-          const targetEl = document.getElementById(s.id);
-          if(targetEl) {
-            targetEl.scrollIntoView({behavior:'smooth', block:'start'});
-            history.pushState(null, null, `#${s.id}`);
-
-            // 차량소개 및 제원 섹션이면 비디오 자동 재생
-            if(s.id === 'vehicle') {
-              setTimeout(() => {
-                const video = document.getElementById('vehicleIntroVideo');
-                if(video) {
-                  video.play().catch(err => console.log('Auto-play prevented:', err));
-                }
-              }, 300);
-            }
-          }
-
-          state.currentSection = s.id;
-          localStorage.setItem('currentSection', s.id);
-          updateCurrentTOC();
-
-          // 하위 항목 토글
-          if(s.subItems) {
+          // 하위 항목이 있는 경우 첫 번째 하위 항목 표시
+          if(s.subItems && s.subItems.length > 0) {
+            // 하위 항목 토글
             const subItemsDiv = a.nextElementSibling;
             if(subItemsDiv && subItemsDiv.classList.contains('sub-items')) {
+              const isCurrentlyShown = subItemsDiv.classList.contains('show');
               subItemsDiv.classList.toggle('show');
+
+              // 토글로 보여지는 경우 첫 번째 소분류 표시
+              if(!isCurrentlyShown) {
+                const firstSubId = s.subItems[0].id;
+                document.querySelectorAll('[data-section]').forEach(section => {
+                  section.style.display = section.id === firstSubId ? '' : 'none';
+                });
+                const firstSubEl = document.getElementById(firstSubId);
+                if(firstSubEl) {
+                  firstSubEl.scrollIntoView({behavior:'smooth', block:'start'});
+                  history.pushState(null, null, `#${firstSubId}`);
+                }
+                state.currentSection = firstSubId;
+                localStorage.setItem('currentSection', firstSubId);
+                updateCurrentTOC();
+              }
             }
+          } else {
+            // 하위 항목이 없는 일반 섹션
+            document.querySelectorAll('[data-section]').forEach(section => {
+              section.style.display = section.id === s.id ? '' : 'none';
+            });
+
+            const targetEl = document.getElementById(s.id);
+            if(targetEl) {
+              targetEl.scrollIntoView({behavior:'smooth', block:'start'});
+              history.pushState(null, null, `#${s.id}`);
+
+              // 차량소개 및 제원 섹션이면 비디오 자동 재생
+              if(s.id === 'intro') {
+                setTimeout(() => {
+                  const video = document.getElementById('vehicleIntroVideo');
+                  if(video) {
+                    video.play().catch(err => console.log('Auto-play prevented:', err));
+                  }
+                }, 300);
+              }
+            }
+
+            state.currentSection = s.id;
+            localStorage.setItem('currentSection', s.id);
+            updateCurrentTOC();
           }
         });
         toc.appendChild(a);
 
         // 하위 항목 추가
-        if(s.subItems && (state.openManual === 'pump' || state.openManual === 'maintenance')) {
+        if(s.subItems) {
           const subItemsDiv = document.createElement('div');
           subItemsDiv.className = 'sub-items';
           s.subItems.forEach(sub => {
