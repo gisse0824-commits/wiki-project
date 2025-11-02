@@ -176,6 +176,7 @@
             align-items: center;
             gap: 10px;
             position: relative;
+            padding-top: 61px;
         }
 
         .straight-valve {
@@ -188,12 +189,16 @@
         }
 
         .valve-lever {
-            width: 140px;
+            width: 70px;
             height: 35px;
             background: linear-gradient(90deg, #e74c3c 0%, #c0392b 50%, #e74c3c 100%);
             border: 3px solid #8b0000;
             border-radius: 6px;
             position: absolute;
+            left: 50%;
+            top: 50%;
+            transform-origin: 0 center;
+            transform: translate(0, -50%) rotate(270deg);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s;
         }
@@ -212,13 +217,15 @@
         .manual-valve-label {
             background: linear-gradient(145deg, #dc143c, #b22222);
             color: white;
-            padding: 8px 20px;
+            padding: 8px 18px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: bold;
             border: 3px solid #8b0000;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             margin-top: 15px;
+            text-align: center;
+            min-width: 110px;
         }
 
         .direction-labels {
@@ -313,28 +320,31 @@
                     <div class="red-label">메인밸브</div>
                 </div>
 
-                <!-- 펌프드레인 -->
-                <div class="solenoid-unit">
-                    <div class="position-indicators">
-                        <span>0</span>
-                        <span id="pumpDrainPosition1">1</span>
+                <!-- 펌프드레인 + 자동보수구 그룹 -->
+                <div style="display: flex; gap: 25px;">
+                    <!-- 펌프드레인 -->
+                    <div class="solenoid-unit">
+                        <div class="position-indicators">
+                            <span>0</span>
+                            <span id="pumpDrainPosition1">1</span>
+                        </div>
+                        <div class="solenoid-body" id="pumpDrain">
+                            <div class="solenoid-screw" id="pumpDrainScrew"></div>
+                        </div>
+                        <div class="red-label">드레인</div>
                     </div>
-                    <div class="solenoid-body" id="pumpDrain">
-                        <div class="solenoid-screw" id="pumpDrainScrew"></div>
-                    </div>
-                    <div class="red-label">펌프드레인</div>
-                </div>
 
-                <!-- 자동보수구 -->
-                <div class="solenoid-unit">
-                    <div class="position-indicators">
-                        <span>0</span>
-                        <span id="autoWaterSupplyPosition1">1</span>
+                    <!-- 자동보수구 -->
+                    <div class="solenoid-unit">
+                        <div class="position-indicators">
+                            <span>0</span>
+                            <span id="autoWaterSupplyPosition1">1</span>
+                        </div>
+                        <div class="solenoid-body" id="autoWaterSupply">
+                            <div class="solenoid-screw" id="autoWaterSupplyScrew"></div>
+                        </div>
+                        <div class="red-label">보수구</div>
                     </div>
-                    <div class="solenoid-body" id="autoWaterSupply">
-                        <div class="solenoid-screw" id="autoWaterSupplyScrew"></div>
-                    </div>
-                    <div class="red-label">자동보수구</div>
                 </div>
             </div>
 
@@ -389,17 +399,24 @@
             });
         });
 
-        // 수동조작밸브 회전 효과 (90도씩 회전)
+        // 수동조작밸브 회전 효과 (자동/수동 토글)
         const straightValve = document.getElementById('straightValve');
         const valveLever = document.getElementById('valveLever');
-        let rotation = 90; // 초기값을 90도로 설정 (자동 방향)
+        let isAuto = true; // 초기 상태: 자동
 
-        // 페이지 로드 시 레버를 자동 방향(위쪽)으로 설정
-        valveLever.style.transform = `rotate(${rotation}deg)`;
+        // 페이지 로드 시 레버를 자동 방향(아래쪽에서 위를 가리킴)으로 설정
+        valveLever.style.transform = `translate(0, -50%) rotate(270deg)`;
 
         straightValve.addEventListener('click', function() {
-            rotation += 90;
-            valveLever.style.transform = `rotate(${rotation}deg)`;
+            if (isAuto) {
+                // 자동 → 수동 (시계방향으로 90도 회전, 360도)
+                valveLever.style.transform = `translate(0, -50%) rotate(360deg)`;
+                isAuto = false;
+            } else {
+                // 수동 → 자동 (시계 반대방향으로 90도 회전, 270도)
+                valveLever.style.transform = `translate(0, -50%) rotate(270deg)`;
+                isAuto = true;
+            }
         });
 
         // 메인밸브 클릭 시 나사 180도 회전 및 "1" 색상 토글
