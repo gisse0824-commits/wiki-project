@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보수구 vs 흡수구 vs 중계구 비교 매뉴얼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 20px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -3px;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+            color: #1e3c72;
+        }
+
+        .tab.active {
+            color: #1e3c72;
+            border-bottom-color: #1e3c72;
+            background: white;
+        }
+
+        .content {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.5s;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 3px solid;
+            transition: all 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .summary-card.suction {
+            border-color: #4169E1;
+        }
+
+        .summary-card.supply {
+            border-color: #28a745;
+        }
+
+        .summary-card.relay {
+            border-color: #ff6b6b;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-right: 15px;
+        }
+
+        .card-title {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .card-subtitle {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .flow-diagram {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            border: 2px solid #dee2e6;
+        }
+
+        .flow-arrow {
+            display: inline-block;
+            margin: 0 10px;
+            color: #495057;
+            font-size: 1.5em;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 20px;
+            text-align: left;
+            font-size: 1.1em;
+        }
+
+        .comparison-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .row-header {
+            font-weight: 600;
+            background: #f8f9fa;
+            color: #1e3c72;
+        }
+
+        .visual-diagram {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+
+        .checklist {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid;
+        }
+
+        .checklist.suction {
+            border-color: #4169E1;
+        }
+
+        .checklist.supply {
+            border-color: #28a745;
+        }
+
+        .checklist.relay {
+            border-color: #ff6b6b;
+        }
+
+        .checklist-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1e3c72;
+        }
+
+        .checklist-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: start;
+        }
+
+        .checklist-item::before {
+            content: "✓";
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 3px solid #f39c12;
+        }
+
+        .tip-header {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .tip-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .tip-item::before {
+            content: "💡";
+            font-size: 2em;
+            margin-right: 15px;
+        }
+
+        .mistake-box {
+            background: #fff5f5;
+            border: 3px solid #e74c3c;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .mistake-header {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .mistake-header::before {
+            content: "⚠️";
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .mistake-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.9em;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 12px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+
+        .diagram-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .port-diagram {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>보수구 vs 흡수구 vs 중계구</h1>
+            <p>소방차 급수 포트 비교 매뉴얼</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab(0)">개요</button>
+            <button class="tab" onclick="showTab(1)">상세 비교표</button>
+            <button class="tab" onclick="showTab(2)">현장 팁</button>
+        </div>
+
+        <!-- Tab 0: 개요 -->
+        <div class="content active">
+            <h2 style="color: #1e3c72; margin-bottom: 30px; font-size: 2em;">핵심 개념 비교</h2>
+
+            <div class="summary-cards">
+                <div class="summary-card suction">
+                    <div class="card-header">
+                        <div class="card-icon">🌊</div>
+                        <div>
+                            <div class="card-title" style="color: #4169E1;">흡수구</div>
+                            <div class="card-subtitle">吸水口</div>
+                        </div>
+                    </div>
+                    <div class="flow-diagram" style="border-color: #4169E1;">
+                        외부 수원<span class="flow-arrow">→</span>펌프
+                    </div>
+                    <p style="font-size: 1.1em; line-height: 1.6; margin-top: 15px;">
+                        <strong>밖에서 물을 빨아들이는 구멍</strong><br>
+                        하천, 저수조 등 저압 수원에서<br>
+                        펌프로 물을 흡입함
+                    </p>
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <strong style="color: #4169E1;">주 용도:</strong><br>
+                        드래프팅, 저압 수원 연결
+                    </div>
+                </div>
+
+                <div class="summary-card supply">
+                    <div class="card-header">
+                        <div class="card-icon">🚰</div>
+                        <div>
+                            <div class="card-title" style="color: #28a745;">보수구</div>
+                            <div class="card-subtitle">補水口</div>
+                        </div>
+                    </div>
+                    <div class="flow-diagram" style="border-color: #28a745;">
+                        외부 수원<span class="flow-arrow">→</span>차량 탱크
+                    </div>
+                    <p style="font-size: 1.1em; line-height: 1.6; margin-top: 15px;">
+                        <strong>차량 탱크에 물을 보충하는 구멍</strong><br>
+                        외부에서 직접 물탱크를 채움
+                    </p>
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <strong style="color: #28a745;">주 용도:</strong><br>
+                        장시간 현장 운용 중 탱크 보충
+                    </div>
+                </div>
+
+                <div class="summary-card relay">
+                    <div class="card-header">
+                        <div class="card-icon">🔄</div>
+                        <div>
+                            <div class="card-title" style="color: #ff6b6b;">중계구</div>
+                            <div class="card-subtitle">中継口</div>
+                        </div>
+                    </div>
+                    <div class="flow-diagram" style="border-color: #ff6b6b;">
+                        외부(압력)<span class="flow-arrow">→</span>펌프<span class="flow-arrow">→</span>방수
+                    </div>
+                    <p style="font-size: 1.1em; line-height: 1.6; margin-top: 15px;">
+                        <strong>받아서 다시 보내는 구멍</strong><br>
+                        다른 펌프차로부터 받아<br>
+                        중계·증압하여 송수함
+                    </p>
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <strong style="color: #ff6b6b;">주 용도:</strong><br>
+                        원거리·고지 방수, 릴레이 송수
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-header">현장 감별 팁 (외워두기!)</div>
+                <div class="tip-item">
+                    <span>"<strong>펌프로 끌어올린다</strong>" → 흡수구</span>
+                </div>
+                <div class="tip-item">
+                    <span>"<strong>탱크만 채운다</strong>" → 보수구</span>
+                </div>
+                <div class="tip-item">
+                    <span>"<strong>받아서 또 보낸다(릴레이)</strong>" → 중계구</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 1: 상세 비교표 -->
+        <div class="content">
+            <h2 style="color: #1e3c72; margin-bottom: 30px; font-size: 2em;">상세 비교표</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">항목</th>
+                        <th style="width: 27%;">흡수구 (吸水口)</th>
+                        <th style="width: 27%;">보수구 (補水口)</th>
+                        <th style="width: 26%;">중계구 (中継口)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="row-header">기본 개념</td>
+                        <td>외부 수원(하천·저수조·저압 소화전 등)에서 펌프로 흡수함</td>
+                        <td>외부에서 차량 탱크로 직접 보충함</td>
+                        <td>타 펌프차(또는 고압 수원)로부터 받아 중계·증압함</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">물 흐름</td>
+                        <td><strong style="color: #4169E1;">외부 → 펌프</strong></td>
+                        <td><strong style="color: #28a745;">외부 → 탱크</strong></td>
+                        <td><strong style="color: #ff6b6b;">외부(압력) → 펌프 → 방수/다음 차량</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">펌프 프라이밍</td>
+                        <td><span style="color: #e74c3c; font-weight: 600;">필요함</span> (프라이머 사용)</td>
+                        <td><span style="color: #28a745; font-weight: 600;">불필요함</span> (탱크로 직입)</td>
+                        <td>상황에 따라 불필요함 (이미 압력 수원)</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">주 사용 상황</td>
+                        <td>드래프팅, 저압 수원 연결</td>
+                        <td>장시간 현장 운용 중 탱크 보충</td>
+                        <td>원거리·고지 방수, 릴레이 송수</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">사용 호스/구경</td>
+                        <td>경질흡수호스 (스트레이너 필수), 대구경</td>
+                        <td>일반 호스 (현장 관행 구경 사용)</td>
+                        <td>대구경 송수/이송 호스</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">밸브/계기 주의</td>
+                        <td>흡수밸브·에어제거, 진공 유지</td>
+                        <td>탱크 보수밸브, 오버플로우 확인</td>
+                        <td>흡·토출 압력계 모니터, 캐비테이션 방지</td>
+                    </tr>
+                    <tr>
+                        <td class="row-header">대표 리스크</td>
+                        <td>공기 혼입, 흡상 실패</td>
+                        <td>탱크 과충수/넘침, 차량 주변 미끄럼</td>
+                        <td>과압·수격작용, 유량 불일치로 압력불안정</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tab 2: 현장 팁 -->
+        <div class="content">
+            <h2 style="color: #1e3c72; margin-bottom: 30px; font-size: 2em;">현장 감별 팁 & 주의사항</h2>
+
+            <div class="tip-box">
+                <div class="tip-header">빠른 구분법 (외워두기!)</div>
+                <div class="tip-item">
+                    <span>"<strong>펌프로 끌어올린다</strong>" → <span style="color: #4169E1;">흡수구</span></span>
+                </div>
+                <div class="tip-item">
+                    <span>"<strong>탱크만 채운다</strong>" → <span style="color: #28a745;">보수구</span></span>
+                </div>
+                <div class="tip-item">
+                    <span>"<strong>받아서 또 보낸다(릴레이)</strong>" → <span style="color: #ff6b6b;">중계구</span></span>
+                </div>
+            </div>
+
+            <h3 style="color: #1e3c72; margin: 40px 0 20px 0; font-size: 1.8em;">자주 하는 실수</h3>
+
+            <div class="mistake-box">
+                <div class="mistake-header">실수 1: 보수구 연결 후 즉시 방수 기대</div>
+                <div class="mistake-item">
+                    <strong>문제:</strong> 보수구는 탱크만 채울 뿐, 방수는 펌프 라인 세팅이 따로 필요함
+                </div>
+                <div class="mistake-item">
+                    <strong>해결:</strong> 보수구는 탱크 보충용, 방수는 별도 흡수구/중계구 사용
+                </div>
+            </div>
+
+            <div class="mistake-box">
+                <div class="mistake-header">실수 2: 흡수구 사용 시 프라이밍 부족</div>
+                <div class="mistake-item">
+                    <strong>문제:</strong> 공기 혼입으로 유량 급감함
+                </div>
+                <div class="mistake-item">
+                    <strong>해결:</strong> 프라이머로 충분히 에어제거 후 서서히 스로틀 업할 것
+                </div>
+            </div>
+
+            <div class="mistake-box">
+                <div class="mistake-header">실수 3: 중계 시 압력만 올림</div>
+                <div class="mistake-item">
+                    <strong>문제:</strong> 상·하류 유량 미스매치로 캐비테이션 또는 과압 발생함
+                </div>
+                <div class="mistake-item">
+                    <strong>해결:</strong> 송·수신 차량 간 압력/유량 합의 후 단계적 상승할 것
+                </div>
+            </div>
+
+            <h3 style="color: #1e3c72; margin: 40px 0 20px 0; font-size: 1.8em;">주요 리스크 요약</h3>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div style="background: #fff5f5; border: 3px solid #4169E1; border-radius: 15px; padding: 25px;">
+                    <h4 style="color: #4169E1; margin-bottom: 15px; font-size: 1.3em;">흡수구</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0;">⚠️ 공기 혼입</li>
+                        <li style="padding: 8px 0;">⚠️ 흡상 실패</li>
+                        <li style="padding: 8px 0;">⚠️ 캐비테이션</li>
+                    </ul>
+                </div>
+
+                <div style="background: #fff5f5; border: 3px solid #28a745; border-radius: 15px; padding: 25px;">
+                    <h4 style="color: #28a745; margin-bottom: 15px; font-size: 1.3em;">보수구</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0;">⚠️ 탱크 과충수/넘침</li>
+                        <li style="padding: 8px 0;">⚠️ 차량 주변 미끄럼</li>
+                        <li style="padding: 8px 0;">⚠️ 방수 지연 오해</li>
+                    </ul>
+                </div>
+
+                <div style="background: #fff5f5; border: 3px solid #ff6b6b; border-radius: 15px; padding: 25px;">
+                    <h4 style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.3em;">중계구</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0;">⚠️ 과압·수격작용</li>
+                        <li style="padding: 8px 0;">⚠️ 유량 불일치</li>
+                        <li style="padding: 8px 0;">⚠️ 압력 불안정</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.content');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            tabs[index].classList.add('active');
+            contents[index].classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소방차 주간점검 다이어그램</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #d32f2f;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        /* 점검 이유 섹션 */
+        .reasons-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 40px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .reasons-section h2 {
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px;
+        }
+
+        .reason-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 22px;
+            border-radius: 12px;
+            border-left: 5px solid #fff;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .reason-card:hover {
+            transform: translateX(8px);
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .reason-card strong {
+            display: block;
+            font-size: 1.15em;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+
+        .reason-card span {
+            font-size: 0.95em;
+            line-height: 1.5;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* 점검 항목 섹션 */
+        .inspection-section {
+            margin: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2em;
+            color: #333;
+            margin-bottom: 35px;
+            font-weight: 700;
+        }
+
+        .inspection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .inspection-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 2px solid #f0f0f0;
+        }
+
+        .inspection-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .card-header {
+            padding: 25px;
+            color: white;
+            font-size: 1.4em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+
+        .card-number {
+            background: rgba(255,255,255,0.3);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .header-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .header-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .header-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .header-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .header-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .header-7 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .header-8 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+
+        .card-content {
+            padding: 25px;
+            background: #fafafa;
+        }
+
+        .check-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .check-list li {
+            padding: 14px 16px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .check-list li:hover {
+            background: #f0f8f0;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .check-list li::before {
+            content: '✓';
+            background: #4caf50;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 0.85em;
+            margin-top: 2px;
+        }
+
+        /* 현장 노하우 섹션 */
+        .tips-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 35px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .tips-section h2 {
+            font-size: 2em;
+            color: #d32f2f;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .tip-card {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            padding: 22px;
+            border-radius: 12px;
+            border-left: 5px solid #ff6b6b;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tip-card:hover {
+            transform: scale(1.03);
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .tip-card strong {
+            display: block;
+            font-size: 1.15em;
+            margin-bottom: 10px;
+            color: #d32f2f;
+        }
+
+        /* 비교 테이블 */
+        .comparison-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-radius: 15px;
+        }
+
+        .comparison-section h3 {
+            text-align: center;
+            font-size: 1.8em;
+            color: #00695c;
+            margin-bottom: 25px;
+        }
+
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .comparison-col {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-col h4 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #00695c;
+            color: #00695c;
+        }
+
+        .comparison-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-col ul li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .comparison-col ul li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #00695c;
+        }
+
+        /* 반응형 */
+        @media (max-width: 1024px) {
+            .inspection-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .section-title {
+                font-size: 1.7em;
+            }
+
+            .inspection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reasons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .inspection-card {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .inspection-card:nth-child(1) { animation-delay: 0.05s; }
+        .inspection-card:nth-child(2) { animation-delay: 0.1s; }
+        .inspection-card:nth-child(3) { animation-delay: 0.15s; }
+        .inspection-card:nth-child(4) { animation-delay: 0.2s; }
+        .inspection-card:nth-child(5) { animation-delay: 0.25s; }
+        .inspection-card:nth-child(6) { animation-delay: 0.3s; }
+        .inspection-card:nth-child(7) { animation-delay: 0.35s; }
+        .inspection-card:nth-child(8) { animation-delay: 0.4s; }
+
+        .principle {
+            text-align: center;
+            font-size: 1.8em;
+            color: #d32f2f;
+            font-weight: bold;
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 3px dashed #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚒 소방차 주간점검 다이어그램</h1>
+        <p class="subtitle">일일점검보다 더 꼼꼼하고 심층적인 주간 안전점검</p>
+
+        <!-- 점검 이유 섹션 -->
+        <div class="reasons-section">
+            <h2>📋 왜 주간점검이 필요한가?</h2>
+            <div class="reasons-grid">
+                <div class="reason-card">
+                    <strong>🔍 장기적 안전성 확보</strong>
+                    <span>일일점검에서 발견하지 못한 누적된 이상(오일, 냉각수, 배터리, 각종 부품)을 심층적으로 확인해 고장·사고를 예방함</span>
+                </div>
+                <div class="reason-card">
+                    <strong>🔧 주요 소모품·부품 교체/보충</strong>
+                    <span>주유·오일·그리스·쓸모품 등 주간 주기로 보충 및 교체 시기를 놓치지 않음</span>
+                </div>
+                <div class="reason-card">
+                    <strong>📜 법적·행정적 의무</strong>
+                    <span>주간점검 기록과 장비상태를 관리해 감찰·검열 등에 근거자료 제공, 법적 분쟁 방지함</span>
+                </div>
+                <div class="reason-card">
+                    <strong>⚡ 신뢰도 및 임무 완수</strong>
+                    <span>잦은 출동과 가혹한 운용환경에서 차량·장비의 성능저하와 돌발고장을 미리 차단함, 국민·대원의 신뢰도를 높임</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 일일점검 vs 주간점검 비교 -->
+        <div class="comparison-section">
+            <h3>📊 일일점검 vs 주간점검 비교</h3>
+            <div class="comparison-table">
+                <div class="comparison-col">
+                    <h4>일일점검</h4>
+                    <ul>
+                        <li>매일 빠르게 점검</li>
+                        <li>기본적인 작동 확인</li>
+                        <li>표면적 이상 확인</li>
+                        <li>즉시 출동 가능 여부</li>
+                        <li>15-30분 소요</li>
+                    </ul>
+                </div>
+                <div class="comparison-col">
+                    <h4>주간점검</h4>
+                    <ul>
+                        <li>주 1회 심층 점검</li>
+                        <li>소모품 교체/보충</li>
+                        <li>누적 이상 발견</li>
+                        <li>장기적 안전성 확보</li>
+                        <li>1-2시간 소요</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 점검 원칙 -->
+        <div class="principle">
+            💡 주간점검 원칙: "더 꼼꼼하게, 실제 사용하듯"
+        </div>
+
+        <!-- 점검 항목 섹션 -->
+        <div class="inspection-section">
+            <h2 class="section-title">🔧 8가지 주간점검 체크리스트</h2>
+
+            <div class="inspection-grid">
+                <!-- 1. 외부·차체 점검 -->
+                <div class="inspection-card">
+                    <div class="card-header header-1">
+                        <div class="card-number">1</div>
+                        <div>🔍 외부·차체 점검</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="check-list">
+                            <li>차량 외관/표식, 휠, 도어 핸들, 거울, 차체 하부(누유·녹·이상) 등 육안 점검</li>
+                            <li>앞/뒤/측면·바닥의 손상·녹·오염 여부 체크</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. 소모품·오일·냉각수 점검 -->
+                <div class="inspection-card">
+                    <div class="card-header header-2">
+                        <div class="card-number">2</div>
+                        <div>🛢️ 소모품·오일·냉각수</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="check-list">
+                            <li>엔진오일, 미션오일, 냉각수, 파워스티어링오일 잔량 및 오염 체크</li>
+                            <li>브레이크오일, 배터리 전해액 등 확인</li>
+                            <li>요소수(DPF) 보충량, 워셔액 보충</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. 타이어·휠 점검 -->
+                <div class="inspection-card">
+                    <div class="card-header header-3">
+                        <div class="card-number">3</div>
+                        <div>🚗 타이어·휠 점검</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="check-list">
+                            <li>트레드 깊이·마모·공기압 확인</li>
+                            <li>휠 너트 풀림·휠캡 이상 확인</li>
+                            <li>예비 타이어 포함 점검</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 4. 브레이크·현가장치 점검 -->
+                <div class="inspection-card">
+                    <div class="card-header header-4">
+                        <div class="card-number">4</div>
+                        <div>🛑 브레이크·현가장치</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="check-list">
+                            <li>제동장치(패드, 드럼, 디스크) 상태 체크</li>
+                            <li>쇼바, 스프링, 에어탱크 등 확인</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 5. 조작부/스위치점검 -->
+                <div class="inspection-card">
+                    <div class="card-header header-5">
+                        <div class="card-number">5</div>
+                        <div>🎛️ 조작부/스위치</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="check-list">
+                            <li>각종 계기판·경고·등화류·경광등·사이렌·펌프패널 작동 정상 여부 확인</li>
+                            <li>배터리 터미널, 배선 연결부 마모·부식 여부</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 6. 펌프 계통 및 소방장비 점검 -->
+                <div class="inspection-card">
+                    <div class="card-header header-6">
+                        <div class="card-number">6</div>
+                        <div>💧 펌프·소방장비</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="check-list">
+                            <li>PTO, 흡수관·방수포·진공펌프 실제 작동 확인</li>
+                            <li>방수·중계밸브·드레인 안전밸브 테스트</li>
+                            <li>펌프 및 소방장비(호스, 커플링, 노즐, 폼장비) 전체 점검</li>
+                            <li>부식·손상·이상 확인</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 7. 조명, 특수장비, 발전기, 폼양 등 -->
+                <div class="inspection-card">
+                    <div class="card-header header-7">
+                        <div class="card-number">7</div>
+                        <div>💡 특수장비·발전기</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="check-list">
+                            <li>발전기, 조명탑, 무전기, 비상장비 등 장착·작동여부 확인</li>
+                            <li>오일/연료량 체크</li>
+                            <li>폼탱크 폼액 잔량, 장비 적재 고정상태 확인</li>
+                            <li>교체/정비 필요한 항목 기록</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 8. 최종 운행 및 주행 점검 -->
+                <div class="inspection-card">
+                    <div class="card-header header-8">
+                        <div class="card-number">8</div>
+                        <div>🚦 최종 운행·주행</div>
+                    </div>
+                    <div class="card-content">
+                        <ul class="check-list">
+                            <li>실제 출동 경로 시뮬레이션, 차량 주행 성능 체크</li>
+                            <li>이탈시 자동 수구작동 확인</li>
+                            <li>현장 도착 후 도어, 잡동사니, 도구류 정리</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 현장 노하우 섹션 -->
+        <div class="tips-section">
+            <h2>💡 현장 노하우 및 주의사항</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <strong>📝 점검표 활용</strong>
+                    점검표(수기/전자)로 누락 없이 체크할 것, 문제시 즉시 보고·조치할 것
+                </div>
+                <div class="tip-card">
+                    <strong>👥 담당자별 분장</strong>
+                    담당자별 분장해 책임감 있게 진행할 것
+                </div>
+                <div class="tip-card">
+                    <strong>⚡ 즉시 조치</strong>
+                    정비 필요사항은 즉시 체크해 주간 내 완료할 것
+                </div>
+                <div class="tip-card">
+                    <strong>🔍 심층 점검</strong>
+                    표면뿐만 아니라 내부까지 꼼꼼하게 확인할 것
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 카드 호버 시 살짝 확대 효과
+        document.querySelectorAll('.inspection-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중계방수 매뉴얼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 20px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -3px;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+            color: #ff6b6b;
+        }
+
+        .tab.active {
+            color: #ff6b6b;
+            border-bottom-color: #ff6b6b;
+            background: white;
+        }
+
+        .content {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.5s;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 35px;
+            margin: 30px 0;
+            font-size: 1.3em;
+            line-height: 1.8;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .definition-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .definition-title::before {
+            content: "📖";
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .reason-cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .reason-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            border: 3px solid #ff6b6b;
+            transition: all 0.3s;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .reason-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .reason-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+
+        .reason-desc {
+            font-size: 1em;
+            color: #495057;
+            line-height: 1.6;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .visual-diagram {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+
+        .diagram-title {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 30px;
+        }
+
+        .pressure-info {
+            background: #fff5f5;
+            border: 3px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .pressure-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pressure-title::before {
+            content: "⚡";
+            font-size: 1.3em;
+            margin-right: 10px;
+        }
+
+        .pressure-item {
+            padding: 12px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            font-size: 1.1em;
+        }
+
+        .procedure-steps {
+            margin: 30px 0;
+        }
+
+        .step {
+            background: white;
+            border-left: 5px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .step-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .step-desc {
+            font-size: 1.05em;
+            color: #495057;
+            line-height: 1.7;
+            margin-left: 55px;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+            border: 3px solid #f39c12;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .warning-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .warning-title::before {
+            content: "⚠️";
+            font-size: 1.3em;
+            margin-right: 15px;
+        }
+
+        .warning-item {
+            background: white;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 8px;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .key-summary {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 35px;
+            margin: 30px 0;
+        }
+
+        .summary-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .summary-item {
+            padding: 15px;
+            margin: 15px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            font-size: 1.15em;
+            line-height: 1.7;
+        }
+
+        .summary-item::before {
+            content: "✓";
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .reason-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>중계방수 매뉴얼</h1>
+            <p>Relay Firefighting Manual</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab(0)">정의 & 필요성</button>
+            <button class="tab" onclick="showTab(1)">시각적 다이어그램</button>
+            <button class="tab" onclick="showTab(2)">절차 & 압력설정</button>
+            <button class="tab" onclick="showTab(3)">주의사항</button>
+        </div>
+
+        <!-- Tab 0: 정의 & 필요성 -->
+        <div class="content active">
+            <h2 style="color: #ff6b6b; margin-bottom: 30px; font-size: 2.2em;">중계방수란?</h2>
+
+            <div class="definition-box">
+                <div class="definition-title">정의</div>
+                <p>중계방수는 여러 대의 펌프차를 직렬로 연결해서 먼거리, 고층 등으로 인한 고수압이 필요한 화재 현장에 물을<br>안정적으로 공급하는 방법임</p>
+            </div>
+
+            <h3 style="color: #1e3c72; margin: 40px 0 25px 0; font-size: 1.9em;">중계방수가 필요한 5가지 이유</h3>
+
+            <div class="reason-cards">
+                <div class="reason-card">
+                    <div class="reason-icon">📏</div>
+                    <div class="reason-title">거리 문제</div>
+                    <div class="reason-desc">
+                        호스가 길어질수록 내부 마찰로 압력이 크게 떨어짐. 중계차가 받아서 다시 밀어주면 전체 구간 압력을 일정하게 유지할 수 있음
+                    </div>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">⛰️</div>
+                    <div class="reason-title">고도 차</div>
+                    <div class="reason-desc">
+                        언덕·고층 등 높이차가 크면 그만큼 추가 압력이 필요함. 중계차가 구간별로 단(段) 압력 상승을 해주면 안정적으로 고지까지 공급됨
+                    </div>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">💧</div>
+                    <div class="reason-title">대유량 방수</div>
+                    <div class="reason-desc">
+                        대형 화재는 한 라인만으로 부족함. 중계차로 구간을 나누면 각 구간이 담당하는 부담이 줄어 대유량을 안정적으로 공급할 수 있음
+                    </div>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">🔽</div>
+                    <div class="reason-title">저압 수원</div>
+                    <div class="reason-desc">
+                        소화전 압력이 낮거나, 하천·저수조처럼 무가압 수원이면 공격차까지 직통 공급이 어려움. 중계차가 승압·분배하여 전선까지 끌어올림
+                    </div>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">🛡️</div>
+                    <div class="reason-title">안전성 확보</div>
+                    <div class="reason-desc">
+                        흡입측을 미소 양압으로 유지해 공기 혼입과 캐비테이션을 예방함. 각 구간 압력을 나눠 맡으니 호스 파열·수격 위험을 낮춤
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: #e8f4f8; border-radius: 15px; padding: 30px; margin-top: 40px;">
+                <h3 style="color: #1e3c72; margin-bottom: 20px; font-size: 1.6em;">기본 구조와 역할</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #4169E1;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🚒</div>
+                        <div style="font-weight: bold; font-size: 1.2em; color: #4169E1; margin-bottom: 10px;">뒤 펌프차</div>
+                        <div style="color: #495057;">먼 곳, 혹은 수원이 있는 곳에서 물을 펌핑해서 앞 펌프차로 공급함</div>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+                        <div style="font-size: 2em; margin-bottom: 10px;">🚒</div>
+                        <div style="font-weight: bold; font-size: 1.2em; color: #e74c3c; margin-bottom: 10px;">앞 펌프차</div>
+                        <div style="color: #495057;">화재 근접지에 위치, 1차적으로 방수 작업을 수행함</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 1: 시각적 다이어그램 -->
+        <div class="content">
+            <h2 class="diagram-title">중계방수 시스템 다이어그램</h2>
+
+            <div class="visual-diagram">
+                <svg viewBox="0 0 1200 480" style="max-width: 100%; height: auto;">
+                    <defs>
+                        <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto">
+                            <path d="M0,0 L0,12 L12,6 z" fill="#4169E1" />
+                        </marker>
+                        <marker id="arrowRed" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto">
+                            <path d="M0,0 L0,12 L12,6 z" fill="#ff6b6b" />
+                        </marker>
+                    </defs>
+
+                    <!-- 단계 1: 수원 -->
+                    <g>
+                        <rect x="30" y="120" width="270" height="160" fill="#4ECDC4" stroke="#2C3E50" stroke-width="4" rx="10"/>
+                        <text x="165" y="170" text-anchor="middle" font-size="70">🌊</text>
+                        <text x="165" y="240" text-anchor="middle" font-size="20" font-weight="bold" fill="white">수원</text>
+                        <text x="165" y="265" text-anchor="middle" font-size="16" fill="white">소화전/하천</text>
+
+                        <rect x="110" y="80" width="110" height="35" fill="#feca57" stroke="#2C3E50" stroke-width="3" rx="8"/>
+                        <text x="165" y="104" text-anchor="middle" font-size="22" font-weight="bold" fill="#2C3E50">STEP 1</text>
+                    </g>
+
+                    <!-- 단계 2: 뒤 펌프차 -->
+                    <g>
+                        <rect x="320" y="120" width="270" height="160" fill="#E8F4F8" stroke="#4169E1" stroke-width="5" rx="10"/>
+                        <text x="455" y="175" text-anchor="middle" font-size="60">🚒</text>
+                        <text x="455" y="235" text-anchor="middle" font-size="18" font-weight="bold" fill="#4169E1">뒤 펌프차</text>
+                        <text x="455" y="260" text-anchor="middle" font-size="15" fill="#2C3E50">(송수측)</text>
+
+                        <rect x="400" y="80" width="110" height="35" fill="#feca57" stroke="#2C3E50" stroke-width="3" rx="8"/>
+                        <text x="455" y="104" text-anchor="middle" font-size="22" font-weight="bold" fill="#2C3E50">STEP 2</text>
+
+                        <!-- 압력 표시 -->
+                        <rect x="395" y="295" width="120" height="45" fill="#ff6b6b" stroke="#2C3E50" stroke-width="3" rx="8"/>
+                        <text x="455" y="325" text-anchor="middle" font-size="24" font-weight="bold" fill="white">7 kg/cm²</text>
+                    </g>
+
+                    <!-- 단계 3: 앞 펌프차 -->
+                    <g>
+                        <rect x="610" y="120" width="270" height="160" fill="#fff5f5" stroke="#e74c3c" stroke-width="5" rx="10"/>
+                        <text x="745" y="175" text-anchor="middle" font-size="60">🚒</text>
+                        <text x="745" y="235" text-anchor="middle" font-size="18" font-weight="bold" fill="#e74c3c">앞 펌프차</text>
+                        <text x="745" y="260" text-anchor="middle" font-size="15" fill="#2C3E50">(공격측)</text>
+
+                        <rect x="690" y="80" width="110" height="35" fill="#feca57" stroke="#2C3E50" stroke-width="3" rx="8"/>
+                        <text x="745" y="104" text-anchor="middle" font-size="22" font-weight="bold" fill="#2C3E50">STEP 3</text>
+
+                        <!-- 압력 표시 -->
+                        <rect x="685" y="295" width="120" height="45" fill="#e74c3c" stroke="#2C3E50" stroke-width="3" rx="8"/>
+                        <text x="745" y="325" text-anchor="middle" font-size="24" font-weight="bold" fill="white">5 kg/cm²</text>
+                    </g>
+
+                    <!-- 단계 4: 화재 -->
+                    <g>
+                        <rect x="900" y="120" width="270" height="160" fill="#fff5f5" stroke="#e74c3c" stroke-width="4" rx="10"/>
+                        <text x="1035" y="210" text-anchor="middle" font-size="80">🔥</text>
+                        <text x="1035" y="265" text-anchor="middle" font-size="18" font-weight="bold" fill="#e74c3c">화재진압</text>
+
+                        <rect x="980" y="80" width="110" height="35" fill="#feca57" stroke="#2C3E50" stroke-width="3" rx="8"/>
+                        <text x="1035" y="104" text-anchor="middle" font-size="22" font-weight="bold" fill="#2C3E50">STEP 4</text>
+                    </g>
+
+                    <!-- 하단 설명 -->
+                    <rect x="30" y="370" width="1140" height="80" fill="white" stroke="#495057" stroke-width="3" rx="10"/>
+                    <text x="600" y="405" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e3c72">물의 흐름</text>
+                    <text x="600" y="435" text-anchor="middle" font-size="16" fill="#495057">수원 → 뒤 펌프차(7kg/cm²) → 앞 펌프차(5kg/cm²) → 화재 진압</text>
+                </svg>
+
+                <!-- 압력 손실 안내 -->
+                <div style="margin-top: 30px; background: #fffbf0; border: 3px solid #feca57; border-radius: 15px; padding: 25px; text-align: center;">
+                    <div style="font-size: 1.3em; font-weight: bold; color: #f39c12; margin-bottom: 15px;">💡 압력 손실 참고</div>
+                    <div style="font-size: 1.1em; color: #495057; line-height: 1.7;">
+                        <strong>거리:</strong> 호스가 길수록 마찰로 압력 저하 |
+                        <strong>고도:</strong> 10m 상승마다 약 1kg/cm² 추가 필요 |
+                        <strong>실제:</strong> 이론값(7+5=12)보다 낮음
+                    </div>
+                </div>
+            </div>
+
+            <div class="pressure-info">
+                <div class="pressure-title">압력 설정 원리</div>
+                <div class="pressure-item">
+                    <strong>뒤 펌프차:</strong> 7kg/cm² (예시)로 물을 밀어냄
+                </div>
+                <div class="pressure-item">
+                    <strong>앞 펌프차:</strong> 5kg/cm² (예시)로 물을 받아서 방수함
+                </div>
+                <div class="pressure-item" style="background: #fff5f5; border-left: 4px solid #e74c3c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <strong>⚠️ 주의:</strong> 두 차량의 압력을 더한 값(5+7=12)은 이론값일 뿐, 실제는 저항·마찰·배관 길이 등으로 인해 압력은 더 낮아짐
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: 절차 & 압력설정 -->
+        <div class="content">
+            <h2 style="color: #ff6b6b; margin-bottom: 30px; font-size: 2.2em;">실제 방수 절차</h2>
+
+            <div class="procedure-steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 70px);">
+                        <div class="step-title">뒤 펌프차에서 물 공급</div>
+                        <div class="step-desc">
+                            뒤 펌프에서 높은 압력(7kg/cm² 등)으로 앞 펌프로 물을 밀어줌
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 70px);">
+                        <div class="step-title">앞 펌프차 준비</div>
+                        <div class="step-desc">
+                            앞 펌프차는 중계구에 물을 받은 뒤, 자가 펌프 작동으로 자체 방수압(5kg/cm² 등)을 유지해 방수함
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 70px);">
+                        <div class="step-title">방수구를 열고 본격 방수 시작</div>
+                        <div class="step-desc">
+                            방수구를 열고 본격적으로 방수를 시작함
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 70px);">
+                        <div class="step-title">방수 중 압력 변화 모니터링</div>
+                        <div class="step-desc">
+                            방수구를 열면, 배관의 저항, 마찰 등의 영향으로 압력이 떨어지지만 펌프 조절로 필요한 압력을 맞춤
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <div style="display: inline-block; vertical-align: top; width: calc(100% - 70px);">
+                        <div class="step-title">고층·장거리 방수 시 추가 조정</div>
+                        <div class="step-desc">
+                            <strong>10m마다 보통 1kg/cm²씩 압력이 더 떨어지므로</strong>, 현장 상황에 맞게 계속 펌프 압력을 조정해야 함
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #e8f4f8 0%, #d4e4f7 100%); border-radius: 15px; padding: 35px; margin: 40px 0;">
+                <h3 style="color: #1e3c72; margin-bottom: 25px; font-size: 1.8em; text-align: center;">압력 손실 계산</h3>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;">
+                    <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #4169E1;">
+                        <div style="font-size: 2.5em; text-align: center; margin-bottom: 15px;">📐</div>
+                        <div style="font-size: 1.2em; font-weight: bold; color: #4169E1; text-align: center; margin-bottom: 15px;">거리에 따른 손실</div>
+                        <div style="color: #495057; text-align: center; line-height: 1.7;">
+                            호스가 길어질수록<br>내부 마찰로 압력 저하
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #e74c3c;">
+                        <div style="font-size: 2.5em; text-align: center; margin-bottom: 15px;">⛰️</div>
+                        <div style="font-size: 1.2em; font-weight: bold; color: #e74c3c; text-align: center; margin-bottom: 15px;">고도에 따른 손실</div>
+                        <div style="color: #495057; text-align: center; line-height: 1.7;">
+                            10m 상승마다<br>약 1kg/cm² 추가 필요
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #28a745;">
+                        <div style="font-size: 2.5em; text-align: center; margin-bottom: 15px;">🔧</div>
+                        <div style="font-size: 1.2em; font-weight: bold; color: #28a745; text-align: center; margin-bottom: 15px;">실시간 조정</div>
+                        <div style="color: #495057; text-align: center; line-height: 1.7;">
+                            압력계 확인하며<br>펌프 출력 조절
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: 주의사항 -->
+        <div class="content">
+            <h2 style="color: #ff6b6b; margin-bottom: 30px; font-size: 2.2em;">주의사항 & 운용 팁</h2>
+
+            <div class="warning-box">
+                <div class="warning-title">중계방수 운용 시 주의사항</div>
+                <div class="warning-item">
+                    <strong>배관 연결 확인:</strong> 중계방수는 배관 연결, 압력 설정, 각 펌프차의 역할 분담이 매우 중요함
+                </div>
+                <div class="warning-item">
+                    <strong>압력 손실 계산:</strong> 고층 건물이나 장거리 급수에는 압력손실을 계산해 원하는 유량과 압력이 현장에 제대로 도달하는지 확인할 것
+                </div>
+                <div class="warning-item">
+                    <strong>실시간 모니터링:</strong> 방수구를 열기 전/후 압력 변화를 보며 펌프 조절이 필요하며, 예기치 못한 급격한 압력 손실에 대비해야 함
+                </div>
+                <div class="warning-item">
+                    <strong>오퍼레이터 숙련도:</strong> 펌프마다 압력계 확인, 중계 밸브 조작 등 오퍼레이터의 숙련도가 매우 중요함
+                </div>
+                <div class="warning-item">
+                    <strong>팀 커뮤니케이션:</strong> 뒤 펌프차와 앞 펌프차 간의 원활한 무전 통신과 신호 체계가 필수적임
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 40px 0;">
+                <div style="background: #fff5f5; border: 3px solid #e74c3c; border-radius: 15px; padding: 25px;">
+                    <h4 style="color: #e74c3c; margin-bottom: 20px; font-size: 1.4em; display: flex; align-items: center;">
+                        <span style="font-size: 1.5em; margin-right: 10px;">❌</span>
+                        하지 말아야 할 것
+                    </h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid #ffdddd;">• 압력 설정 없이 무작정 방수</li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #ffdddd;">• 배관 연결 상태 미확인</li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #ffdddd;">• 압력계 무시하고 운용</li>
+                        <li style="padding: 10px 0;">• 급격한 압력 변화 방치</li>
+                    </ul>
+                </div>
+
+                <div style="background: #f0fff4; border: 3px solid #28a745; border-radius: 15px; padding: 25px;">
+                    <h4 style="color: #28a745; margin-bottom: 20px; font-size: 1.4em; display: flex; align-items: center;">
+                        <span style="font-size: 1.5em; margin-right: 10px;">✅</span>
+                        반드시 해야 할 것
+                    </h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid #d4edda;">• 사전 압력 설정 및 확인</li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #d4edda;">• 모든 연결부 점검</li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #d4edda;">• 압력계 실시간 모니터링</li>
+                        <li style="padding: 10px 0;">• 팀 간 무전 통신 유지</li>
+                    </ul>
+                </div>
+
+                <div style="background: #fffbf0; border: 3px solid #feca57; border-radius: 15px; padding: 25px;">
+                    <h4 style="color: #f39c12; margin-bottom: 20px; font-size: 1.4em; display: flex; align-items: center;">
+                        <span style="font-size: 1.5em; margin-right: 10px;">💡</span>
+                        운용 팁
+                    </h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid #fff3cd;">• 사전 훈련 반복 실시</li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #fff3cd;">• 표준 압력값 숙지</li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #fff3cd;">• 예비 호스 준비</li>
+                        <li style="padding: 10px 0;">• 백업 펌프차 대기</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-summary">
+                <div class="summary-title">🎯 핵심 요약</div>
+                <div class="summary-item">
+                    중계방수는 여러 펌프차를 직렬로 배치, 뒤차 고압 → 앞차 저압 순으로 물을 밀어 방수
+                </div>
+                <div class="summary-item">
+                    압력의 합계는 이론값일 뿐, 실제 방수 시 저항·마찰 등으로 더 낮아짐
+                </div>
+                <div class="summary-item">
+                    각 펌프차의 압력 조절, 밸브 운용, 배관 관리가 매우 중요
+                </div>
+                <div class="summary-item">
+                    고층·장거리 방수는 추가 압력 설정 필요 (10m당 약 1kg/cm² 손실)
+                </div>
+                <div class="summary-item">
+                    팀 간 무전 통신과 실시간 압력 모니터링이 필수
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.content');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            tabs[index].classList.add('active');
+            contents[index].classList.add('active');
+        }
+    </script>
+</body>
+</html>

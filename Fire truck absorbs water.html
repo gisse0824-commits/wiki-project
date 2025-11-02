@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소방펌프차 - 수원 흡수 절차 매뉴얼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #dee2e6;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            background: #f8f9fa;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+        }
+
+        .nav-tab:hover {
+            background: #e9ecef;
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #f5576c;
+            border-bottom: 4px solid #f5576c;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .comparison-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .comparison-card {
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .comparison-card.auto {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .comparison-card.manual {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .comparison-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 1.5em;
+        }
+
+        .comparison-card p {
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .flowchart {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .flowchart h3 {
+            color: #495057;
+            margin-bottom: 25px;
+            font-size: 1.6em;
+            text-align: center;
+        }
+
+        .flow-step {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .flow-step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .flow-step.step-1 { border-left-color: #667eea; }
+        .flow-step.step-2 { border-left-color: #f093fb; }
+        .flow-step.step-3 { border-left-color: #4facfe; }
+        .flow-step.step-4 { border-left-color: #43e97b; }
+        .flow-step.step-5 { border-left-color: #fa709a; }
+
+        .step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #f5576c;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.1em;
+        }
+
+        .step-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #212529;
+            display: inline;
+        }
+
+        .step-detail {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed #dee2e6;
+            color: #6c757d;
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .flow-step.expanded .step-detail {
+            max-height: 500px;
+        }
+
+        .arrow-down {
+            text-align: center;
+            color: #6c757d;
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        .manual-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .method-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid;
+        }
+
+        .method-card:nth-child(1) { border-top-color: #667eea; }
+        .method-card:nth-child(2) { border-top-color: #f093fb; }
+        .method-card:nth-child(3) { border-top-color: #fa709a; }
+
+        .method-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #212529;
+        }
+
+        .method-card ol {
+            margin-left: 20px;
+            line-height: 2;
+            color: #495057;
+        }
+
+        .alert-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .alert-box h4 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-box ul {
+            margin-left: 20px;
+            line-height: 2;
+            color: #856404;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .summary-box h3 {
+            color: #212529;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .summary-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .summary-item h4 {
+            color: #f5576c;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .summary-item p {
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        .toggle-icon {
+            float: right;
+            color: #6c757d;
+            transition: transform 0.3s;
+        }
+
+        .flow-step.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .comparison-section {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-tab {
+                font-size: 0.9em;
+                padding: 15px 10px;
+            }
+        }
+
+        .highlight {
+            background: #ffeaa7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .badge-success {
+            background: #43e97b;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚒 소방펌프차 수원 흡수 절차 매뉴얼</h1>
+            <p>자동흡수와 수동흡수 완벽 가이드임</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('overview')">📊 개요 및 비교</button>
+            <button class="nav-tab" onclick="showTab('auto')">⚡ 자동흡수</button>
+            <button class="nav-tab" onclick="showTab('manual')">🔧 수동흡수</button>
+            <button class="nav-tab" onclick="showTab('tips')">⚠️ 주의사항</button>
+        </div>
+
+        <div class="content">
+            <!-- 개요 및 비교 탭 -->
+            <div id="overview" class="tab-content active">
+                <h2 style="color: #495057; margin-bottom: 30px; font-size: 2em;">🎯 자동흡수 vs 수동흡수</h2>
+
+                <div class="comparison-section">
+                    <div class="comparison-card auto">
+                        <h3><span class="icon">⚡</span> 자동흡수</h3>
+                        <p><strong>🎯 목적:</strong></p>
+                        <p>펌프차의 진공펌프를 이용해 배관 내 공기를 자동으로 제거하고, 수면차가 있을 때 쉽게 물을 끌어올리기 위해 사용함</p>
+                        <p><strong>📍 사용 시기:</strong></p>
+                        <p>빠르고 확실한 흡수가 필요할 때 선택</p>
+                        <p><strong>✅ 장점:</strong></p>
+                        <p>• 빠른 작동<br>• 실수 위험 적음<br>• 대부분의 현장 작전에서 사용</p>
+                    </div>
+
+                    <div class="comparison-card manual">
+                        <h3><span class="icon">🔧</span> 수동흡수</h3>
+                        <p><strong>🎯 목적:</strong></p>
+                        <p>진공펌프나 자동장치 이상, 낙차가 심하거나 자동흡수가 실패할 때 사용하는 대체방법임</p>
+                        <p><strong>📍 사용 시기:</strong></p>
+                        <p>물이 올라오는 힘이 약하거나, 배관 내 공기가 남아있을 때 대처용</p>
+                        <p><strong>✅ 장점:</strong></p>
+                        <p>• 진공펌프 고장 시 대처 가능<br>• 현장 특수상황 대응<br>• 긴급 상황 대체 방법</p>
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <h3>📋 요약 정리</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <h4>⚡ 자동흡수</h4>
+                            <p><span class="highlight">진공펌프</span>와 <span class="highlight">자동밸브</span> 활용</p>
+                            <p>→ 빠름, 표준 방식</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>🔧 수동흡수</h4>
+                            <p><span class="highlight">마중물</span>·<span class="highlight">직접 밸브조작</span></p>
+                            <p>→ 자동 실패, 특수·고장 상황 대처용</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 자동흡수 탭 -->
+            <div id="auto" class="tab-content">
+                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">⚡ 자동흡수 절차</h2>
+
+                <div class="flowchart">
+                    <h3>🔄 단계별 플로우차트</h3>
+
+                    <div class="flow-step step-1" onclick="toggleStep(this)">
+                        <span class="step-number">1</span>
+                        <span class="step-title">PTO 연결 및 펌프 동작 준비</span>
+                        <span class="badge badge-success">필수</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• PTO (동력인출장치)를 연결함</p>
+                            <p>• 펌프가 동작할 준비를 완료함</p>
+                            <p>• 차량 엔진이 충분히 가동되고 있는지 확인함</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-2" onclick="toggleStep(this)">
+                        <span class="step-number">2</span>
+                        <span class="step-title">흡수관 설치 및 진공펌프 작동</span>
+                        <span class="badge badge-success">필수</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 흡수관을 물 속에 <strong>충분히</strong> 담금</p>
+                            <p>• 메인밸브를 열음</p>
+                            <p>• 진공펌프 스위치를 켬</p>
+                            <p>⚠️ <span class="highlight">흡수관이 완전히 물에 잠겨있는지 확인</span></p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-3" onclick="toggleStep(this)">
+                        <span class="step-number">3</span>
+                        <span class="step-title">진공펌프 자동 작동 - 공기 제거</span>
+                        <span class="badge badge-success">자동</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 진공펌프가 작동하면서 배관 내 공기를 빨아냄</p>
+                            <p>• 자동적으로 물이 끌어올려짐</p>
+                            <p>• 진공게이지를 확인하며 대기함</p>
+                            <p>💡 <strong>이 과정은 자동으로 진행됨</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-4" onclick="toggleStep(this)">
+                        <span class="step-number">4</span>
+                        <span class="step-title">펌프 충수 확인 및 진공펌프 자동 정지</span>
+                        <span class="badge badge-success">자동</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 흡수관 내부에 물이 가득 차면 진공펌프가 <strong>자동으로 멈춤</strong></p>
+                            <p>• 펌프 내에 물이 채워진 것을 육안으로 확인함</p>
+                            <p>• 압력계를 확인하여 정상 압력 도달 여부를 체크함</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-5" onclick="toggleStep(this)">
+                        <span class="step-number">5</span>
+                        <span class="step-title">급수 밸브 개방 및 방수작업 수행</span>
+                        <span class="badge badge-success">완료</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 급수 밸브를 열음</p>
+                            <p>• 방수 호스를 통해 물이 나오는지 확인함</p>
+                            <p>• 정상적으로 방수작업을 수행함</p>
+                            <p>✅ <span class="highlight">자동흡수 완료!</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-box" style="background: #d1ecf1; border-left-color: #0c5460;">
+                    <h4 style="color: #0c5460;">💡 자동흡수의 장점</h4>
+                    <ul style="color: #0c5460;">
+                        <li>빠르고 확실한 작동으로 신속한 현장 대응 가능함</li>
+                        <li>조작 실수 위험이 적어 안전성이 높음</li>
+                        <li>대부분의 현장 작전에서 표준으로 사용되는 방법임</li>
+                        <li>자동화로 인해 소방관의 피로도 감소함</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 수동흡수 탭 -->
+            <div id="manual" class="tab-content">
+                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">🔧 수동흡수 절차</h2>
+
+                <div class="alert-box" style="background: #f8d7da; border-left-color: #dc3545;">
+                    <h4 style="color: #721c24;">⚠️ 수동흡수가 필요한 상황</h4>
+                    <ul style="color: #721c24;">
+                        <li>자동흡수가 잘 안 되는 경우</li>
+                        <li>진공펌프 고장</li>
+                        <li>낙차가 심한 현장</li>
+                        <li>배관 내 공기가 계속 남아있는 경우</li>
+                    </ul>
+                </div>
+
+                <div class="manual-methods">
+                    <div class="method-card">
+                        <h4>🔵 방법 1: 마중물 흡수</h4>
+                        <ol>
+                            <li><strong>PTO 연결</strong><br>동력인출장치를 연결함</li>
+                            <li><strong>흡수관 설치</strong><br>흡수관을 물에 담금</li>
+                            <li><strong>마중물 투입</strong><br>펌프 내부에 물이 없을 경우, <span class="highlight">마중물</span>을 부음</li>
+                            <li><strong>급수 밸브 개방</strong><br>펌프 급수 밸브를 열음</li>
+                            <li><strong>밸브 수동 조작</strong><br>흡수관, 펌프계통 밸브를 차례대로 직접 열면서 물을 올림</li>
+                            <li><strong>공기 배출</strong><br>배관 내 공기가 빠져나올 때까지 몇 번 반복함</li>
+                        </ol>
+                    </div>
+
+                    <div class="method-card">
+                        <h4>🟣 방법 2: 진공장치 없이 수동</h4>
+                        <ol>
+                            <li><strong>PTO 연결</strong><br>동력인출장치를 연결함</li>
+                            <li><strong>급수 밸브 직접 개방</strong><br>자동이 아닌 수동으로 개방함</li>
+                            <li><strong>공기 배출</strong><br>내부 공기를 배출함</li>
+                            <li><strong>펌프 충수 확인</strong><br>펌프에 물이 올라오면 방수를 시작함</li>
+                        </ol>
+                    </div>
+
+                    <div class="method-card">
+                        <h4>🔴 방법 3: 완전 수동 (장치 고장)</h4>
+                        <ol>
+                            <li><strong>모든 자동 밸브 무효화</strong><br>모든 자동 밸브가 작동하지 않을 때 사용함</li>
+                            <li><strong>수동 밸브 조작</strong><br>각 밸브를 직접 손으로 조작하면서 흡수 과정을 반복함</li>
+                            <li><strong>마중물 보충</strong><br>본격적으로 마중물을 보충하며 반복함</li>
+                            <li><strong>수동 물 끌어올림</strong><br>수동으로 물을 끌어올림</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="flowchart" style="margin-top: 40px;">
+                    <h3>🔄 수동흡수 일반 절차 (마중물 방식)</h3>
+
+                    <div class="flow-step step-1" onclick="toggleStep(this)">
+                        <span class="step-number">1</span>
+                        <span class="step-title">PTO 연결 후 흡수관 설치</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• PTO를 연결하고 펌프를 작동 준비함</p>
+                            <p>• 흡수관을 수원에 충분히 담금</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-2" onclick="toggleStep(this)">
+                        <span class="step-number">2</span>
+                        <span class="step-title">마중물 투입</span>
+                        <span class="badge badge-warning">중요</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 펌프 내부에 물이 없을 경우 <span class="highlight">마중물</span>을 부음</p>
+                            <p>• 마중물은 펌프 내부를 채우기 위한 물임</p>
+                            <p>• 물탱크 내 물 부족 여부를 체크함</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-3" onclick="toggleStep(this)">
+                        <span class="step-number">3</span>
+                        <span class="step-title">밸브 수동 조작</span>
+                        <span class="badge badge-warning">숙련 필요</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 펌프 급수 밸브를 열음</p>
+                            <p>• 흡수관 밸브를 직접 열어 물을 끌어올림</p>
+                            <p>• 펌프계통 밸브를 차례대로 조작함</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-4" onclick="toggleStep(this)">
+                        <span class="step-number">4</span>
+                        <span class="step-title">공기 배출 및 반복</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 배관 내 공기가 빠져나올 때까지 반복함</p>
+                            <p>• 공기 배출음을 주의 깊게 들으며 확인함</p>
+                            <p>• 필요시 마중물을 추가로 보충함</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-5" onclick="toggleStep(this)">
+                        <span class="step-number">5</span>
+                        <span class="step-title">펌프 충수 확인 후 방수</span>
+                        <span class="badge badge-success">완료</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 펌프에 물이 충분히 올라왔는지 확인함</p>
+                            <p>• 방수 밸브를 열어 방수작업을 수행함</p>
+                            <p>✅ <span class="highlight">수동흡수 완료!</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-box" style="background: #d1ecf1; border-left-color: #0c5460; margin-top: 30px;">
+                    <h4 style="color: #0c5460;">💡 수동흡수 성공 팁</h4>
+                    <ul style="color: #0c5460;">
+                        <li>자동흡수가 실패하면 즉시 수동흡수로 전환할 것</li>
+                        <li>마중물은 항상 충분히 준비해둘 것 (물탱크 확인)</li>
+                        <li>각 밸브의 위치를 미리 숙지하고 있어야 함</li>
+                        <li>현장 실습을 통해 각 단계별로 연습하면 빠른 대처력이 향상됨</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 주의사항 탭 -->
+            <div id="tips" class="tab-content">
+                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">⚠️ 실전 포인트 및 주의사항</h2>
+
+                <div class="alert-box" style="background: #f8d7da; border-left-color: #dc3545;">
+                    <h4 style="color: #721c24;">🚨 필수 체크사항</h4>
+                    <ul style="color: #721c24;">
+                        <li><strong>자동흡수가 잘 안 되면, 즉시 수동흡수로 변경</strong><br>시간을 지체하지 말고 빠르게 판단할 것</li>
+                        <li><strong>마중물 보충 시, 물탱크 내 물 부족 여부 체크</strong><br>마중물이 없으면 수동흡수가 불가능함</li>
+                        <li><strong>흡수 시작 전, 각 밸브의 위치 확인 (닫힘/열림)</strong><br>잘못된 밸브 조작은 펌프 손상의 원인이 됨</li>
+                        <li><strong>현장 실습 시 각 단계별로 연습하면 빠른 대처력 향상</strong><br>정기적인 훈련이 중요함</li>
+                    </ul>
+                </div>
+
+                <div class="flowchart">
+                    <h3>📋 흡수 전 점검 체크리스트</h3>
+
+                    <div class="flow-step step-1" onclick="toggleStep(this)">
+                        <span class="step-number">✓</span>
+                        <span class="step-title">PTO 연결 상태 확인</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• PTO가 정상적으로 연결되어 있는지 확인함</p>
+                            <p>• 엔진 RPM이 적정 수준인지 체크함</p>
+                            <p>• 이상 소음이 없는지 확인함</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-2" onclick="toggleStep(this)">
+                        <span class="step-number">✓</span>
+                        <span class="step-title">흡수관 연결 상태 확인</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 흡수관이 완전히 물에 잠겨 있는지 확인함</p>
+                            <p>• 흡수관 연결부위에 공기 유입이 없는지 체크함</p>
+                            <p>• 흡수관에 손상이나 구멍이 없는지 육안 검사함</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-3" onclick="toggleStep(this)">
+                        <span class="step-number">✓</span>
+                        <span class="step-title">밸브 위치 확인</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 각 밸브가 올바른 위치(열림/닫힘)에 있는지 확인함</p>
+                            <p>• 자동/수동 전환 스위치 확인함</p>
+                            <p>• 메인밸브, 급수밸브 상태 점검함</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-4" onclick="toggleStep(this)">
+                        <span class="step-number">✓</span>
+                        <span class="step-title">진공펌프 작동 확인</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 진공펌프가 정상 작동하는지 확인함</p>
+                            <p>• 진공게이지가 정상 범위를 표시하는지 체크함</p>
+                            <p>• 진공펌프 오일 레벨 확인함 (정기점검 항목)</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step step-5" onclick="toggleStep(this)">
+                        <span class="step-number">✓</span>
+                        <span class="step-title">마중물 준비 상태 확인</span>
+                        <span class="toggle-icon">▼</span>
+                        <div class="step-detail">
+                            <p>• 물탱크에 충분한 물이 있는지 확인함</p>
+                            <p>• 마중물 투입구 위치 숙지함</p>
+                            <p>• 비상 시 사용할 추가 마중물 준비함</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-box" style="margin-top: 30px;">
+                    <h3>🎯 상황별 대처 방법</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <h4>자동흡수 실패 시</h4>
+                            <p>• 진공펌프 작동 상태 재확인</p>
+                            <p>• 흡수관 공기 유입 여부 점검</p>
+                            <p>• <strong>즉시 수동흡수로 전환</strong></p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>수동흡수 실패 시</h4>
+                            <p>• 마중물 추가 투입</p>
+                            <p>• 배관 내 공기 배출 재시도</p>
+                            <p>• 각 밸브 개폐 상태 재점검</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>진공펌프 고장 시</h4>
+                            <p>• 완전 수동흡수 방법 사용</p>
+                            <p>• 마중물을 활용한 수동 충수</p>
+                            <p>• 본부에 장비 고장 보고</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>낙차가 큰 수원</h4>
+                            <p>• 자동흡수가 어려울 수 있음</p>
+                            <p>• 수동흡수 방법 우선 고려</p>
+                            <p>• 마중물 충분히 준비</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-box" style="background: #d4edda; border-left-color: #28a745; margin-top: 30px;">
+                    <h4 style="color: #155724;">✅ 흡수 성공의 핵심</h4>
+                    <ul style="color: #155724;">
+                        <li><strong>평소 훈련:</strong> 정기적인 반복 훈련으로 절차를 몸에 익힐 것</li>
+                        <li><strong>빠른 판단:</strong> 자동흡수 실패 시 즉시 수동으로 전환하는 판단력 필요함</li>
+                        <li><strong>장비 숙지:</strong> 각 밸브와 스위치의 위치를 완벽히 숙지할 것</li>
+                        <li><strong>상황 대응:</strong> 다양한 현장 상황에 맞는 흡수 방법 선택할 것</li>
+                        <li><strong>팀워크:</strong> 동료와의 원활한 의사소통과 협력 필요함</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // 모든 탭 컨텐츠 숨기기
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 모든 탭 버튼 비활성화
+            const tabButtons = document.querySelectorAll('.nav-tab');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 선택된 탭 활성화
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function toggleStep(element) {
+            element.classList.toggle('expanded');
+        }
+
+        // 모든 스텝에 클릭 이벤트 추가 (초기화)
+        document.addEventListener('DOMContentLoaded', function() {
+            const steps = document.querySelectorAll('.flow-step');
+            steps.forEach(step => {
+                step.addEventListener('click', function() {
+                    this.classList.toggle('expanded');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

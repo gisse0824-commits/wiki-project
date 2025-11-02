@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>솔레노이드 밸브 다이어그램</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Arial', sans-serif;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: visible;
+        }
+
+        .diagram-container {
+            background: linear-gradient(135deg, #d4a857 0%, #c99a3b 100%);
+            border: 8px solid #8b6f47;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            width: 1050px;
+            transform: scaleX(0.7) scaleY(0.7728);
+            transform-origin: top center;
+            margin: 0 auto;
+        }
+
+        .title-banner {
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .components-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 30px;
+        }
+
+        .solenoid-section {
+            display: flex;
+            gap: 25px;
+        }
+
+        .solenoid-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* 비상PTO 버튼 */
+        .emergency-pto-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .emergency-pto-button {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            border: 5px solid #8b0000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 40px;
+        }
+
+        .emergency-pto-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .emergency-pto-button:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .pto-text {
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.3;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .position-indicators {
+            display: flex;
+            gap: 35px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .solenoid-body {
+            width: 110px;
+            height: 180px;
+            background: linear-gradient(180deg, #6b5a45 0%, #4a3d2f 100%);
+            border: 4px solid #2a1f15;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .solenoid-screw {
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle at 35% 35%, #ffd700, #d4a857, #b8860b);
+            border-radius: 50%;
+            border: 2px solid #8b6914;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .solenoid-screw::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 3px;
+            height: 20px;
+            background: #8b6914;
+        }
+
+        .red-label {
+            background: linear-gradient(145deg, #dc143c, #b22222);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 3px solid #8b0000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            min-width: 110px;
+        }
+
+        /* 수동조작밸브 */
+        .manual-valve-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .straight-valve {
+            width: 140px;
+            height: 140px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .valve-lever {
+            width: 140px;
+            height: 35px;
+            background: linear-gradient(90deg, #e74c3c 0%, #c0392b 50%, #e74c3c 100%);
+            border: 3px solid #8b0000;
+            border-radius: 6px;
+            position: absolute;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        .valve-center {
+            width: 45px;
+            height: 45px;
+            background: radial-gradient(circle at 35% 35%, #e74c3c, #c0392b);
+            border-radius: 50%;
+            border: 3px solid #8b0000;
+            position: absolute;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+        }
+
+        .manual-valve-label {
+            background: linear-gradient(145deg, #dc143c, #b22222);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            border: 3px solid #8b0000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            margin-top: 15px;
+        }
+
+        .direction-labels {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+        }
+
+        .auto-label {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .manual-label-dir {
+            position: absolute;
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .auto-arrow {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: #000;
+        }
+
+        .manual-arrow {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #000;
+        }
+
+        /* 인터랙티브 효과 */
+        .solenoid-body:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s;
+        }
+
+        .straight-valve:hover {
+            transform: scale(1.05);
+            transition: all 0.3s;
+        }
+
+        .solenoid-body {
+            cursor: pointer;
+        }
+
+        .straight-valve {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagram-container">
+        <div class="title-banner">솔레노이드 밸브</div>
+
+        <div class="components-row">
+            <!-- 솔레노이드 밸브 3개 -->
+            <div class="solenoid-section">
+                <!-- 비상PTO 버튼 -->
+                <div class="emergency-pto-unit">
+                    <div class="emergency-pto-button" id="emergencyPTO">
+                        <span class="pto-text" id="ptoText"></span>
+                    </div>
+                    <div class="red-label">비상PTO</div>
+                </div>
+
+                <!-- 메인밸브 -->
+                <div class="solenoid-unit">
+                    <div class="position-indicators">
+                        <span>0</span>
+                        <span id="mainValvePosition1">1</span>
+                    </div>
+                    <div class="solenoid-body" id="mainValve">
+                        <div class="solenoid-screw" id="mainValveScrew"></div>
+                    </div>
+                    <div class="red-label">메인밸브</div>
+                </div>
+
+                <!-- 펌프드레인 -->
+                <div class="solenoid-unit">
+                    <div class="position-indicators">
+                        <span>0</span>
+                        <span id="pumpDrainPosition1">1</span>
+                    </div>
+                    <div class="solenoid-body" id="pumpDrain">
+                        <div class="solenoid-screw" id="pumpDrainScrew"></div>
+                    </div>
+                    <div class="red-label">펌프드레인</div>
+                </div>
+
+                <!-- 자동보수구 -->
+                <div class="solenoid-unit">
+                    <div class="position-indicators">
+                        <span>0</span>
+                        <span id="autoWaterSupplyPosition1">1</span>
+                    </div>
+                    <div class="solenoid-body" id="autoWaterSupply">
+                        <div class="solenoid-screw" id="autoWaterSupplyScrew"></div>
+                    </div>
+                    <div class="red-label">자동보수구</div>
+                </div>
+            </div>
+
+            <!-- 수동조작밸브 -->
+            <div class="manual-valve-section">
+                <div class="straight-valve" id="straightValve">
+                    <div class="direction-labels">
+                        <div class="auto-label">자동</div>
+                        <div class="auto-arrow">↑</div>
+                        <div class="manual-label-dir">수동</div>
+                        <div class="manual-arrow">→</div>
+                    </div>
+                    <div class="valve-lever" id="valveLever"></div>
+                    <div class="valve-center"></div>
+                </div>
+                <div class="manual-valve-label">수동조작밸브</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 비상PTO 버튼 클릭 효과
+        const emergencyPTO = document.getElementById('emergencyPTO');
+        const ptoText = document.getElementById('ptoText');
+        let isPTOActive = false;
+
+        emergencyPTO.addEventListener('click', function() {
+            if (isPTOActive) {
+                // 활성화 → 비활성화
+                this.style.background = 'linear-gradient(145deg, #e74c3c, #c0392b)';
+                this.style.borderColor = '#8b0000';
+                ptoText.textContent = '';
+                isPTOActive = false;
+            } else {
+                // 비활성화 → 활성화
+                this.style.background = 'linear-gradient(145deg, #4CAF50, #388E3C)';
+                this.style.borderColor = '#1b5e20';
+                ptoText.textContent = 'ON';
+                isPTOActive = true;
+            }
+        });
+
+        // 솔레노이드 밸브 클릭 효과
+        const solenoidBodies = document.querySelectorAll('.solenoid-body');
+        solenoidBodies.forEach(body => {
+            body.addEventListener('click', function() {
+                if (this.style.background.includes('rgb(76, 175, 80)')) {
+                    this.style.background = 'linear-gradient(180deg, #6b5a45 0%, #4a3d2f 100%)';
+                } else {
+                    this.style.background = 'linear-gradient(180deg, #4CAF50 0%, #388E3C 100%)';
+                }
+            });
+        });
+
+        // 수동조작밸브 회전 효과 (90도씩 회전)
+        const straightValve = document.getElementById('straightValve');
+        const valveLever = document.getElementById('valveLever');
+        let rotation = 90; // 초기값을 90도로 설정 (자동 방향)
+
+        // 페이지 로드 시 레버를 자동 방향(위쪽)으로 설정
+        valveLever.style.transform = `rotate(${rotation}deg)`;
+
+        straightValve.addEventListener('click', function() {
+            rotation += 90;
+            valveLever.style.transform = `rotate(${rotation}deg)`;
+        });
+
+        // 메인밸브 클릭 시 나사 180도 회전 및 "1" 색상 토글
+        const mainValve = document.getElementById('mainValve');
+        const mainValveScrew = document.getElementById('mainValveScrew');
+        const mainValvePosition1 = document.getElementById('mainValvePosition1');
+        let mainScrewRotation = -90; // 초기값 -90도로 설정 (빗금이 왼쪽, 0을 향함)
+        let mainIsPosition1Red = false;
+
+        // 페이지 로드 시 초기 회전 적용
+        mainValveScrew.style.transform = `rotate(${mainScrewRotation}deg)`;
+
+        mainValve.addEventListener('click', function() {
+            // 나사 180도 시계방향 회전
+            mainScrewRotation += 180;
+            mainValveScrew.style.transform = `rotate(${mainScrewRotation}deg)`;
+
+            // "1" 색상 토글 (빨간색 ↔ 검은색)
+            if (mainIsPosition1Red) {
+                // 빨간색 → 검은색
+                mainValvePosition1.style.color = '#000';
+                mainValvePosition1.style.fontWeight = 'bold';
+                mainIsPosition1Red = false;
+            } else {
+                // 검은색 → 빨간색
+                mainValvePosition1.style.color = '#dc143c';
+                mainValvePosition1.style.fontWeight = 'bold';
+                mainIsPosition1Red = true;
+            }
+        });
+
+        // 펌프드레인 클릭 시 나사 180도 회전 및 "1" 색상 토글
+        const pumpDrain = document.getElementById('pumpDrain');
+        const pumpDrainScrew = document.getElementById('pumpDrainScrew');
+        const pumpDrainPosition1 = document.getElementById('pumpDrainPosition1');
+        let pumpScrewRotation = -90; // 초기값 -90도로 설정 (빗금이 왼쪽, 0을 향함)
+        let pumpIsPosition1Red = false;
+
+        // 페이지 로드 시 초기 회전 적용
+        pumpDrainScrew.style.transform = `rotate(${pumpScrewRotation}deg)`;
+
+        pumpDrain.addEventListener('click', function() {
+            // 나사 180도 시계방향 회전
+            pumpScrewRotation += 180;
+            pumpDrainScrew.style.transform = `rotate(${pumpScrewRotation}deg)`;
+
+            // "1" 색상 토글 (빨간색 ↔ 검은색)
+            if (pumpIsPosition1Red) {
+                // 빨간색 → 검은색
+                pumpDrainPosition1.style.color = '#000';
+                pumpDrainPosition1.style.fontWeight = 'bold';
+                pumpIsPosition1Red = false;
+            } else {
+                // 검은색 → 빨간색
+                pumpDrainPosition1.style.color = '#dc143c';
+                pumpDrainPosition1.style.fontWeight = 'bold';
+                pumpIsPosition1Red = true;
+            }
+        });
+
+        // 자동보수구 클릭 시 나사 180도 회전 및 "1" 색상 토글
+        const autoWaterSupply = document.getElementById('autoWaterSupply');
+        const autoWaterSupplyScrew = document.getElementById('autoWaterSupplyScrew');
+        const autoWaterSupplyPosition1 = document.getElementById('autoWaterSupplyPosition1');
+        let autoScrewRotation = -90; // 초기값 -90도로 설정 (빗금이 왼쪽, 0을 향함)
+        let autoIsPosition1Red = false;
+
+        // 페이지 로드 시 초기 회전 적용
+        autoWaterSupplyScrew.style.transform = `rotate(${autoScrewRotation}deg)`;
+
+        autoWaterSupply.addEventListener('click', function() {
+            // 나사 180도 시계방향 회전
+            autoScrewRotation += 180;
+            autoWaterSupplyScrew.style.transform = `rotate(${autoScrewRotation}deg)`;
+
+            // "1" 색상 토글 (빨간색 ↔ 검은색)
+            if (autoIsPosition1Red) {
+                // 빨간색 → 검은색
+                autoWaterSupplyPosition1.style.color = '#000';
+                autoWaterSupplyPosition1.style.fontWeight = 'bold';
+                autoIsPosition1Red = false;
+            } else {
+                // 검은색 → 빨간색
+                autoWaterSupplyPosition1.style.color = '#dc143c';
+                autoWaterSupplyPosition1.style.fontWeight = 'bold';
+                autoIsPosition1Red = true;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소방펌프차 - 방수 방법 4가지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #dee2e6;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            background: #f8f9fa;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+        }
+
+        .nav-tab:hover {
+            background: #e9ecef;
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #f5576c;
+            border-bottom: 4px solid #f5576c;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .intro-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .intro-section p {
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .method-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 5px solid;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .method-card.auto { border-top-color: #4CAF50; }
+        .method-card.emergency { border-top-color: #FF9800; }
+        .method-card.semi-auto { border-top-color: #2196F3; }
+        .method-card.manual { border-top-color: #f44336; }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .method-icon {
+            font-size: 3em;
+        }
+
+        .method-title {
+            flex: 1;
+        }
+
+        .method-title h3 {
+            font-size: 1.6em;
+            margin-bottom: 5px;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .badge-primary { background: #4CAF50; color: white; }
+        .badge-warning { background: #FF9800; color: white; }
+        .badge-info { background: #2196F3; color: white; }
+        .badge-danger { background: #f44336; color: white; }
+
+        .method-steps {
+            margin-top: 20px;
+        }
+
+        .method-steps h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .method-steps ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .method-steps li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+            color: #495057;
+        }
+
+        .method-steps li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table h3 {
+            color: #212529;
+            margin-bottom: 25px;
+            font-size: 1.6em;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 1.1em;
+        }
+
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+            color: #495057;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .flowchart {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .flowchart h3 {
+            color: #495057;
+            margin-bottom: 25px;
+            font-size: 1.6em;
+            text-align: center;
+        }
+
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .flow-item {
+            flex-shrink: 0;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 200px;
+            transition: all 0.3s;
+        }
+
+        .flow-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .flow-item.auto { border-top: 4px solid #4CAF50; }
+        .flow-item.emergency { border-top: 4px solid #FF9800; }
+        .flow-item.semi-auto { border-top: 4px solid #2196F3; }
+        .flow-item.manual { border-top: 4px solid #f44336; }
+
+        .flow-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .flow-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #212529;
+            margin-bottom: 5px;
+        }
+
+        .flow-desc {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #f5576c;
+            flex-shrink: 0;
+        }
+
+        .alert-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .alert-box h4 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-box ul {
+            margin-left: 20px;
+            line-height: 2;
+            color: #856404;
+        }
+
+        .detail-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .detail-section h3 {
+            color: #212529;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #f5576c;
+            padding-bottom: 10px;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #f5576c;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .highlight {
+            background: #ffeaa7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-tab {
+                font-size: 0.9em;
+                padding: 15px 10px;
+            }
+
+            .flow-container {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💧 소방펌프차 방수 방법 4가지</h1>
+            <p>자동, 비상, 반자동, 완전수동 완벽 가이드</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('overview')">📊 개요</button>
+            <button class="nav-tab" onclick="showTab('methods')">🔧 4가지 방법</button>
+            <button class="nav-tab" onclick="showTab('comparison')">📋 비교표</button>
+            <button class="nav-tab" onclick="showTab('details')">📖 상세절차</button>
+        </div>
+
+        <div class="content">
+            <!-- 개요 탭 -->
+            <div id="overview" class="tab-content active">
+                <div class="intro-section">
+                    <h3>🎯 소방펌프차 방수 방법 선택 기준</h3>
+                    <p>소방펌프차 방수는 상황에 따라 <span class="highlight">자동 → 비상(이머전시) → 반자동 → 완전수동</span> 순으로 활용함</p>
+                    <p style="margin-top: 10px;">현장 상황 및 차량 이상 여부에 따라 적합한 방법을 선택하여 신속하게 대응함</p>
+                </div>
+
+                <div class="flowchart">
+                    <h3>🔄 방수 방법 선택 플로우</h3>
+                    <div class="flow-container">
+                        <div class="flow-item auto">
+                            <div class="flow-icon">✅</div>
+                            <div class="flow-title">1. 자동방수</div>
+                            <div class="flow-desc">정상 작동 시</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-item emergency">
+                            <div class="flow-icon">⚡</div>
+                            <div class="flow-title">2. 비상방수</div>
+                            <div class="flow-desc">특장 전원 불량</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-item semi-auto">
+                            <div class="flow-icon">🔧</div>
+                            <div class="flow-title">3. 반자동방수</div>
+                            <div class="flow-desc">전기신호 불량</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-item manual">
+                            <div class="flow-icon">🛠️</div>
+                            <div class="flow-title">4. 완전수동</div>
+                            <div class="flow-desc">모든 장치 불량</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-box" style="background: #d1ecf1; border-left-color: #0c5460;">
+                    <h4 style="color: #0d47a1;">💡 핵심 포인트</h4>
+                    <ul style="color: #0d47a1;">
+                        <li><strong>자동방수:</strong> 현장에서 가장 자주 사용하는 기본 방식</li>
+                        <li><strong>비상방수:</strong> 특장 전원이 안 들어올 때 배터리 직결 사용</li>
+                        <li><strong>반자동방수:</strong> 전기신호가 전달되지 않을 때 수동 조작 병행</li>
+                        <li><strong>완전수동:</strong> 모든 자동장치가 작동하지 않을 때 최후의 방법</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 4가지 방법 탭 -->
+            <div id="methods" class="tab-content">
+                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">🔧 4가지 방수 방법</h2>
+
+                <div class="methods-grid">
+                    <div class="method-card auto" style="grid-column: 1 / -1; padding: 10px;">
+                        <div style="display: flex; gap: 20px; align-items: flex-start;">
+                            <div style="flex: 1; min-width: 400px; height: 750px; display: flex; flex-direction: column; justify-content: flex-start;">
+                                <div class="method-header" style="margin-bottom: 20px;">
+                                    <div class="method-icon" style="font-size: 4em;">✅</div>
+                                    <div class="method-title">
+                                        <h3 style="font-size: 2em;">1. 자동방수</h3>
+                                        <span class="method-badge badge-primary" style="font-size: 1.1em; padding: 8px 20px;">기본 방식</span>
+                                    </div>
+                                </div>
+                                <div class="method-steps">
+                                    <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
+                                    <ul style="font-size: 1.15em; line-height: 2.2;">
+                                        <li>운전석 컨트롤 박스 또는 뒤쪽 패널에서 <span class="highlight">"자동방수"</span> 버튼을 누름</li>
+                                        <li>메인밸브 열기, PTO(동력인출장치)연결</li>
+                                        <li>진공펌프 작동, 물 공급 완료</li>
+                                        <li>방수 밸브를 열면 방수가 시작됨</li>
+                                        <li>RPM 올림 또는 내림으로 방수압 조절</li>
+                                    </ul>
+                                    <div style="margin-top: 25px; padding: 20px; background: #e8f5e9; border-radius: 8px; font-size: 1.15em;">
+                                        <strong>✓ 특징:</strong> 현장에서 가장 자주 사용하는 기본 방식
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden;">
+                                <iframe src="./Automatic waterproofing control panel.html" style="width: 100%; height: 100%; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="method-card emergency" style="grid-column: 1 / -1; padding: 10px;">
+                        <div style="display: flex; gap: 20px; align-items: flex-start;">
+                            <div style="flex: 1; min-width: 400px; height: 750px; display: flex; flex-direction: column; justify-content: flex-start;">
+                                <div class="method-header" style="margin-bottom: 20px;">
+                                    <div class="method-icon" style="font-size: 4em;">⚡</div>
+                                    <div class="method-title">
+                                        <h3 style="font-size: 2em;">2. 비상 패널 방수</h3>
+                                        <span class="method-badge badge-warning" style="font-size: 1.1em; padding: 8px 20px;">이머전시</span>
+                                    </div>
+                                </div>
+                                <div class="method-steps">
+                                    <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
+                                    <ul style="font-size: 1.15em; line-height: 2.2;">
+                                        <li>소방차의 <span class="highlight">특장 전원이 안 들어올 때</span> 활용</li>
+                                        <li>이머전시 판넬에서 판넬전원 연결</li>
+                                        <li>메인밸브, TPO연결 후 진공펌프 수동작동(누르고 있어야 함)</li>
+                                        <li>물 공급 완료까지 진공펌프 작동 유지, 방수밸브 열면 방수 가능함</li>
+                                    </ul>
+                                    <div style="margin-top: 25px; padding: 20px; background: #fff3e0; border-radius: 8px; font-size: 1.15em;">
+                                        <strong>⚠️ 주의:</strong> 진공펌프 버튼을 계속 눌러야 함
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden; margin-top: 140px;">
+                                <iframe src="./Emergency Control Panel.html" style="width: 100%; height: 100%; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="method-card semi-auto" style="grid-column: 1 / -1; padding: 10px;">
+                        <div style="display: flex; gap: 20px; align-items: flex-start;">
+                            <div style="flex: 1; min-width: 400px; height: 750px; display: flex; flex-direction: column; justify-content: flex-start;">
+                                <div class="method-header" style="margin-bottom: 20px;">
+                                    <div class="method-icon" style="font-size: 4em;">🔧</div>
+                                    <div class="method-title">
+                                        <h3 style="font-size: 2em;">3. 반자동방수</h3>
+                                        <span class="method-badge badge-info" style="font-size: 1.1em; padding: 8px 20px;">혼합 방식</span>
+                                    </div>
+                                </div>
+                                <div class="method-steps">
+                                    <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
+                                    <ul style="font-size: 1.15em; line-height: 2.2;">
+                                        <li>컨트롤박스 전원은 들어오지만, <span class="highlight">버튼이 작동하지 않을 때</span></li>
+                                        <li>비상PTO 개방(소방차마다 위치 다름)</li>
+                                        <li>솔레노이드 판넬에서 메인밸브 개방</li>
+                                        <li>자체 급수 밸브나 중계밸브, 방수밸브 등 현장에서 <strong>직접 조작</strong></li>
+                                        <li>기본적으로 자동의 어려움을 수동으로 일부 조작하여 수행</li>
+                                    </ul>
+                                    <div style="margin-top: 25px; padding: 20px; background: #e3f2fd; border-radius: 8px; font-size: 1.15em;">
+                                        <strong>🔧 특징:</strong> 비상PTO 버튼의 위치는 소방차마다 다름
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden; margin-top: 140px;">
+                                <iframe src="./sol.html" style="width: 100%; height: 100%; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="method-card manual" style="grid-column: 1 / -1; padding: 10px;">
+                        <div style="display: flex; gap: 20px; align-items: flex-start;">
+                            <div style="flex: 1; min-width: 400px; height: 750px; display: flex; flex-direction: column; justify-content: flex-start;">
+                                <div class="method-header" style="margin-bottom: 20px;">
+                                    <div class="method-icon" style="font-size: 4em;">🛠️</div>
+                                    <div class="method-title">
+                                        <h3 style="font-size: 2em;">4. 완전수동방수</h3>
+                                        <span class="method-badge badge-danger" style="font-size: 1.1em; padding: 8px 20px;">최후 방법</span>
+                                    </div>
+                                </div>
+                                <div class="method-steps">
+                                    <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
+                                    <ul style="font-size: 1.15em; line-height: 2.2;">
+                                        <li><span class="highlight">모든 자동장치, 전원이 작동하지 않을 때</span> 사용하는 최후의 방법</li>
+                                        <li>솔레노이드 밸브를 수동 전환하고, 펌프 드레인 밸브, 메인밸브 등 직접 손으로 하나씩 열고 닫음</li>
+                                        <li>방수 밸브, 중계밸브, 자체급수 밸브 등 <strong>직접 조작</strong>해 물을 공급하고 방수</li>
+                                        <li>에어공급 밸브 등도 모두 직접 손으로 열고 닫아야 함</li>
+                                    </ul>
+                                    <div style="margin-top: 25px; padding: 20px; background: #ffebee; border-radius: 8px; font-size: 1.15em;">
+                                        <strong>⚠️ 주의:</strong> 모든 밸브를 수동으로 조작 (숙련 필요함)
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden; margin-top: 140px;">
+                                <iframe src="./완전수동방수조작.html" style="width: 100%; height: 100%; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 비교표 탭 -->
+            <div id="comparison" class="tab-content">
+                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">📋 방수 방법 비교표</h2>
+
+                <div class="comparison-table">
+                    <h3>📊 4가지 방법 상세 비교</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>사용 상황</th>
+                                <th>작동 방식</th>
+                                <th>난이도</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>✅ 1. 자동방수</strong></td>
+                                <td>모든 장치 정상 작동</td>
+                                <td>버튼 하나로 자동 작동</td>
+                                <td><span style="color: #4CAF50; font-weight: bold;">★☆☆☆☆ 매우 쉬움</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>⚡ 2. 비상방수</strong></td>
+                                <td>특장 전원 불량</td>
+                                <td>배터리 직결, 수동 버튼 유지</td>
+                                <td><span style="color: #FF9800; font-weight: bold;">★★☆☆☆ 쉬움</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>🔧 3. 반자동방수</strong></td>
+                                <td>전기신호 전달 불량</td>
+                                <td>솔레노이드 밸브 수동 + 일부 자동</td>
+                                <td><span style="color: #2196F3; font-weight: bold;">★★★☆☆ 보통</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>🛠️ 4. 완전수동</strong></td>
+                                <td>모든 자동장치 불량</td>
+                                <td>모든 밸브 직접 수동 조작</td>
+                                <td><span style="color: #f44336; font-weight: bold;">★★★★★ 어려움</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="comparison-table" style="margin-top: 30px;">
+                    <h3>🔍 주요 차이점</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>PTO 연결</th>
+                                <th>메인밸브</th>
+                                <th>진공펌프</th>
+                                <th>방수밸브</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>✅ 자동방수</strong></td>
+                                <td>자동</td>
+                                <td>자동</td>
+                                <td>자동 (자동 정지)</td>
+                                <td>수동</td>
+                            </tr>
+                            <tr>
+                                <td><strong>⚡ 비상방수</strong></td>
+                                <td>수동 (버튼 유지)</td>
+                                <td>수동 (버튼 유지)</td>
+                                <td>수동 (버튼 유지)</td>
+                                <td>수동</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🔧 반자동방수</strong></td>
+                                <td>수동 (솔레노이드)</td>
+                                <td>수동 (솔레노이드)</td>
+                                <td>일부 자동</td>
+                                <td>수동</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🛠️ 완전수동</strong></td>
+                                <td>수동 (직접)</td>
+                                <td>수동 (직접)</td>
+                                <td>수동 (직접)</td>
+                                <td>수동 (직접)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="alert-box" style="background: #d4edda; border-left-color: #28a745; margin-top: 30px;">
+                    <h4 style="color: #155724;">✅ 선택 기준</h4>
+                    <ul style="color: #155724;">
+                        <li><strong>정상 상황:</strong> 1. 자동방수 사용 (가장 빠르고 확실함)</li>
+                        <li><strong>전원 문제:</strong> 2. 비상방수로 전환 (배터리 직결)</li>
+                        <li><strong>신호 문제:</strong> 3. 반자동방수 사용 (수동 조작 병행)</li>
+                        <li><strong>모든 장치 고장:</strong> 4. 완전수동 사용 (최후의 수단)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 상세절차 탭 -->
+            <div id="details" class="tab-content">
+                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">📖 상세 절차 및 주의사항</h2>
+
+                <div class="detail-section">
+                    <h3>✅ 1. 자동방수 상세 절차</h3>
+                    <ul class="step-list">
+                        <li>운전석 컨트롤 박스 또는 뒤쪽 패널에서 <span class="highlight">"자동방수"</span> 버튼을 누름</li>
+                        <li>PTO(동력인출장치)가 자동으로 연결되고, 메인밸브가 자동으로 열림</li>
+                        <li>진공펌프가 자동으로 작동하여 배관 내 공기를 제거함</li>
+                        <li>물 공급이 완료되면 진공펌프가 <strong>자동으로 멈춤</strong></li>
+                        <li>방수 밸브를 열어 방수를 시작함</li>
+                    </ul>
+                    <div class="alert-box" style="background: #e8f5e9; border-left-color: #4CAF50;">
+                        <h4 style="color: #2e7d32;">💡 자동방수 팁</h4>
+                        <ul style="color: #2e7d32;">
+                            <li>가장 빠르고 확실한 방법으로 현장에서 최우선 사용</li>
+                            <li>진공펌프가 자동으로 정지하는지 확인하여 정상 작동 여부 판단</li>
+                            <li>만약 작동하지 않으면 즉시 비상방수로 전환</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>⚡ 2. 비상(이머전시) 패널 방수 상세 절차</h3>
+                    <ul class="step-list">
+                        <li>소방차의 특장 전원이 안 들어오는 것을 확인함</li>
+                        <li><span class="highlight">이머전시 패널</span>을 찾음 (배터리 직결 사용)</li>
+                        <li>이머전시 패널에서 PTO 버튼을 <strong>누르고 계속 유지</strong>함</li>
+                        <li>메인밸브 버튼을 <strong>누르고 계속 유지</strong>함</li>
+                        <li>진공펌프 버튼을 <strong>누르고 계속 유지</strong>하여 물 공급을 완료함</li>
+                        <li>물 공급이 완료되면 버튼에서 손을 뗌</li>
+                        <li>방수밸브를 열어 방수를 시작함</li>
+                    </ul>
+                    <div class="alert-box" style="background: #fff3e0; border-left-color: #FF9800;">
+                        <h4 style="color: #e65100;">⚠️ 비상방수 주의사항</h4>
+                        <ul style="color: #e65100;">
+                            <li><strong>버튼을 계속 누르고 있어야 함:</strong> 자동 정지되지 않으므로 물 공급 완료까지 유지</li>
+                            <li>배터리 직결이므로 배터리 상태 확인 필요함</li>
+                            <li>여러 버튼을 동시에 눌러야 할 수 있으므로 2명 이상 협력 권장함</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🔧 3. 반자동방수 상세 절차</h3>
+                    <ul class="step-list">
+                        <li>컨트롤박스 전원은 들어오지만, 전기신호가 메인밸브나 PTO에 전달되지 않는 것을 확인함</li>
+                        <li>차량 뒤쪽의 <span class="highlight">솔레노이드 밸브</span>를 찾음</li>
+                        <li>솔레노이드 밸브를 손으로 직접 조작하여 메인밸브를 엶</li>
+                        <li>PTO를 수동으로 연결함</li>
+                        <li>자체 급수 밸브, 중계밸브, 방수밸브 등을 현장에서 직접 조작함</li>
+                        <li>일부 자동 기능이 작동하는지 확인하며 병행하여 사용함</li>
+                    </ul>
+                    <div class="alert-box" style="background: #e3f2fd; border-left-color: #2196F3;">
+                        <h4 style="color: #0d47a1;">🔧 반자동방수 팁</h4>
+                        <ul style="color: #0d47a1;">
+                            <li>자동과 수동을 혼합하여 사용하므로 어느 부분이 작동하는지 확인 필요함</li>
+                            <li>솔레노이드 밸브 위치를 사전에 숙지해야 함</li>
+                            <li>일부 밸브는 자동으로 작동할 수 있으므로 확인하며 진행</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>🛠️ 4. 완전수동방수 상세 절차</h3>
+                    <ul class="step-list">
+                        <li>모든 자동장치와 전원이 작동하지 않는 것을 확인함 (최후의 수단)</li>
+                        <li><span class="highlight">솔레노이드 밸브를 수동 전환</span>함</li>
+                        <li>펌프 드레인 밸브를 직접 손으로 열고 닫음</li>
+                        <li>메인밸브를 직접 손으로 열고 닫음</li>
+                        <li>방수 밸브, 중계밸브, 자체급수 밸브 등을 직접 조작하여 물을 공급함</li>
+                        <li>에어공급 밸브도 직접 손으로 열고 닫음</li>
+                        <li>모든 과정을 수동으로 조작하여 방수를 수행함</li>
+                    </ul>
+                    <div class="alert-box" style="background: #ffebee; border-left-color: #f44336;">
+                        <h4 style="color: #c62828;">⚠️ 완전수동 주의사항</h4>
+                        <ul style="color: #c62828;">
+                            <li><strong>높은 숙련도 필요함:</strong> 모든 밸브의 위치와 순서를 정확히 알아야 함</li>
+                            <li><strong>정기 훈련 필수:</strong> 평상시 훈련을 통해 절차를 숙지해야 함</li>
+                            <li><strong>시간 소요:</strong> 자동방수보다 시간이 많이 걸리므로 빠른 판단 필요함</li>
+                            <li><strong>팀워크 중요함:</strong> 여러 밸브를 동시에 조작해야 하므로 팀원과 협력</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert-box" style="background: #d4edda; border-left-color: #28a745; margin-top: 30px;">
+                    <h4 style="color: #155724;">✅ 방수 성공의 핵심</h4>
+                    <ul style="color: #155724;">
+                        <li><strong>평상시 훈련:</strong> 4가지 방법 모두를 정기적으로 훈련하여 숙달</li>
+                        <li><strong>빠른 판단:</strong> 자동방수가 안 될 경우 즉시 다음 방법으로 전환</li>
+                        <li><strong>장비 숙지:</strong> 솔레노이드 밸브, 이머전시 패널 위치 사전 파악</li>
+                        <li><strong>상황 대응:</strong> 현장 상황과 차량 상태에 맞는 방법 선택</li>
+                        <li><strong>팀워크:</strong> 동료와의 원활한 의사소통과 협력</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const tabButtons = document.querySelectorAll('.nav-tab');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
