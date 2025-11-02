@@ -4,7 +4,7 @@
   "description": "\"# gisse1\" \r \"# gisse1\"  \r \"# gisse2\"  \r \"# wiki-project\"  \r \"# wiki-project\"",
   "main": "index.js",
   "scripts": {
-    "deploy": "gh-pages -d build", 
+    "deploy": "gh-pages -d .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/gisse0824-commits/wiki-project/issues"
   },
-  "homepage": "https://github.com/gisse0824-commits/wiki-project#readme"
+  "homepage": "https://github.com/gisse0824-commits/wiki-project#readme",
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
 }
