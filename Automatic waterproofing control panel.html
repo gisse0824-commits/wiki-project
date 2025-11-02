@@ -28,7 +28,7 @@
             border-radius: 20px;
             padding: 15px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            transform: scale(0.7728);
+            transform: scaleX(0.92736) scaleY(0.7728);
             transform-origin: top center;
             margin: 0 auto;
             width: fit-content;
@@ -586,7 +586,7 @@
                     <!-- 수압계 -->
                     <div class="section-light" style="flex: 1; display: flex; flex-direction: column; margin-bottom: 8px;">
                         <div class="rpm-section-title">전자식 수압계</div>
-                        <div class="display display-large">0000</div>
+                        <div id="pressureDisplay" class="display display-large">0000</div>
 
                         <div class="gauge-container" style="flex: 1;">
                             <div class="gauge-labels">
@@ -595,7 +595,7 @@
                             </div>
 
                             <div class="gauge-bars">
-                                <div class="gauge-bar water-bar" style="height: 60%;"></div>
+                                <div id="waterBar" class="gauge-bar water-bar" style="height: 60%;"></div>
                                 <div class="gauge-bar foam-bar" style="height: 45%;"></div>
                             </div>
 
@@ -627,8 +627,14 @@
                         </div>
 
                         <div class="btn-grid-2" style="margin-bottom: 0;">
-                            <div class="control-btn btn-red">RPM<br>올림</div>
-                            <div class="control-btn btn-green">RPM<br>내림</div>
+                            <div class="btn-with-led">
+                                <div id="rpmUpLed" class="led-indicator"></div>
+                                <div id="rpmUp" class="control-btn btn-red">RPM<br>올림</div>
+                            </div>
+                            <div class="btn-with-led">
+                                <div id="rpmDownLed" class="led-indicator"></div>
+                                <div id="rpmDown" class="control-btn btn-green">RPM<br>내림</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -699,22 +705,22 @@
             // 자동방수작동 LED 즉시 활성화
             document.getElementById('autoWaterLed').classList.add('active');
 
-            // 순차적으로 LED 활성화
+            // 순차적으로 LED 활성화 (2초 간격)
             setTimeout(function() {
                 document.getElementById('mainValveLed').classList.add('active');
-            }, 1000);
-
-            setTimeout(function() {
-                document.getElementById('ptoConnectLed').classList.add('active');
             }, 2000);
 
             setTimeout(function() {
+                document.getElementById('ptoConnectLed').classList.add('active');
+            }, 4000);
+
+            setTimeout(function() {
                 document.getElementById('vacuumValveLed').classList.add('active');
-            }, 3000);
+            }, 6000);
 
             setTimeout(function() {
                 document.getElementById('waterCompleteLed').classList.add('active');
-            }, 4000);
+            }, 8000);
         });
 
         // 모든 LED의 active 상태 제거 함수
@@ -753,6 +759,84 @@
                 clearAllActive();
             });
         }
+
+        // RPM 올림/내림 버튼 기능
+        const rpmUpBtn = document.getElementById('rpmUp');
+        const rpmDownBtn = document.getElementById('rpmDown');
+        const rpmUpLed = document.getElementById('rpmUpLed');
+        const rpmDownLed = document.getElementById('rpmDownLed');
+        const waterBar = document.getElementById('waterBar');
+        const pressureDisplay = document.getElementById('pressureDisplay');
+
+        let currentPressure = 60; // 초기 압력 (60%)
+        let pressureInterval = null;
+
+        function updatePressure() {
+            // 압력계 바 업데이트
+            waterBar.style.height = currentPressure + '%';
+
+            // 디지털 디스플레이 업데이트 (0-100% -> 0000-9999)
+            const displayValue = Math.round((currentPressure / 100) * 9999);
+            pressureDisplay.textContent = displayValue.toString().padStart(4, '0');
+        }
+
+        function startIncreasingPressure() {
+            rpmUpLed.classList.add('active');
+            pressureInterval = setInterval(function() {
+                if (currentPressure < 100) {
+                    currentPressure += 1;
+                    updatePressure();
+                }
+            }, 50); // 50ms마다 1% 증가
+        }
+
+        function startDecreasingPressure() {
+            rpmDownLed.classList.add('active');
+            pressureInterval = setInterval(function() {
+                if (currentPressure > 0) {
+                    currentPressure -= 1;
+                    updatePressure();
+                }
+            }, 50); // 50ms마다 1% 감소
+        }
+
+        function stopChangingPressure() {
+            rpmUpLed.classList.remove('active');
+            rpmDownLed.classList.remove('active');
+            if (pressureInterval) {
+                clearInterval(pressureInterval);
+                pressureInterval = null;
+            }
+        }
+
+        // RPM 올림 버튼 이벤트
+        rpmUpBtn.addEventListener('mousedown', startIncreasingPressure);
+        rpmUpBtn.addEventListener('mouseup', stopChangingPressure);
+        rpmUpBtn.addEventListener('mouseleave', stopChangingPressure);
+        rpmUpBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            startIncreasingPressure();
+        });
+        rpmUpBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            stopChangingPressure();
+        });
+
+        // RPM 내림 버튼 이벤트
+        rpmDownBtn.addEventListener('mousedown', startDecreasingPressure);
+        rpmDownBtn.addEventListener('mouseup', stopChangingPressure);
+        rpmDownBtn.addEventListener('mouseleave', stopChangingPressure);
+        rpmDownBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            startDecreasingPressure();
+        });
+        rpmDownBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            stopChangingPressure();
+        });
+
+        // 초기 압력 표시
+        updatePressure();
     </script>
 </body>
 </html>
