@@ -49,9 +49,12 @@
 
         .types-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: 1fr;
             gap: 25px;
             margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .type-card {
@@ -380,115 +383,6 @@
                     물방수를 먼저 하다가 폼을 투입하는 방법임. 일반화재에서 물로 진압하다가 유류 등 특수화재시 폼을 조합함
                 </div>
             </div>
-
-            <div class="type-card" onclick="showProcedure('type2')">
-                <div class="type-icon">📋</div>
-                <div class="type-title">특장업체 매뉴얼 기본형</div>
-                <div class="type-description">
-                    최신 특장차 기준, 매뉴얼대로 하는 폼방수임. 폼전용 배관과 밸브/조절장치 활용함
-                    <span class="badge">기본형</span>
-                </div>
-            </div>
-
-            <div class="type-card" onclick="showProcedure('type3')">
-                <div class="type-icon">🔫</div>
-                <div class="type-title">관창 직결형 (응용형)</div>
-                <div class="type-description">
-                    폼액과 물을 관창에서 직접 조합하는 방식임. 폼 관창, 피스톨 관창 등으로 거품 생성함. 현장 상황에 따라 손쉽게 사용 가능함
-                </div>
-            </div>
-
-            <div class="type-card" onclick="showProcedure('type4')">
-                <div class="type-icon">📏</div>
-                <div class="type-title">포스 구경별 폼방수</div>
-                <div class="type-description">
-                    관창 구경(40mm, 65mm)에 따라 폼 투입량/밸브 설정을 다르게 함. 각 사이즈별 밸브 조절 필요함
-                </div>
-            </div>
-        </div>
-
-        <!-- 특장업체 매뉴얼 폼방수 -->
-        <div id="procedure-type2" class="procedure-container">
-            <div class="procedure-title">📋 특장업체 매뉴얼 폼방수 (폼 메인방식)</div>
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <div class="step-title">PTO 연결, 펌프 가동</div>
-                        <div class="step-description">
-                            소방차의 동력인출장치(PTO)를 연결하고 펌프를 가동시킴
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <div class="step-title">폼 메인 밸브 개방</div>
-                        <div class="step-description">
-                            폼액이 흐를 수 있도록 폼 메인 밸브를 열 것
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <div class="step-title">송수(물공급) 밸브 개방</div>
-                        <div class="step-description">
-                            물 공급을 위한 송수 밸브를 개방할 것
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <div class="step-title">폼 조절 밸브 설정 (관창 구경별)</div>
-                        <div class="step-description">
-                            관창 크기에 맞춰 폼 조절 밸브를 설정할 것
-                        </div>
-                        <div class="valve-settings">
-                            <div class="valve-item">
-                                🔸 40mm 관창: 130에 맞춤
-                            </div>
-                            <div class="valve-item">
-                                🔸 65mm 관창: 330~562에 맞춤 (제조업체 매뉴얼 참고)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <div class="step-title">방수 시작</div>
-                        <div class="step-description">
-                            폼액과 물이 희석되어 방수구로 거품이 방수됨
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">6</div>
-                    <div class="step-content">
-                        <div class="step-title">RPM(엔진회전수) 조절</div>
-                        <div class="step-description">
-                            필요시 폼 형성력 및 사거리를 조절할 것
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">7</div>
-                    <div class="step-content">
-                        <div class="step-title">작업 종료 후 폼 메인 밸브 닫기, 세척</div>
-                        <div class="step-description">
-                            작업이 끝나면 폼 메인 밸브를 닫고 배관을 세척할 것
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- 선 물방수 후 폼투입 -->
@@ -531,116 +425,6 @@
                         <div class="step-title">화재종류 및 상황에 따라 폼방수 종료 후, 세척 실시</div>
                         <div class="step-description">
                             진압 완료 후 배관 세척을 반드시 실시할 것
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 관창 직결형 -->
-        <div id="procedure-type3" class="procedure-container">
-            <div class="procedure-title">🔫 관창 직결형 (응용형) 폼방수</div>
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <div class="step-title">폼 전용 관창/피스톨 관창 연결</div>
-                        <div class="step-description">
-                            폼 전용 관창 또는 피스톨 관창을 호스에 연결할 것
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <div class="step-title">폼액 통을 관창에 직접 연결</div>
-                        <div class="step-description">
-                            폼액 통을 관창에 직접 연결하여 준비할 것
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <div class="step-title">물 공급 밸브 개방 후, 폼액과 물이 관창에서 결합</div>
-                        <div class="step-description">
-                            물 공급 밸브를 열면 폼액과 물이 관창에서 자동으로 혼합됨
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <div class="step-title">관창에서 바로 거품 생성, 화재 진압</div>
-                        <div class="step-description">
-                            관창에서 즉시 거품이 생성되어 화재 진압을 시작할 것
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 포스 구경별 -->
-        <div id="procedure-type4" class="procedure-container">
-            <div class="procedure-title">📏 포스 구경별 (관창 사이즈별) 폼방수</div>
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <div class="step-title">관창 사이즈 확인 (40mm, 65mm 등)</div>
-                        <div class="step-description">
-                            사용할 관창의 구경을 확인할 것
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <div class="step-title">폼 조절 밸브를 각 사이즈 매뉴얼에 맞게 설정</div>
-                        <div class="step-description">
-                            관창 사이즈에 따라 폼 조절 밸브를 정확히 설정할 것
-                        </div>
-                        <div class="valve-settings">
-                            <div class="valve-item">
-                                🔸 40mm: 130
-                            </div>
-                            <div class="valve-item">
-                                🔸 65mm: 330~562 (매뉴얼 참고)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <div class="step-title">폼 메인과 송수 밸브 개방</div>
-                        <div class="step-description">
-                            폼 메인 밸브와 송수 밸브를 개방할 것
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <div class="step-title">필요 폼양 조절 후 방수 시작</div>
-                        <div class="step-description">
-                            현장 상황에 맞춰 폼 양을 조절하고 방수를 시작할 것
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <div class="step-title">작업 종료 후, 각 밸브 닫고 배관 세척 실시</div>
-                        <div class="step-description">
-                            모든 밸브를 닫고 배관 내부를 깨끗이 세척할 것
                         </div>
                     </div>
                 </div>

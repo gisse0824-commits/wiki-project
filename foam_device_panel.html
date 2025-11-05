@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼액 발생장치</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Arial', sans-serif;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: visible;
+        }
+
+        .panel-container {
+            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
+            border: 8px solid #4a4a4a;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+            transform: scaleX(0.51) scaleY(0.6375);
+            transform-origin: top center;
+            margin: 0 auto;
+            position: relative;
+            width: 1100px;
+        }
+
+        .title-banner {
+            background: linear-gradient(135deg, #2c3e50, #000);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .devices-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+            margin-bottom: 30px;
+        }
+
+        .valve-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* 레버 밸브 */
+        .lever-valve {
+            width: 180px;
+            height: 180px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lever-body {
+            width: 70px;
+            height: 35px;
+            background: linear-gradient(90deg, #e74c3c 0%, #c0392b 50%, #e74c3c 100%);
+            border: 3px solid #8b0000;
+            border-radius: 6px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform-origin: 0 center;
+            transform: translate(0, -50%) rotate(270deg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .lever-center {
+            width: 45px;
+            height: 45px;
+            background: radial-gradient(circle at 35% 35%, #e74c3c, #c0392b);
+            border-radius: 50%;
+            border: 3px solid #8b0000;
+            position: absolute;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+        }
+
+        .valve-label {
+            background: linear-gradient(145deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 4px solid #1e8449;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .direction-indicators {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+        }
+
+        .auto-label {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 19.5px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .manual-label-dir {
+            position: absolute;
+            right: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 19.5px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .auto-arrow {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: #000;
+        }
+
+        .manual-arrow {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #000;
+        }
+
+        /* 폼액 조절밸브 */
+        .foam-control-section {
+            margin-top: 30px;
+        }
+
+        .foam-control-box {
+            background: #b8b8b8;
+            border: 5px solid #4a7c4e;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .foam-title-section {
+            background: transparent;
+            padding: 20px 40px 10px 40px;
+        }
+
+        .foam-control-title {
+            color: #4a7c4e;
+            font-size: 42px;
+            font-weight: bold;
+            margin: 0;
+            text-align: left;
+        }
+
+        .foam-main-content {
+            background: #b8b8b8;
+            padding: 20px 40px 30px 40px;
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .foam-valve-section {
+            flex: 1;
+            position: relative;
+            padding-bottom: 80px;
+        }
+
+        .foam-valve-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .foam-direction-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4a7c4e;
+        }
+
+        .foam-valve-container {
+            width: 220px;
+            height: 220px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .foam-valve-circle {
+            width: 180px;
+            height: 180px;
+            background: white;
+            border: 5px solid #000;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .foam-valve-inner-circle {
+            width: 120px;
+            height: 120px;
+            border: 3px dashed #888;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .foam-valve-tick {
+            position: absolute;
+            width: 3px;
+            height: 15px;
+            background: #000;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .foam-valve-number {
+            position: absolute;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            transform-origin: center;
+        }
+
+        .number-330 {
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+        }
+
+        .number-660 {
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .number-990 {
+            top: 50%;
+            left: 5px;
+            transform: translateY(-50%);
+        }
+
+        .foam-outer-number {
+            position: absolute;
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+            transform-origin: center;
+        }
+
+        .outer-560 {
+            top: 10px;
+            right: -20px;
+            transform: rotate(45deg);
+        }
+
+        .outer-1120 {
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .outer-1680 {
+            top: 10px;
+            left: -20px;
+            transform: rotate(-45deg);
+        }
+
+        .foam-valve-lever {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 50px;
+            transform-origin: 0 center;
+            transform: translate(0, -25px) rotate(90deg);
+            cursor: grab;
+            transition: none;
+            z-index: 10;
+            user-select: none;
+        }
+
+        .foam-valve-lever:active {
+            cursor: grabbing;
+        }
+
+        .foam-lever-shaft {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 22px;
+            background: transparent;
+            border: 3px solid #5a5a5a;
+            border-radius: 11px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .foam-lever-grip {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 45px;
+            background: linear-gradient(135deg, #6a6a6a 0%, #4a4a4a 50%, #2a2a2a 100%);
+            border: 3px solid #1a1a1a;
+            border-radius: 23px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .foam-lever-grip::before {
+            content: '';
+            width: 45px;
+            height: 32px;
+            background: linear-gradient(135deg, #5a5a5a 0%, #3a3a3a 50%, #1a1a1a 100%);
+            border-radius: 16px;
+        }
+
+        .foam-arrow-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+        }
+
+        .foam-arrow-left {
+            position: absolute;
+            left: 20px;
+            bottom: 30px;
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-right: 20px solid #4a7c4e;
+        }
+
+        .foam-arrow-right {
+            position: absolute;
+            right: 20px;
+            bottom: 30px;
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 20px solid #4a7c4e;
+        }
+
+        .foam-arrow-curve {
+            position: absolute;
+            bottom: 22px;
+            left: 40px;
+            right: 40px;
+            height: 20px;
+            border-bottom: 4px solid #4a7c4e;
+            border-radius: 0 0 80px 80px;
+        }
+
+        .foam-table-section {
+            flex-shrink: 0;
+        }
+
+        .foam-table {
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .foam-table th, .foam-table td {
+            border: 3px solid #000;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .foam-table th {
+            background: #d0d0d0;
+            font-weight: bold;
+        }
+
+        .foam-table-title {
+            background: #d0d0d0;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 8px 15px;
+        }
+
+        .foam-warning-section {
+            background: #b8b8b8;
+            padding: 15px 40px 25px 40px;
+        }
+
+        .foam-warning-text {
+            color: #4a7c4e;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* 주의 문구 */
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd, #ffe69c);
+            color: #856404;
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 4px solid #ffc107;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+            margin-top: 20px;
+        }
+
+        .warning-icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel-container">
+        <div class="title-banner">폼액 발생장치</div>
+
+        <div class="devices-layout">
+            <!-- 폼메인밸브 -->
+            <div class="valve-unit">
+                <div class="lever-valve">
+                    <div class="direction-indicators">
+                        <div class="auto-label">닫힘</div>
+                        <div class="auto-arrow">↑</div>
+                        <div class="manual-label-dir">열림</div>
+                        <div class="manual-arrow">→</div>
+                    </div>
+                    <div class="lever-body" id="foamMainLever"></div>
+                    <div class="lever-center"></div>
+                </div>
+                <div class="valve-label">폼메인밸브</div>
+            </div>
+
+            <!-- 송수밸브 -->
+            <div class="valve-unit">
+                <div class="lever-valve">
+                    <div class="direction-indicators">
+                        <div class="auto-label">닫힘</div>
+                        <div class="auto-arrow">↑</div>
+                        <div class="manual-label-dir">열림</div>
+                        <div class="manual-arrow">→</div>
+                    </div>
+                    <div class="lever-body" id="waterSupplyLever"></div>
+                    <div class="lever-center"></div>
+                </div>
+                <div class="valve-label">송수밸브</div>
+            </div>
+
+            <!-- 세척밸브 -->
+            <div class="valve-unit">
+                <div class="lever-valve">
+                    <div class="direction-indicators">
+                        <div class="auto-label">닫힘</div>
+                        <div class="auto-arrow">↑</div>
+                        <div class="manual-label-dir">열림</div>
+                        <div class="manual-arrow">→</div>
+                    </div>
+                    <div class="lever-body" id="cleaningLever"></div>
+                    <div class="lever-center"></div>
+                </div>
+                <div class="valve-label">세척밸브</div>
+            </div>
+        </div>
+
+        <!-- 폼액 조절밸브 -->
+        <div class="foam-control-section">
+            <div class="foam-control-box">
+                <div class="foam-title-section">
+                    <div class="foam-control-title">폼액 조절밸브</div>
+                </div>
+                <div class="foam-main-content">
+                    <div class="foam-valve-section">
+                        <div class="foam-valve-wrapper">
+                            <div class="foam-direction-labels">
+                                <div>CLOSE</div>
+                                <div>OPEN</div>
+                            </div>
+                            <div class="foam-valve-container">
+                                <div class="foam-valve-circle">
+                                    <div class="foam-outer-number outer-560">560</div>
+                                    <div class="foam-outer-number outer-1120">1120</div>
+                                    <div class="foam-outer-number outer-1680">1680</div>
+                                </div>
+                                <div class="foam-valve-inner-circle">
+                                    <div class="foam-valve-number number-330">330</div>
+                                    <div class="foam-valve-number number-660">660</div>
+                                    <div class="foam-valve-number number-990">990</div>
+                                </div>
+                                <div class="foam-valve-tick"></div>
+                                <div class="foam-valve-lever" id="foamControlLever">
+                                    <div class="foam-lever-shaft"></div>
+                                    <div class="foam-lever-grip"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="foam-table-section">
+                        <table class="foam-table">
+                            <tr>
+                                <th colspan="4" class="foam-table-title">3% 폼 혼합 방사량 (의력: 7kg/cm)</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">40A</td>
+                                <td>330LPM</td>
+                                <td>660LPM</td>
+                                <td>990LPM</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">65A</td>
+                                <td>560LPM</td>
+                                <td>1120LPM</td>
+                                <td>1680LPM</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="foam-warning-section">
+                    <p class="foam-warning-text">주의: 사용후 세척 밸브를 열어서 드레인 시키십시오.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 레버 밸브 회전 기능 (솔레노이드 수동조작밸브와 동일)
+        function setupLeverValve(leverId, valveId) {
+            const lever = document.getElementById(leverId);
+            const valveContainer = lever.parentElement;
+            let isOpen = true; // 초기 상태: 열림 (위쪽)
+
+            // 페이지 로드 시 레버를 열림 방향(위쪽)으로 설정
+            lever.style.transform = `translate(0, -50%) rotate(270deg)`;
+
+            valveContainer.addEventListener('click', function() {
+                if (isOpen) {
+                    // 열림 → 닫힘 (시계방향으로 90도 회전, 360도)
+                    lever.style.transform = `translate(0, -50%) rotate(360deg)`;
+                    isOpen = false;
+                } else {
+                    // 닫힘 → 열림 (시계 반대방향으로 90도 회전, 270도)
+                    lever.style.transform = `translate(0, -50%) rotate(270deg)`;
+                    isOpen = true;
+                }
+            });
+        }
+
+        // 모든 레버 밸브 초기화
+        setupLeverValve('foamMainLever', 'foamMainValve');
+        setupLeverValve('waterSupplyLever', 'waterSupplyValve');
+        setupLeverValve('cleaningLever', 'cleaningValve');
+
+        // 폼액 조절밸브 회전 기능 (360도 드래그 방식)
+        const foamControlLever = document.getElementById('foamControlLever');
+        const foamValveContainer = document.querySelector('.foam-valve-container');
+
+        let currentFoamAngle = 90; // 초기 각도 (아래쪽 - 90도)
+        let isFoamDragging = false;
+
+        // 레버 중심점 가져오기
+        function getFoamCenter() {
+            const rect = foamValveContainer.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+
+        // 마우스 위치로부터 각도 계산
+        function calculateFoamAngle(mouseX, mouseY) {
+            const center = getFoamCenter();
+            const deltaX = mouseX - center.x;
+            const deltaY = mouseY - center.y;
+
+            // atan2는 -180 ~ 180 범위를 반환, 0~360 범위로 변환
+            let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+            if (angle < 0) angle += 360;
+
+            return angle;
+        }
+
+        // 드래그 시작
+        function startFoamDrag(e) {
+            isFoamDragging = true;
+            foamControlLever.style.cursor = 'grabbing';
+            e.preventDefault();
+        }
+
+        // 드래그 중
+        function dragFoam(e) {
+            if (!isFoamDragging) return;
+
+            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+
+            let angle = calculateFoamAngle(clientX, clientY);
+
+            currentFoamAngle = angle;
+            foamControlLever.style.transform = `translate(0, -25px) rotate(${angle}deg)`;
+        }
+
+        // 드래그 종료
+        function stopFoamDrag() {
+            if (!isFoamDragging) return;
+            isFoamDragging = false;
+            foamControlLever.style.cursor = 'grab';
+        }
+
+        // 이벤트 리스너 등록
+        foamControlLever.addEventListener('mousedown', startFoamDrag);
+        document.addEventListener('mousemove', dragFoam);
+        document.addEventListener('mouseup', stopFoamDrag);
+
+        // 터치 이벤트 지원
+        foamControlLever.addEventListener('touchstart', startFoamDrag);
+        document.addEventListener('touchmove', dragFoam);
+        document.addEventListener('touchend', stopFoamDrag);
+
+        // 레버에 호버 효과
+        foamControlLever.addEventListener('mouseenter', function() {
+            if (!isFoamDragging) {
+                this.style.filter = 'brightness(1.2)';
+            }
+        });
+
+        foamControlLever.addEventListener('mouseleave', function() {
+            if (!isFoamDragging) {
+                this.style.filter = 'brightness(1)';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>소방펌프차 - 방수 방법 4가지</title>
+    <title>소방펌프차 방수 가이드</title>
     <style>
         * {
             margin: 0;
@@ -395,10 +395,14 @@
         }
 
         .highlight {
-            background: #ffeaa7;
-            padding: 2px 6px;
-            border-radius: 4px;
+            background: transparent;
+            color: #ff4444;
+            padding: 0 4px;
             font-weight: bold;
+        }
+
+        .intro-section .highlight {
+            color: #ffffff;
         }
 
         @media (max-width: 768px) {
@@ -428,14 +432,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>💧 소방펌프차 방수 방법 4가지</h1>
-            <p>자동, 비상, 반자동, 완전수동 완벽 가이드</p>
+            <h1>💧 소방펌프차 방수 가이드</h1>
+            <p>자동, 비상, 반자동, 완전수동, 폼방수 완벽 가이드</p>
         </div>
 
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('overview')">📊 개요</button>
-            <button class="nav-tab" onclick="showTab('methods')">🔧 4가지 방법</button>
-            <button class="nav-tab" onclick="showTab('comparison')">📋 비교표</button>
+            <button class="nav-tab" onclick="showTab('methods')">🔧 방수 방법</button>
             <button class="nav-tab" onclick="showTab('details')">📖 상세절차</button>
         </div>
 
@@ -446,51 +449,139 @@
                     <h3>🎯 소방펌프차 방수 방법 선택 기준</h3>
                     <p>소방펌프차 방수는 상황에 따라 <span class="highlight">자동 → 비상(이머전시) → 반자동 → 완전수동</span> 순으로 활용함</p>
                     <p style="margin-top: 10px;">현장 상황 및 차량 이상 여부에 따라 적합한 방법을 선택하여 신속하게 대응함</p>
+                    <p style="margin-top: 10px;"><span class="highlight">폼방수</span>는 유류화재 등 특수화재에서 사용하는 특별한 방식임</p>
                 </div>
 
-                <div class="flowchart">
-                    <h3>🔄 방수 방법 선택 플로우</h3>
-                    <div class="flow-container">
-                        <div class="flow-item auto">
-                            <div class="flow-icon">✅</div>
-                            <div class="flow-title">1. 자동방수</div>
-                            <div class="flow-desc">정상 작동 시</div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-item emergency">
-                            <div class="flow-icon">⚡</div>
-                            <div class="flow-title">2. 비상방수</div>
-                            <div class="flow-desc">특장 전원 불량</div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-item semi-auto">
-                            <div class="flow-icon">🔧</div>
-                            <div class="flow-title">3. 반자동방수</div>
-                            <div class="flow-desc">전기신호 불량</div>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-item manual">
-                            <div class="flow-icon">🛠️</div>
-                            <div class="flow-title">4. 완전수동</div>
-                            <div class="flow-desc">모든 장치 불량</div>
-                        </div>
-                    </div>
+                <div class="comparison-table">
+                    <h3>📊 5가지 방법 상세 비교</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>사용 상황</th>
+                                <th>작동 방식</th>
+                                <th>난이도</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>✅ 1. 자동방수</strong></td>
+                                <td>모든 장치 정상 작동</td>
+                                <td>버튼 하나로 자동 작동</td>
+                                <td><span style="color: #4CAF50; font-weight: bold;">★☆☆☆☆ 매우 쉬움</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>⚡ 2. 비상방수</strong></td>
+                                <td>특장 전원 불량</td>
+                                <td>배터리 직결, 수동 버튼 유지</td>
+                                <td><span style="color: #FF9800; font-weight: bold;">★★☆☆☆ 쉬움</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>🔧 3. 반자동방수</strong></td>
+                                <td>전기신호 전달 불량</td>
+                                <td>솔레노이드 밸브 수동 + 일부 자동</td>
+                                <td><span style="color: #2196F3; font-weight: bold;">★★★☆☆ 보통</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>🛠️ 4. 완전수동</strong></td>
+                                <td>모든 자동장치 불량</td>
+                                <td>모든 밸브 직접 수동 조작</td>
+                                <td><span style="color: #f44336; font-weight: bold;">★★★★★ 어려움</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>💧 5. 폼방수</strong></td>
+                                <td>유류화재, 특수화재</td>
+                                <td>폼액과 물 혼합 방수</td>
+                                <td><span style="color: #9C27B0; font-weight: bold;">★★☆☆☆ 쉬움</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <div class="alert-box" style="background: #d1ecf1; border-left-color: #0c5460;">
-                    <h4 style="color: #0d47a1;">💡 핵심 포인트</h4>
-                    <ul style="color: #0d47a1;">
-                        <li><strong>자동방수:</strong> 현장에서 가장 자주 사용하는 기본 방식</li>
-                        <li><strong>비상방수:</strong> 특장 전원이 안 들어올 때 배터리 직결 사용</li>
-                        <li><strong>반자동방수:</strong> 전기신호가 전달되지 않을 때 수동 조작 병행</li>
-                        <li><strong>완전수동:</strong> 모든 자동장치가 작동하지 않을 때 최후의 방법</li>
+                <div class="comparison-table" style="margin-top: 30px;">
+                    <h3>🔍 주요 차이점 (일반 방수)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>PTO 연결</th>
+                                <th>메인밸브</th>
+                                <th>진공펌프</th>
+                                <th>방수밸브</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>✅ 자동방수</strong></td>
+                                <td>자동</td>
+                                <td>자동</td>
+                                <td>자동 (자동 정지)</td>
+                                <td>수동</td>
+                            </tr>
+                            <tr>
+                                <td><strong>⚡ 비상방수</strong></td>
+                                <td>수동 (버튼 유지)</td>
+                                <td>수동 (버튼 유지)</td>
+                                <td>수동 (버튼 유지)</td>
+                                <td>수동</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🔧 반자동방수</strong></td>
+                                <td>수동 (솔레노이드)</td>
+                                <td>수동 (솔레노이드)</td>
+                                <td>일부 자동</td>
+                                <td>수동</td>
+                            </tr>
+                            <tr>
+                                <td><strong>🛠️ 완전수동</strong></td>
+                                <td>수동 (직접)</td>
+                                <td>수동 (직접)</td>
+                                <td>수동 (직접)</td>
+                                <td>수동 (직접)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="comparison-table" style="margin-top: 30px;">
+                    <h3>💧 폼방수 주요 밸브</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>폼메인 밸브</th>
+                                <th>송수밸브</th>
+                                <th>폼액 조절밸브</th>
+                                <th>세척밸브</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>💧 폼방수</strong></td>
+                                <td>열림 (수동)</td>
+                                <td>열림 (수동)</td>
+                                <td>관창 구경별 설정</td>
+                                <td>사용 후 드레인</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="alert-box" style="background: #d4edda; border-left-color: #28a745; margin-top: 30px;">
+                    <h4 style="color: #155724;">✅ 선택 기준</h4>
+                    <ul style="color: #155724;">
+                        <li><strong>정상 상황:</strong> 1. 자동방수 사용 (가장 빠르고 확실함)</li>
+                        <li><strong>전원 문제:</strong> 2. 비상방수로 전환 (배터리 직결)</li>
+                        <li><strong>신호 문제:</strong> 3. 반자동방수 사용 (수동 조작 병행)</li>
+                        <li><strong>모든 장치 고장:</strong> 4. 완전수동 사용 (최후의 수단)</li>
+                        <li><strong>특수화재:</strong> 5. 폼방수 사용 (유류화재, 화학물질 화재)</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- 4가지 방법 탭 -->
+            <!-- 5가지 방법 탭 -->
             <div id="methods" class="tab-content">
-                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">🔧 4가지 방수 방법</h2>
+                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">🔧 5가지 방수 방법</h2>
 
                 <div class="methods-grid">
                     <div class="method-card auto" style="grid-column: 1 / -1; padding: 10px;">
@@ -538,7 +629,7 @@
                                     <ul style="font-size: 1.15em; line-height: 2.2;">
                                         <li>소방차의 <span class="highlight">특장 전원이 안 들어올 때</span> 활용</li>
                                         <li>이머전시 판넬에서 판넬전원 연결</li>
-                                        <li>메인밸브, TPO연결 후 진공펌프 수동작동(누르고 있어야 함)</li>
+                                        <li>메인밸브, PTO연결 후 진공펌프 수동작동(누르고 있어야 함)</li>
                                         <li>물 공급 완료까지 진공펌프 작동 유지, 방수밸브 열면 방수 가능함</li>
                                     </ul>
                                     <div style="margin-top: 25px; padding: 20px; background: #fff3e0; border-radius: 8px; font-size: 1.15em;">
@@ -610,106 +701,37 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 비교표 탭 -->
-            <div id="comparison" class="tab-content">
-                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">📋 방수 방법 비교표</h2>
-
-                <div class="comparison-table">
-                    <h3>📊 4가지 방법 상세 비교</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>구분</th>
-                                <th>사용 상황</th>
-                                <th>작동 방식</th>
-                                <th>난이도</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>✅ 1. 자동방수</strong></td>
-                                <td>모든 장치 정상 작동</td>
-                                <td>버튼 하나로 자동 작동</td>
-                                <td><span style="color: #4CAF50; font-weight: bold;">★☆☆☆☆ 매우 쉬움</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>⚡ 2. 비상방수</strong></td>
-                                <td>특장 전원 불량</td>
-                                <td>배터리 직결, 수동 버튼 유지</td>
-                                <td><span style="color: #FF9800; font-weight: bold;">★★☆☆☆ 쉬움</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>🔧 3. 반자동방수</strong></td>
-                                <td>전기신호 전달 불량</td>
-                                <td>솔레노이드 밸브 수동 + 일부 자동</td>
-                                <td><span style="color: #2196F3; font-weight: bold;">★★★☆☆ 보통</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>🛠️ 4. 완전수동</strong></td>
-                                <td>모든 자동장치 불량</td>
-                                <td>모든 밸브 직접 수동 조작</td>
-                                <td><span style="color: #f44336; font-weight: bold;">★★★★★ 어려움</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="comparison-table" style="margin-top: 30px;">
-                    <h3>🔍 주요 차이점</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>구분</th>
-                                <th>PTO 연결</th>
-                                <th>메인밸브</th>
-                                <th>진공펌프</th>
-                                <th>방수밸브</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>✅ 자동방수</strong></td>
-                                <td>자동</td>
-                                <td>자동</td>
-                                <td>자동 (자동 정지)</td>
-                                <td>수동</td>
-                            </tr>
-                            <tr>
-                                <td><strong>⚡ 비상방수</strong></td>
-                                <td>수동 (버튼 유지)</td>
-                                <td>수동 (버튼 유지)</td>
-                                <td>수동 (버튼 유지)</td>
-                                <td>수동</td>
-                            </tr>
-                            <tr>
-                                <td><strong>🔧 반자동방수</strong></td>
-                                <td>수동 (솔레노이드)</td>
-                                <td>수동 (솔레노이드)</td>
-                                <td>일부 자동</td>
-                                <td>수동</td>
-                            </tr>
-                            <tr>
-                                <td><strong>🛠️ 완전수동</strong></td>
-                                <td>수동 (직접)</td>
-                                <td>수동 (직접)</td>
-                                <td>수동 (직접)</td>
-                                <td>수동 (직접)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="alert-box" style="background: #d4edda; border-left-color: #28a745; margin-top: 30px;">
-                    <h4 style="color: #155724;">✅ 선택 기준</h4>
-                    <ul style="color: #155724;">
-                        <li><strong>정상 상황:</strong> 1. 자동방수 사용 (가장 빠르고 확실함)</li>
-                        <li><strong>전원 문제:</strong> 2. 비상방수로 전환 (배터리 직결)</li>
-                        <li><strong>신호 문제:</strong> 3. 반자동방수 사용 (수동 조작 병행)</li>
-                        <li><strong>모든 장치 고장:</strong> 4. 완전수동 사용 (최후의 수단)</li>
-                    </ul>
+                    <div class="method-card" style="grid-column: 1 / -1; padding: 10px; border-top-color: #9C27B0;">
+                        <div style="display: flex; gap: 20px; align-items: flex-start;">
+                            <div style="flex: 1; min-width: 400px; height: 750px; display: flex; flex-direction: column; justify-content: flex-start;">
+                                <div class="method-header" style="margin-bottom: 20px;">
+                                    <div class="method-icon" style="font-size: 4em;">💧</div>
+                                    <div class="method-title">
+                                        <h3 style="font-size: 2em;">5. 폼방수</h3>
+                                        <span class="method-badge" style="background: #9C27B0; color: white; font-size: 1.1em; padding: 8px 20px;">특수 방식</span>
+                                    </div>
+                                </div>
+                                <div class="method-steps">
+                                    <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
+                                    <ul style="font-size: 1.15em; line-height: 2.2;">
+                                        <li><span class="highlight">유류화재 등 특수화재</span>에서 폼액을 사용한 방수</li>
+                                        <li>폼메인 밸브를 열어 폼액이 흐르도록 함 (닫힘 → 열림)</li>
+                                        <li>송수밸브를 열어 물 공급을 시작함 (닫힘 → 열림)</li>
+                                        <li>폼액 조절밸브를 관창 구경에 맞게 설정함</li>
+                                        <li>폼액과 물이 혼합되어 거품 형태로 방수됨</li>
+                                        <li>사용 후 세척밸브를 열어 배관을 드레인시킴</li>
+                                    </ul>
+                                    <div style="margin-top: 25px; padding: 20px; background: #f3e5f5; border-radius: 8px; font-size: 1.15em;">
+                                        <strong>💡 특징:</strong> 유류화재, 화학물질 화재 등 특수 상황에서 사용
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden; margin-top: 140px;">
+                                <iframe src="./foam_device_panel.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; transform: scale(1.1); transform-origin: top center;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -799,14 +821,37 @@
                     </div>
                 </div>
 
+                <div class="detail-section">
+                    <h3>💧 5. 폼방수 상세 절차</h3>
+                    <ul class="step-list">
+                        <li>유류화재 또는 화학물질 화재 등 <span class="highlight">폼액이 필요한 특수화재</span>임을 확인함</li>
+                        <li>폼메인 밸브를 닫힘에서 열림으로 전환함 (폼액이 흐르도록 함)</li>
+                        <li>송수밸브를 닫힘에서 열림으로 전환함 (물 공급 시작)</li>
+                        <li><span class="highlight">폼액 조절밸브</span>를 관창 구경에 맞게 설정함 (40A, 65A 등)</li>
+                        <li>폼액과 물이 자동으로 혼합되어 거품 형태로 방수됨</li>
+                        <li>화재 진압 완료 후 폼메인 밸브를 닫음</li>
+                        <li><strong>사용 후 반드시</strong> 세척밸브를 열어 배관을 드레인시킴</li>
+                    </ul>
+                    <div class="alert-box" style="background: #f3e5f5; border-left-color: #9C27B0;">
+                        <h4 style="color: #6a1b9a;">💡 폼방수 팁</h4>
+                        <ul style="color: #6a1b9a;">
+                            <li><strong>관창 구경 확인:</strong> 40A는 330LPM, 65A는 560~1680LPM 설정</li>
+                            <li><strong>세척 필수:</strong> 사용 후 세척하지 않으면 배관이 막힐 수 있음</li>
+                            <li><strong>폼액 농도:</strong> 보통 3% 혼합 비율로 사용됨</li>
+                            <li><strong>적용 화재:</strong> 유류, 석유화학, 인화성 액체 화재에 효과적</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="alert-box" style="background: #d4edda; border-left-color: #28a745; margin-top: 30px;">
                     <h4 style="color: #155724;">✅ 방수 성공의 핵심</h4>
                     <ul style="color: #155724;">
-                        <li><strong>평상시 훈련:</strong> 4가지 방법 모두를 정기적으로 훈련하여 숙달</li>
+                        <li><strong>평상시 훈련:</strong> 5가지 방법 모두를 정기적으로 훈련하여 숙달</li>
                         <li><strong>빠른 판단:</strong> 자동방수가 안 될 경우 즉시 다음 방법으로 전환</li>
-                        <li><strong>장비 숙지:</strong> 솔레노이드 밸브, 이머전시 패널 위치 사전 파악</li>
-                        <li><strong>상황 대응:</strong> 현장 상황과 차량 상태에 맞는 방법 선택</li>
+                        <li><strong>장비 숙지:</strong> 솔레노이드 밸브, 이머전시 패널, 폼액 밸브 위치 사전 파악</li>
+                        <li><strong>상황 대응:</strong> 현장 상황과 차량 상태, 화재 종류에 맞는 방법 선택</li>
                         <li><strong>팀워크:</strong> 동료와의 원활한 의사소통과 협력</li>
+                        <li><strong>세척 관리:</strong> 폼방수 사용 후 반드시 세척하여 장비 유지</li>
                     </ul>
                 </div>
             </div>
