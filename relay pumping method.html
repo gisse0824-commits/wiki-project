@@ -50,32 +50,30 @@
             display: flex;
             background: #f8f9fa;
             border-bottom: 3px solid #dee2e6;
-            overflow-x: auto;
         }
 
         .tab {
-            padding: 20px 30px;
+            flex: 1;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
-            border: none;
-            background: none;
             font-size: 1.1em;
-            font-weight: 600;
-            color: #495057;
+            font-weight: bold;
+            border: none;
+            background: #f8f9fa;
             transition: all 0.3s;
-            white-space: nowrap;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -3px;
+            border-bottom: 4px solid transparent;
+            color: #495057;
         }
 
         .tab:hover {
             background: #e9ecef;
-            color: #ff6b6b;
         }
 
         .tab.active {
-            color: #ff6b6b;
-            border-bottom-color: #ff6b6b;
             background: white;
+            color: #ff6b6b;
+            border-bottom: 4px solid #ff6b6b;
         }
 
         .content {
@@ -340,14 +338,10 @@
         <div class="tabs">
             <button class="tab active" onclick="showTab(0)">정의 & 필요성</button>
             <button class="tab" onclick="showTab(1)">시각적 다이어그램</button>
-            <button class="tab" onclick="showTab(2)">절차 & 압력설정</button>
-            <button class="tab" onclick="showTab(3)">주의사항</button>
         </div>
 
         <!-- Tab 0: 정의 & 필요성 -->
         <div class="content active">
-            <h2 style="color: #ff6b6b; margin-bottom: 30px; font-size: 2.2em;">중계방수란?</h2>
-
             <div class="definition-box">
                 <div class="definition-title">정의</div>
                 <p>중계방수는 여러 대의 펌프차를 직렬로 연결해서 먼거리, 고층 등으로 인한 고수압이 필요한 화재 현장에 물을<br>안정적으로 공급하는 방법임</p>
@@ -400,13 +394,13 @@
             <div style="background: #e8f4f8; border-radius: 15px; padding: 30px; margin-top: 40px;">
                 <h3 style="color: #1e3c72; margin-bottom: 20px; font-size: 1.6em;">기본 구조와 역할</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #4169E1;">
-                        <div style="font-size: 2em; margin-bottom: 10px;">🚒</div>
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #4169E1; text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 10px; transform: scaleX(-1); display: inline-block;">🚒</div>
                         <div style="font-weight: bold; font-size: 1.2em; color: #4169E1; margin-bottom: 10px;">뒤 펌프차</div>
                         <div style="color: #495057;">먼 곳, 혹은 수원이 있는 곳에서 물을 펌핑해서 앞 펌프차로 공급함</div>
                     </div>
-                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c;">
-                        <div style="font-size: 2em; margin-bottom: 10px;">🚒</div>
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 5px solid #e74c3c; text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 10px; transform: scaleX(-1); display: inline-block;">🚒</div>
                         <div style="font-weight: bold; font-size: 1.2em; color: #e74c3c; margin-bottom: 10px;">앞 펌프차</div>
                         <div style="color: #495057;">화재 근접지에 위치, 1차적으로 방수 작업을 수행함</div>
                     </div>
@@ -432,8 +426,37 @@
                     <!-- 단계 1: 수원 -->
                     <g>
                         <rect x="30" y="120" width="270" height="160" fill="#4ECDC4" stroke="#2C3E50" stroke-width="4" rx="10"/>
-                        <text x="165" y="170" text-anchor="middle" font-size="70">🌊</text>
-                        <text x="165" y="240" text-anchor="middle" font-size="20" font-weight="bold" fill="white">수원</text>
+
+                        <!-- 소화전 SVG -->
+                        <g transform="translate(165, 203)">
+                            <!-- 베이스 -->
+                            <ellipse cx="0" cy="35" rx="20" ry="6" fill="#8B0000" stroke="#5C0000" stroke-width="2"/>
+
+                            <!-- 하단 몸체 -->
+                            <rect x="-18" y="10" width="36" height="25" fill="#DC143C" stroke="#8B0000" stroke-width="2" rx="2"/>
+
+                            <!-- 중앙 몸체 -->
+                            <rect x="-15" y="-15" width="30" height="30" fill="#C41E3A" stroke="#8B0000" stroke-width="2" rx="2"/>
+
+                            <!-- 좌측 노즐 -->
+                            <rect x="-35" y="-8" width="20" height="10" fill="#DC143C" stroke="#8B0000" stroke-width="2" rx="3"/>
+                            <circle cx="-35" cy="-3" r="4" fill="#333" stroke="#000" stroke-width="1"/>
+
+                            <!-- 우측 노즐 -->
+                            <rect x="15" y="-8" width="20" height="10" fill="#DC143C" stroke="#8B0000" stroke-width="2" rx="3"/>
+                            <circle cx="35" cy="-3" r="4" fill="#333" stroke="#000" stroke-width="1"/>
+
+                            <!-- 상단 캡 -->
+                            <ellipse cx="0" cy="-15" rx="12" ry="6" fill="#8B0000" stroke="#5C0000" stroke-width="2"/>
+                            <path d="M -8,-15 Q 0,-25 8,-15" fill="#B22222" stroke="#8B0000" stroke-width="2"/>
+                            <circle cx="0" cy="-22" r="4" fill="#8B0000" stroke="#5C0000" stroke-width="1.5"/>
+
+                            <!-- 체인 왼쪽 -->
+                            <path d="M -12,5 Q -15,12 -12,18" stroke="#666" stroke-width="2" fill="none"/>
+                            <!-- 체인 오른쪽 -->
+                            <path d="M 12,5 Q 15,12 12,18" stroke="#666" stroke-width="2" fill="none"/>
+                        </g>
+
                         <text x="165" y="265" text-anchor="middle" font-size="16" fill="white">소화전/하천</text>
 
                         <rect x="110" y="80" width="110" height="35" fill="#feca57" stroke="#2C3E50" stroke-width="3" rx="8"/>
@@ -443,7 +466,7 @@
                     <!-- 단계 2: 뒤 펌프차 -->
                     <g>
                         <rect x="320" y="120" width="270" height="160" fill="#E8F4F8" stroke="#4169E1" stroke-width="5" rx="10"/>
-                        <text x="455" y="175" text-anchor="middle" font-size="60">🚒</text>
+                        <text x="455" y="200" text-anchor="middle" font-size="60" transform="translate(910, 0) scale(-1, 1)">🚒</text>
                         <text x="455" y="235" text-anchor="middle" font-size="18" font-weight="bold" fill="#4169E1">뒤 펌프차</text>
                         <text x="455" y="260" text-anchor="middle" font-size="15" fill="#2C3E50">(송수측)</text>
 
@@ -458,7 +481,7 @@
                     <!-- 단계 3: 앞 펌프차 -->
                     <g>
                         <rect x="610" y="120" width="270" height="160" fill="#fff5f5" stroke="#e74c3c" stroke-width="5" rx="10"/>
-                        <text x="745" y="175" text-anchor="middle" font-size="60">🚒</text>
+                        <text x="745" y="200" text-anchor="middle" font-size="60" transform="translate(1490, 0) scale(-1, 1)">🚒</text>
                         <text x="745" y="235" text-anchor="middle" font-size="18" font-weight="bold" fill="#e74c3c">앞 펌프차</text>
                         <text x="745" y="260" text-anchor="middle" font-size="15" fill="#2C3E50">(공격측)</text>
 
@@ -473,11 +496,38 @@
                     <!-- 단계 4: 화재 -->
                     <g>
                         <rect x="900" y="120" width="270" height="160" fill="#fff5f5" stroke="#e74c3c" stroke-width="4" rx="10"/>
-                        <text x="1035" y="210" text-anchor="middle" font-size="80">🔥</text>
+                        <text x="1035" y="200" text-anchor="middle" font-size="80">🔥</text>
                         <text x="1035" y="265" text-anchor="middle" font-size="18" font-weight="bold" fill="#e74c3c">화재진압</text>
 
                         <rect x="980" y="80" width="110" height="35" fill="#feca57" stroke="#2C3E50" stroke-width="3" rx="8"/>
                         <text x="1035" y="104" text-anchor="middle" font-size="22" font-weight="bold" fill="#2C3E50">STEP 4</text>
+                    </g>
+
+                    <!-- 수관 연결: 소화전 → 뒤 펌프차 (박스 위에 그려짐) -->
+                    <g>
+                        <!-- 소화전 우측 노즐에서 나오는 호스 -->
+                        <line x1="200" y1="200" x2="310" y2="200" stroke="#4169E1" stroke-width="8"/>
+                        <rect x="310" y="185" width="20" height="30" fill="#6c757d" stroke="#495057" stroke-width="2" rx="3"/>
+                        <!-- 뒤 펌프차로 들어가는 호스 -->
+                        <line x1="330" y1="200" x2="420" y2="200" stroke="#4169E1" stroke-width="8"/>
+                    </g>
+
+                    <!-- 수관 연결: 뒤 펌프차 → 앞 펌프차 -->
+                    <g>
+                        <!-- 뒤 펌프차에서 나오는 호스 -->
+                        <line x1="490" y1="200" x2="600" y2="200" stroke="#4169E1" stroke-width="8"/>
+                        <rect x="600" y="185" width="20" height="30" fill="#6c757d" stroke="#495057" stroke-width="2" rx="3"/>
+                        <!-- 앞 펌프차로 들어가는 호스 -->
+                        <line x1="620" y1="200" x2="710" y2="200" stroke="#4169E1" stroke-width="8"/>
+                    </g>
+
+                    <!-- 수관 연결: 앞 펌프차 → 화재 -->
+                    <g>
+                        <!-- 앞 펌프차에서 나오는 호스 -->
+                        <line x1="780" y1="200" x2="890" y2="200" stroke="#4169E1" stroke-width="8"/>
+                        <rect x="890" y="185" width="20" height="30" fill="#6c757d" stroke="#495057" stroke-width="2" rx="3"/>
+                        <!-- 화재로 향하는 호스 -->
+                        <line x1="910" y1="200" x2="1000" y2="200" stroke="#4169E1" stroke-width="8"/>
                     </g>
 
                     <!-- 하단 설명 -->
@@ -509,11 +559,8 @@
                     <strong>⚠️ 주의:</strong> 두 차량의 압력을 더한 값(5+7=12)은 이론값일 뿐, 실제는 저항·마찰·배관 길이 등으로 인해 압력은 더 낮아짐
                 </div>
             </div>
-        </div>
 
-        <!-- Tab 2: 절차 & 압력설정 -->
-        <div class="content">
-            <h2 style="color: #ff6b6b; margin-bottom: 30px; font-size: 2.2em;">실제 방수 절차</h2>
+            <h2 style="color: #ff6b6b; margin: 40px 0 30px 0; font-size: 2.2em;">실제 방수 절차</h2>
 
             <div class="procedure-steps">
                 <div class="step">
@@ -564,120 +611,6 @@
                             <strong>10m마다 보통 1kg/cm²씩 압력이 더 떨어지므로</strong>, 현장 상황에 맞게 계속 펌프 압력을 조정해야 함
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div style="background: linear-gradient(135deg, #e8f4f8 0%, #d4e4f7 100%); border-radius: 15px; padding: 35px; margin: 40px 0;">
-                <h3 style="color: #1e3c72; margin-bottom: 25px; font-size: 1.8em; text-align: center;">압력 손실 계산</h3>
-
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;">
-                    <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #4169E1;">
-                        <div style="font-size: 2.5em; text-align: center; margin-bottom: 15px;">📐</div>
-                        <div style="font-size: 1.2em; font-weight: bold; color: #4169E1; text-align: center; margin-bottom: 15px;">거리에 따른 손실</div>
-                        <div style="color: #495057; text-align: center; line-height: 1.7;">
-                            호스가 길어질수록<br>내부 마찰로 압력 저하
-                        </div>
-                    </div>
-
-                    <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #e74c3c;">
-                        <div style="font-size: 2.5em; text-align: center; margin-bottom: 15px;">⛰️</div>
-                        <div style="font-size: 1.2em; font-weight: bold; color: #e74c3c; text-align: center; margin-bottom: 15px;">고도에 따른 손실</div>
-                        <div style="color: #495057; text-align: center; line-height: 1.7;">
-                            10m 상승마다<br>약 1kg/cm² 추가 필요
-                        </div>
-                    </div>
-
-                    <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #28a745;">
-                        <div style="font-size: 2.5em; text-align: center; margin-bottom: 15px;">🔧</div>
-                        <div style="font-size: 1.2em; font-weight: bold; color: #28a745; text-align: center; margin-bottom: 15px;">실시간 조정</div>
-                        <div style="color: #495057; text-align: center; line-height: 1.7;">
-                            압력계 확인하며<br>펌프 출력 조절
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab 3: 주의사항 -->
-        <div class="content">
-            <h2 style="color: #ff6b6b; margin-bottom: 30px; font-size: 2.2em;">주의사항 & 운용 팁</h2>
-
-            <div class="warning-box">
-                <div class="warning-title">중계방수 운용 시 주의사항</div>
-                <div class="warning-item">
-                    <strong>배관 연결 확인:</strong> 중계방수는 배관 연결, 압력 설정, 각 펌프차의 역할 분담이 매우 중요함
-                </div>
-                <div class="warning-item">
-                    <strong>압력 손실 계산:</strong> 고층 건물이나 장거리 급수에는 압력손실을 계산해 원하는 유량과 압력이 현장에 제대로 도달하는지 확인할 것
-                </div>
-                <div class="warning-item">
-                    <strong>실시간 모니터링:</strong> 방수구를 열기 전/후 압력 변화를 보며 펌프 조절이 필요하며, 예기치 못한 급격한 압력 손실에 대비해야 함
-                </div>
-                <div class="warning-item">
-                    <strong>오퍼레이터 숙련도:</strong> 펌프마다 압력계 확인, 중계 밸브 조작 등 오퍼레이터의 숙련도가 매우 중요함
-                </div>
-                <div class="warning-item">
-                    <strong>팀 커뮤니케이션:</strong> 뒤 펌프차와 앞 펌프차 간의 원활한 무전 통신과 신호 체계가 필수적임
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 40px 0;">
-                <div style="background: #fff5f5; border: 3px solid #e74c3c; border-radius: 15px; padding: 25px;">
-                    <h4 style="color: #e74c3c; margin-bottom: 20px; font-size: 1.4em; display: flex; align-items: center;">
-                        <span style="font-size: 1.5em; margin-right: 10px;">❌</span>
-                        하지 말아야 할 것
-                    </h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="padding: 10px 0; border-bottom: 1px solid #ffdddd;">• 압력 설정 없이 무작정 방수</li>
-                        <li style="padding: 10px 0; border-bottom: 1px solid #ffdddd;">• 배관 연결 상태 미확인</li>
-                        <li style="padding: 10px 0; border-bottom: 1px solid #ffdddd;">• 압력계 무시하고 운용</li>
-                        <li style="padding: 10px 0;">• 급격한 압력 변화 방치</li>
-                    </ul>
-                </div>
-
-                <div style="background: #f0fff4; border: 3px solid #28a745; border-radius: 15px; padding: 25px;">
-                    <h4 style="color: #28a745; margin-bottom: 20px; font-size: 1.4em; display: flex; align-items: center;">
-                        <span style="font-size: 1.5em; margin-right: 10px;">✅</span>
-                        반드시 해야 할 것
-                    </h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="padding: 10px 0; border-bottom: 1px solid #d4edda;">• 사전 압력 설정 및 확인</li>
-                        <li style="padding: 10px 0; border-bottom: 1px solid #d4edda;">• 모든 연결부 점검</li>
-                        <li style="padding: 10px 0; border-bottom: 1px solid #d4edda;">• 압력계 실시간 모니터링</li>
-                        <li style="padding: 10px 0;">• 팀 간 무전 통신 유지</li>
-                    </ul>
-                </div>
-
-                <div style="background: #fffbf0; border: 3px solid #feca57; border-radius: 15px; padding: 25px;">
-                    <h4 style="color: #f39c12; margin-bottom: 20px; font-size: 1.4em; display: flex; align-items: center;">
-                        <span style="font-size: 1.5em; margin-right: 10px;">💡</span>
-                        운용 팁
-                    </h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="padding: 10px 0; border-bottom: 1px solid #fff3cd;">• 사전 훈련 반복 실시</li>
-                        <li style="padding: 10px 0; border-bottom: 1px solid #fff3cd;">• 표준 압력값 숙지</li>
-                        <li style="padding: 10px 0; border-bottom: 1px solid #fff3cd;">• 예비 호스 준비</li>
-                        <li style="padding: 10px 0;">• 백업 펌프차 대기</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="key-summary">
-                <div class="summary-title">🎯 핵심 요약</div>
-                <div class="summary-item">
-                    중계방수는 여러 펌프차를 직렬로 배치, 뒤차 고압 → 앞차 저압 순으로 물을 밀어 방수
-                </div>
-                <div class="summary-item">
-                    압력의 합계는 이론값일 뿐, 실제 방수 시 저항·마찰 등으로 더 낮아짐
-                </div>
-                <div class="summary-item">
-                    각 펌프차의 압력 조절, 밸브 운용, 배관 관리가 매우 중요
-                </div>
-                <div class="summary-item">
-                    고층·장거리 방수는 추가 압력 설정 필요 (10m당 약 1kg/cm² 손실)
-                </div>
-                <div class="summary-item">
-                    팀 간 무전 통신과 실시간 압력 모니터링이 필수
                 </div>
             </div>
         </div>

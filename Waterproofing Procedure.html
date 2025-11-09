@@ -439,7 +439,6 @@
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('overview')">📊 개요</button>
             <button class="nav-tab" onclick="showTab('methods')">🔧 방수 방법</button>
-            <button class="nav-tab" onclick="showTab('details')">📖 상세절차</button>
         </div>
 
         <div class="content">
@@ -598,17 +597,22 @@
                                     <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
                                     <ul style="font-size: 1.15em; line-height: 2.2;">
                                         <li>운전석 컨트롤 박스 또는 뒤쪽 패널에서 <span class="highlight">"자동방수"</span> 버튼을 누름</li>
-                                        <li>메인밸브 열기, PTO(동력인출장치)연결</li>
-                                        <li>진공펌프 작동, 물 공급 완료</li>
-                                        <li>방수 밸브를 열면 방수가 시작됨</li>
-                                        <li>RPM 올림 또는 내림으로 방수압 조절</li>
+                                        <li>PTO(동력인출장치)가 자동으로 연결되고, 메인밸브가 자동으로 열림</li>
+                                        <li>진공펌프가 자동으로 작동하여 배관 내 공기를 제거함</li>
+                                        <li>물 공급이 완료되면 진공펌프가 <strong>자동으로 멈춤</strong></li>
+                                        <li>방수 밸브를 열어 방수를 시작함</li>
                                     </ul>
                                     <div style="margin-top: 25px; padding: 20px; background: #e8f5e9; border-radius: 8px; font-size: 1.15em;">
-                                        <strong>✓ 특징:</strong> 현장에서 가장 자주 사용하는 기본 방식
+                                        <strong>💡 자동방수 팁</strong>
+                                        <ul style="color: #2e7d32; margin-top: 10px; line-height: 1.8;">
+                                            <li>가장 빠르고 확실한 방법으로 현장에서 최우선 사용</li>
+                                            <li>진공펌프가 자동으로 정지하는지 확인하여 정상 작동 여부 판단</li>
+                                            <li>만약 작동하지 않으면 즉시 비상방수로 전환</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden;">
+                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden; margin-top: 140px;">
                                 <iframe src="./Automatic waterproofing control panel.html" style="width: 100%; height: 100%; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
                             </div>
                         </div>
@@ -627,13 +631,21 @@
                                 <div class="method-steps">
                                     <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
                                     <ul style="font-size: 1.15em; line-height: 2.2;">
-                                        <li>소방차의 <span class="highlight">특장 전원이 안 들어올 때</span> 활용</li>
-                                        <li>이머전시 판넬에서 판넬전원 연결</li>
-                                        <li>메인밸브, PTO연결 후 진공펌프 수동작동(누르고 있어야 함)</li>
-                                        <li>물 공급 완료까지 진공펌프 작동 유지, 방수밸브 열면 방수 가능함</li>
+                                        <li>소방차의 특장 전원이 안 들어오는 것을 확인함</li>
+                                        <li><span class="highlight">이머전시 패널</span>을 찾음 (배터리 직결 사용)</li>
+                                        <li>이머전시 패널에서 PTO 버튼을 <strong>누르고 계속 유지</strong>함</li>
+                                        <li>메인밸브 버튼을 <strong>누르고 계속 유지</strong>함</li>
+                                        <li>진공펌프 버튼을 <strong>누르고 계속 유지</strong>하여 물 공급을 완료함</li>
+                                        <li>물 공급이 완료되면 버튼에서 손을 뗌</li>
+                                        <li>방수밸브를 열어 방수를 시작함</li>
                                     </ul>
                                     <div style="margin-top: 25px; padding: 20px; background: #fff3e0; border-radius: 8px; font-size: 1.15em;">
-                                        <strong>⚠️ 주의:</strong> 진공펌프 버튼을 계속 눌러야 함
+                                        <strong>⚠️ 비상방수 주의사항</strong>
+                                        <ul style="color: #e65100; margin-top: 10px; line-height: 1.8;">
+                                            <li><strong>버튼을 계속 누르고 있어야 함:</strong> 자동 정지되지 않으므로 물 공급 완료까지 유지</li>
+                                            <li>배터리 직결이므로 배터리 상태 확인 필요함</li>
+                                            <li>여러 버튼을 동시에 눌러야 할 수 있으므로 2명 이상 협력 권장함</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -656,14 +668,20 @@
                                 <div class="method-steps">
                                     <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
                                     <ul style="font-size: 1.15em; line-height: 2.2;">
-                                        <li>컨트롤박스 전원은 들어오지만, <span class="highlight">버튼이 작동하지 않을 때</span></li>
-                                        <li>비상PTO 개방(소방차마다 위치 다름)</li>
-                                        <li>솔레노이드 판넬에서 메인밸브 개방</li>
-                                        <li>자체 급수 밸브나 중계밸브, 방수밸브 등 현장에서 <strong>직접 조작</strong></li>
-                                        <li>기본적으로 자동의 어려움을 수동으로 일부 조작하여 수행</li>
+                                        <li>컨트롤박스 전원은 들어오지만, 전기신호가 메인밸브나 PTO에 전달되지 않는 것을 확인함</li>
+                                        <li>차량 뒤쪽의 <span class="highlight">솔레노이드 밸브</span>를 찾음</li>
+                                        <li>솔레노이드 밸브를 손으로 직접 조작하여 메인밸브를 엶</li>
+                                        <li>PTO를 수동으로 연결함</li>
+                                        <li>자체 급수 밸브, 중계밸브, 방수밸브 등을 현장에서 직접 조작함</li>
+                                        <li>일부 자동 기능이 작동하는지 확인하며 병행하여 사용함</li>
                                     </ul>
                                     <div style="margin-top: 25px; padding: 20px; background: #e3f2fd; border-radius: 8px; font-size: 1.15em;">
-                                        <strong>🔧 특징:</strong> 비상PTO 버튼의 위치는 소방차마다 다름
+                                        <strong>🔧 반자동방수 팁</strong>
+                                        <ul style="color: #0d47a1; margin-top: 10px; line-height: 1.8;">
+                                            <li>자동과 수동을 혼합하여 사용하므로 어느 부분이 작동하는지 확인 필요함</li>
+                                            <li>솔레노이드 밸브 위치를 사전에 숙지해야 함</li>
+                                            <li>일부 밸브는 자동으로 작동할 수 있으므로 확인하며 진행</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -673,9 +691,9 @@
                         </div>
                     </div>
 
-                    <div class="method-card manual" style="grid-column: 1 / -1; padding: 10px;">
+                    <div class="method-card manual" style="grid-column: 1 / -1; padding: 10px; margin-bottom: 20px;">
                         <div style="display: flex; gap: 20px; align-items: flex-start;">
-                            <div style="flex: 1; min-width: 400px; height: 750px; display: flex; flex-direction: column; justify-content: flex-start;">
+                            <div style="flex: 1; min-width: 400px; display: flex; flex-direction: column; justify-content: flex-start;">
                                 <div class="method-header" style="margin-bottom: 20px;">
                                     <div class="method-icon" style="font-size: 4em;">🛠️</div>
                                     <div class="method-title">
@@ -685,19 +703,27 @@
                                 </div>
                                 <div class="method-steps">
                                     <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
-                                    <ul style="font-size: 1.15em; line-height: 2.2;">
-                                        <li><span class="highlight">모든 자동장치, 전원이 작동하지 않을 때</span> 사용하는 최후의 방법</li>
-                                        <li>솔레노이드 밸브를 수동 전환하고, 펌프 드레인 밸브, 메인밸브 등 직접 손으로 하나씩 열고 닫음</li>
-                                        <li>방수 밸브, 중계밸브, 자체급수 밸브 등 <strong>직접 조작</strong>해 물을 공급하고 방수</li>
-                                        <li>에어공급 밸브 등도 모두 직접 손으로 열고 닫아야 함</li>
+                                    <ul style="font-size: 1.15em; line-height: 2.0;">
+                                        <li>모든 자동장치와 전원이 작동하지 않는 것을 확인함 (최후의 수단)</li>
+                                        <li><span class="highlight">솔레노이드 밸브를 수동 전환</span>함</li>
+                                        <li>펌프 드레인 밸브를 직접 손으로 열고 닫음</li>
+                                        <li>메인밸브를 직접 손으로 열고 닫음</li>
+                                        <li>방수 밸브, 중계밸브, 자체급수 밸브 등을 직접 조작하여 물을 공급함</li>
+                                        <li>에어공급 밸브도 직접 손으로 열고 닫음</li>
+                                        <li>모든 과정을 수동으로 조작하여 방수를 수행함</li>
                                     </ul>
-                                    <div style="margin-top: 25px; padding: 20px; background: #ffebee; border-radius: 8px; font-size: 1.15em;">
-                                        <strong>⚠️ 주의:</strong> 모든 밸브를 수동으로 조작 (숙련 필요함)
+                                    <div style="margin-top: 20px; padding: 15px; background: #ffebee; border-radius: 8px; font-size: 1.1em;">
+                                        <strong>⚠️ 완전수동 주의사항</strong>
+                                        <ul style="color: #c62828; margin-top: 8px; line-height: 1.6;">
+                                            <li><strong>높은 숙련도 필요함:</strong> 모든 밸브의 위치와 순서를 정확히 알아야 함</li>
+                                            <li><strong>정기 훈련 필수:</strong> 평상시 훈련을 통해 절차를 숙지해야 함</li>
+                                            <li><strong>시간 소요:</strong> 자동방수보다 시간이 많이 걸리므로 빠른 판단 필요함</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden; margin-top: 140px;">
-                                <iframe src="./완전수동방수조작.html" style="width: 100%; height: 100%; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
+                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: visible; margin-top: 140px; display: flex; justify-content: center; align-items: flex-start;">
+                                <iframe src="./완전수동방수조작.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; transform: scale(0.85); transform-origin: top center;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
                             </div>
                         </div>
                     </div>
@@ -715,144 +741,30 @@
                                 <div class="method-steps">
                                     <h4 style="font-size: 1.4em; margin-bottom: 20px;">📍 작동 절차</h4>
                                     <ul style="font-size: 1.15em; line-height: 2.2;">
-                                        <li><span class="highlight">유류화재 등 특수화재</span>에서 폼액을 사용한 방수</li>
-                                        <li>폼메인 밸브를 열어 폼액이 흐르도록 함 (닫힘 → 열림)</li>
-                                        <li>송수밸브를 열어 물 공급을 시작함 (닫힘 → 열림)</li>
-                                        <li>폼액 조절밸브를 관창 구경에 맞게 설정함</li>
-                                        <li>폼액과 물이 혼합되어 거품 형태로 방수됨</li>
-                                        <li>사용 후 세척밸브를 열어 배관을 드레인시킴</li>
+                                        <li>유류화재 또는 화학물질 화재 등 <span class="highlight">폼액이 필요한 특수화재</span>임을 확인함</li>
+                                        <li>폼메인 밸브를 닫힘에서 열림으로 전환함 (폼액이 흐르도록 함)</li>
+                                        <li>송수밸브를 닫힘에서 열림으로 전환함 (물 공급 시작)</li>
+                                        <li><span class="highlight">폼액 조절밸브</span>를 관창 구경에 맞게 설정함 (40A, 65A 등)</li>
+                                        <li>폼액과 물이 자동으로 혼합되어 거품 형태로 방수됨</li>
+                                        <li>화재 진압 완료 후 폼메인 밸브를 닫음</li>
+                                        <li><strong>사용 후 반드시</strong> 세척밸브를 열어 배관을 드레인시킴</li>
                                     </ul>
                                     <div style="margin-top: 25px; padding: 20px; background: #f3e5f5; border-radius: 8px; font-size: 1.15em;">
-                                        <strong>💡 특징:</strong> 유류화재, 화학물질 화재 등 특수 상황에서 사용
+                                        <strong>💡 폼방수 팁</strong>
+                                        <ul style="color: #6a1b9a; margin-top: 10px; line-height: 1.8;">
+                                            <li><strong>관창 구경 확인:</strong> 40A는 330LPM, 65A는 560~1680LPM 설정</li>
+                                            <li><strong>세척 필수:</strong> 사용 후 세척하지 않으면 배관이 막힐 수 있음</li>
+                                            <li><strong>폼액 농도:</strong> 보통 3% 혼합 비율로 사용됨</li>
+                                            <li><strong>적용 화재:</strong> 유류, 석유화학, 인화성 액체 화재에 효과적</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: hidden; margin-top: 140px;">
-                                <iframe src="./foam_device_panel.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; transform: scale(1.1); transform-origin: top center;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
+                            <div style="flex: 1; min-width: 400px; height: 750px; overflow: visible; margin-top: 140px; display: flex; justify-content: center; align-items: flex-start;">
+                                <iframe src="./foam_device_panel.html" style="width: 100%; height: 100%; border: none; border-radius: 12px;" sandbox="allow-same-origin allow-scripts" scrolling="no"></iframe>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- 상세절차 탭 -->
-            <div id="details" class="tab-content">
-                <h2 style="color: #495057; margin-bottom: 20px; font-size: 2em;">📖 상세 절차 및 주의사항</h2>
-
-                <div class="detail-section">
-                    <h3>✅ 1. 자동방수 상세 절차</h3>
-                    <ul class="step-list">
-                        <li>운전석 컨트롤 박스 또는 뒤쪽 패널에서 <span class="highlight">"자동방수"</span> 버튼을 누름</li>
-                        <li>PTO(동력인출장치)가 자동으로 연결되고, 메인밸브가 자동으로 열림</li>
-                        <li>진공펌프가 자동으로 작동하여 배관 내 공기를 제거함</li>
-                        <li>물 공급이 완료되면 진공펌프가 <strong>자동으로 멈춤</strong></li>
-                        <li>방수 밸브를 열어 방수를 시작함</li>
-                    </ul>
-                    <div class="alert-box" style="background: #e8f5e9; border-left-color: #4CAF50;">
-                        <h4 style="color: #2e7d32;">💡 자동방수 팁</h4>
-                        <ul style="color: #2e7d32;">
-                            <li>가장 빠르고 확실한 방법으로 현장에서 최우선 사용</li>
-                            <li>진공펌프가 자동으로 정지하는지 확인하여 정상 작동 여부 판단</li>
-                            <li>만약 작동하지 않으면 즉시 비상방수로 전환</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>⚡ 2. 비상(이머전시) 패널 방수 상세 절차</h3>
-                    <ul class="step-list">
-                        <li>소방차의 특장 전원이 안 들어오는 것을 확인함</li>
-                        <li><span class="highlight">이머전시 패널</span>을 찾음 (배터리 직결 사용)</li>
-                        <li>이머전시 패널에서 PTO 버튼을 <strong>누르고 계속 유지</strong>함</li>
-                        <li>메인밸브 버튼을 <strong>누르고 계속 유지</strong>함</li>
-                        <li>진공펌프 버튼을 <strong>누르고 계속 유지</strong>하여 물 공급을 완료함</li>
-                        <li>물 공급이 완료되면 버튼에서 손을 뗌</li>
-                        <li>방수밸브를 열어 방수를 시작함</li>
-                    </ul>
-                    <div class="alert-box" style="background: #fff3e0; border-left-color: #FF9800;">
-                        <h4 style="color: #e65100;">⚠️ 비상방수 주의사항</h4>
-                        <ul style="color: #e65100;">
-                            <li><strong>버튼을 계속 누르고 있어야 함:</strong> 자동 정지되지 않으므로 물 공급 완료까지 유지</li>
-                            <li>배터리 직결이므로 배터리 상태 확인 필요함</li>
-                            <li>여러 버튼을 동시에 눌러야 할 수 있으므로 2명 이상 협력 권장함</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>🔧 3. 반자동방수 상세 절차</h3>
-                    <ul class="step-list">
-                        <li>컨트롤박스 전원은 들어오지만, 전기신호가 메인밸브나 PTO에 전달되지 않는 것을 확인함</li>
-                        <li>차량 뒤쪽의 <span class="highlight">솔레노이드 밸브</span>를 찾음</li>
-                        <li>솔레노이드 밸브를 손으로 직접 조작하여 메인밸브를 엶</li>
-                        <li>PTO를 수동으로 연결함</li>
-                        <li>자체 급수 밸브, 중계밸브, 방수밸브 등을 현장에서 직접 조작함</li>
-                        <li>일부 자동 기능이 작동하는지 확인하며 병행하여 사용함</li>
-                    </ul>
-                    <div class="alert-box" style="background: #e3f2fd; border-left-color: #2196F3;">
-                        <h4 style="color: #0d47a1;">🔧 반자동방수 팁</h4>
-                        <ul style="color: #0d47a1;">
-                            <li>자동과 수동을 혼합하여 사용하므로 어느 부분이 작동하는지 확인 필요함</li>
-                            <li>솔레노이드 밸브 위치를 사전에 숙지해야 함</li>
-                            <li>일부 밸브는 자동으로 작동할 수 있으므로 확인하며 진행</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>🛠️ 4. 완전수동방수 상세 절차</h3>
-                    <ul class="step-list">
-                        <li>모든 자동장치와 전원이 작동하지 않는 것을 확인함 (최후의 수단)</li>
-                        <li><span class="highlight">솔레노이드 밸브를 수동 전환</span>함</li>
-                        <li>펌프 드레인 밸브를 직접 손으로 열고 닫음</li>
-                        <li>메인밸브를 직접 손으로 열고 닫음</li>
-                        <li>방수 밸브, 중계밸브, 자체급수 밸브 등을 직접 조작하여 물을 공급함</li>
-                        <li>에어공급 밸브도 직접 손으로 열고 닫음</li>
-                        <li>모든 과정을 수동으로 조작하여 방수를 수행함</li>
-                    </ul>
-                    <div class="alert-box" style="background: #ffebee; border-left-color: #f44336;">
-                        <h4 style="color: #c62828;">⚠️ 완전수동 주의사항</h4>
-                        <ul style="color: #c62828;">
-                            <li><strong>높은 숙련도 필요함:</strong> 모든 밸브의 위치와 순서를 정확히 알아야 함</li>
-                            <li><strong>정기 훈련 필수:</strong> 평상시 훈련을 통해 절차를 숙지해야 함</li>
-                            <li><strong>시간 소요:</strong> 자동방수보다 시간이 많이 걸리므로 빠른 판단 필요함</li>
-                            <li><strong>팀워크 중요함:</strong> 여러 밸브를 동시에 조작해야 하므로 팀원과 협력</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>💧 5. 폼방수 상세 절차</h3>
-                    <ul class="step-list">
-                        <li>유류화재 또는 화학물질 화재 등 <span class="highlight">폼액이 필요한 특수화재</span>임을 확인함</li>
-                        <li>폼메인 밸브를 닫힘에서 열림으로 전환함 (폼액이 흐르도록 함)</li>
-                        <li>송수밸브를 닫힘에서 열림으로 전환함 (물 공급 시작)</li>
-                        <li><span class="highlight">폼액 조절밸브</span>를 관창 구경에 맞게 설정함 (40A, 65A 등)</li>
-                        <li>폼액과 물이 자동으로 혼합되어 거품 형태로 방수됨</li>
-                        <li>화재 진압 완료 후 폼메인 밸브를 닫음</li>
-                        <li><strong>사용 후 반드시</strong> 세척밸브를 열어 배관을 드레인시킴</li>
-                    </ul>
-                    <div class="alert-box" style="background: #f3e5f5; border-left-color: #9C27B0;">
-                        <h4 style="color: #6a1b9a;">💡 폼방수 팁</h4>
-                        <ul style="color: #6a1b9a;">
-                            <li><strong>관창 구경 확인:</strong> 40A는 330LPM, 65A는 560~1680LPM 설정</li>
-                            <li><strong>세척 필수:</strong> 사용 후 세척하지 않으면 배관이 막힐 수 있음</li>
-                            <li><strong>폼액 농도:</strong> 보통 3% 혼합 비율로 사용됨</li>
-                            <li><strong>적용 화재:</strong> 유류, 석유화학, 인화성 액체 화재에 효과적</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="alert-box" style="background: #d4edda; border-left-color: #28a745; margin-top: 30px;">
-                    <h4 style="color: #155724;">✅ 방수 성공의 핵심</h4>
-                    <ul style="color: #155724;">
-                        <li><strong>평상시 훈련:</strong> 5가지 방법 모두를 정기적으로 훈련하여 숙달</li>
-                        <li><strong>빠른 판단:</strong> 자동방수가 안 될 경우 즉시 다음 방법으로 전환</li>
-                        <li><strong>장비 숙지:</strong> 솔레노이드 밸브, 이머전시 패널, 폼액 밸브 위치 사전 파악</li>
-                        <li><strong>상황 대응:</strong> 현장 상황과 차량 상태, 화재 종류에 맞는 방법 선택</li>
-                        <li><strong>팀워크:</strong> 동료와의 원활한 의사소통과 협력</li>
-                        <li><strong>세척 관리:</strong> 폼방수 사용 후 반드시 세척하여 장비 유지</li>
-                    </ul>
                 </div>
             </div>
         </div>
